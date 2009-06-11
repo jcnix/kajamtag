@@ -24,6 +24,6 @@
 
 #define TAG_TO_INT(tag) ((tag) &0x7f) | (((tag) &0x7f00) >> 1) | (((tag)&0x7f0000)>>2) | (((tag)&0x7f000000)>>3)
 
-int kajamtag_init();
+int kajamtag_init(char*);
 int findHeader(FILE*);
 int getFrameHeader(FILE*);

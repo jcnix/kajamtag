@@ -18,14 +18,12 @@
  * along with KaJamTag.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdio.h>
-#include <stdlib.h>
 #include "kajamtag.h"
 
-int kajamtag_init()
+int kajamtag_init(char* musicString)
 {    
     FILE *musicFile;
-    musicFile = fopen("test.mp3", "rb");
+    musicFile = fopen(musicString, "rb");
     
     findHeader(musicFile);
     getFrameHeader(musicFile);

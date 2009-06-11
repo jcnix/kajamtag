@@ -23,10 +23,7 @@
 
 int main()
 {
-    FILE *test;
-    test = fopen("test.mp3", "r");
-    findHeader(test);
-    getFrameHeader(test);
+    kajamtag_init("test.mp3");
     
     return 1;
 }
