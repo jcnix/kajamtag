@@ -27,3 +27,11 @@
 int kajamtag_init(char*);
 int findHeader(FILE*);
 int getFrameHeader(FILE*);
+
+typedef struct kajamtags 
+{
+    char* title;
+    char* album;
+    char* artist;
+    char* track;
+} tags;
