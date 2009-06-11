@@ -6,4 +6,4 @@ TARGET = kajamtag
 OBJS = testprogram.o
 
 prog1:
-	$(CC) testprogram.c -o $(TARGET) -lkajamtag
+	$(CC) sample.c -o $(TARGET) -lkajamtag

@@ -24,4 +24,5 @@ clean:
 
 install:
 	cp bin/libkajamtag.so /lib
+	cp src/kajamtag.h /usr/include
 
