@@ -20,5 +20,8 @@ kajamtag.o:
 	$(CC) -c $(CFLAGS) src/kajamtag.c
 
 clean:
-	rm -f bin/* build/*
+	rm -f bin/* build/* kajamtag.o
+
+install:
+	cp bin/libkajamtag.so /lib
 

@@ -26,6 +26,7 @@ int main()
     FILE *test;
     test = fopen("test.mp3", "r");
     findHeader(test);
+    getFrameHeader(test);
     
     return 1;
 }

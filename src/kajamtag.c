@@ -1,5 +1,5 @@
 /*
- * File:   main.c
+ * File:   kajamtag.c
  * Author: Casey Jones
  *
  * This file is part of KaJamTag.
@@ -18,31 +18,17 @@
  * along with KaJamTag.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <stdio.h>
+#include <stdlib.h>
 #include "kajamtag.h"
 
-int main()
+int kajamtag_init()
 {    
     FILE *musicFile;
     musicFile = fopen("test.mp3", "rb");
     
     findHeader(musicFile);
-    
-    char* titleHeader = malloc(4);
-    fread(titleHeader, 1, 4, musicFile);
-
-    int titleSize = 0;
-    fread(&titleSize, 4, 1, musicFile);
-
-    int titleFlags;
-    fread(&titleFlags, 2, 1, musicFile);
-
-    char* title1 = malloc(10);
-    fread(title1, 1, 10, musicFile);
-
-    char* title = malloc(10);
-    fread(title, 1, 10, musicFile);
-    
-    printf("%s\n", titleHeader);
+    getFrameHeader(musicFile);
     
     return 1;
 }
@@ -63,13 +49,41 @@ int findHeader(FILE *musicFile)
 
     int size = 0;
     fread(&size, 4, 1, musicFile);
-    size = TAG_TO_INT(htonl(size));
+    size = TAG_TO_INT(htobe32(size));
     
     printf("%s\n", identifier);
     printf("%d ", majorVer);
     printf("%d\n", minorVer);
     printf("%d\n", flags);
     printf("%d\n", size);
+    
+    return 1;
+}
+
+int getFrameHeader(FILE *musicFile)
+{
+    char* header = malloc(4);
+    fread(header, 1, 4, musicFile);
+
+    int size = 0;
+    fread(&size, 4, 1, musicFile);
+    size = TAG_TO_INT(htobe32(size));
+
+    int flags = 0;
+    fread(&flags, 2, 1, musicFile);
+    
+    printf("%s\n", header);
+    printf("%d\n", size);
+    printf("%d\n", flags);
+    
+    //skip a byte, not sure what the blank byte is for... padding?
+    int skip = 0;
+    fread(&skip, 1, 1, musicFile);
+    
+    char *title = malloc(size - 1);
+    fread(title, 1, size - 1, musicFile);
+    
+    printf("%s\n", title);
     
     return 1;
 }
