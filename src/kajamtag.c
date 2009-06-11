@@ -18,13 +18,7 @@
  * along with KaJamTag.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-#include <stdio.h>
-#include <stdlib.h>
-
-#define TAG_TO_INT(tag) ((tag) &0x7f) | (((tag) &0x7f00) >> 1) | (((tag)&0x7f0000)>>2) | (((tag)&0x7f000000)>>3)
-
-int findHeader(FILE*);
+#include "kajamtag.h"
 
 int main()
 {    
@@ -49,6 +43,8 @@ int main()
     fread(title, 1, 10, musicFile);
     
     printf("%s\n", titleHeader);
+    
+    return 1;
 }
 
 int findHeader(FILE *musicFile)
