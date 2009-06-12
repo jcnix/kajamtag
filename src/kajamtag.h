@@ -20,18 +20,21 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <endian.h>
 
 #define TAG_TO_INT(tag) ((tag) &0x7f) | (((tag) &0x7f00) >> 1) | (((tag)&0x7f0000)>>2) | (((tag)&0x7f000000)>>3)
 
-int kajamtag_init(char*);
-int findHeader(FILE*);
-int getFrameHeader(FILE*);
-
-typedef struct kajamtags 
+struct kajamtag 
 {
     char* title;
     char* album;
     char* artist;
     char* track;
-} tags;
+};
+
+typedef struct kajamtag kajamtag_t;
+
+int kajamtag_init(char*);
+int findHeader(FILE*);
+int getFrameHeader(FILE*, kajamtag_t);

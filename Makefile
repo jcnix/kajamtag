@@ -26,6 +26,6 @@ clean:
 	rm -f bin/* build/* 
 
 install:
-	cp bin/libkajamtag.so /lib
+	cp bin/libkajamtag.so /usr/lib
 	cp src/kajamtag.h /usr/include
 

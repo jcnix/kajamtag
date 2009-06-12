@@ -22,11 +22,12 @@
 
 int kajamtag_init(char* musicString)
 {    
+    kajamtag_t tags;
     FILE *musicFile;
     musicFile = fopen(musicString, "rb");
     
     findHeader(musicFile);
-    getFrameHeader(musicFile);
+    getFrameHeader(musicFile, tags);
     
     return 1;
 }
@@ -58,7 +59,7 @@ int findHeader(FILE *musicFile)
     return 1;
 }
 
-int getFrameHeader(FILE *musicFile)
+int getFrameHeader(FILE *musicFile, kajamtag_t tags)
 {
     char* header = malloc(4);
     fread(header, 1, 4, musicFile);
@@ -78,10 +79,16 @@ int getFrameHeader(FILE *musicFile)
     int skip = 0;
     fread(&skip, 1, 1, musicFile);
     
-    char *title = malloc(size - 1);
-    fread(title, 1, size - 1, musicFile);
+    char *data = malloc(size - 1);
+    fread(data, 1, size - 1, musicFile);
     
-    printf("%s\n", title);
+    if(strcmp(header, "TIT2") == 0)
+    {
+        tags.title = malloc(size);
+        tags.title = data;
+    }
+    
+    printf("%s\n", tags.title);
     
     return 1;
 }
