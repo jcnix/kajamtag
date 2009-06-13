@@ -24,6 +24,8 @@
 int main()
 {
     kajamtag_init("test.mp3");
+    char* title = getTitle();
+    printf("%s\n", title);
     
     return 1;
 }

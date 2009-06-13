@@ -22,12 +22,11 @@
 
 int kajamtag_init(char* musicString)
 {    
-    kajamtag_t tags;
     FILE *musicFile;
     musicFile = fopen(musicString, "rb");
     
     findHeader(musicFile);
-    getFrameHeader(musicFile, tags);
+    getFrameHeader(musicFile);
     
     return 1;
 }
@@ -56,24 +55,22 @@ int findHeader(FILE *musicFile)
     printf("%d\n", flags);
     printf("%d\n", size);
     
+    free(identifier);
+    
     return 1;
 }
 
-int getFrameHeader(FILE *musicFile, kajamtag_t tags)
+int getFrameHeader(FILE *musicFile)
 {
     char* header = malloc(4);
     fread(header, 1, 4, musicFile);
-
+    
     int size = 0;
     fread(&size, 4, 1, musicFile);
     size = TAG_TO_INT(htobe32(size));
 
     int flags = 0;
     fread(&flags, 2, 1, musicFile);
-    
-    printf("%s\n", header);
-    printf("%d\n", size);
-    printf("%d\n", flags);
     
     //skip a byte, not sure what the blank byte is for... padding?
     int skip = 0;
@@ -82,13 +79,26 @@ int getFrameHeader(FILE *musicFile, kajamtag_t tags)
     char *data = malloc(size - 1);
     fread(data, 1, size - 1, musicFile);
     
+    storeData(header, data, size);
+    
+    return 1;
+}
+
+int storeData(char* header, char* data, int size)
+{    
     if(strcmp(header, "TIT2") == 0)
     {
         tags.title = malloc(size);
-        tags.title = data;
+        strcpy(tags.title, data);
     }
     
-    printf("%s\n", tags.title);
+    free(header);
+    free(data);
     
     return 1;
+}
+
+char* getTitle()
+{
+    return tags.title;
 }
