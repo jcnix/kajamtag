@@ -40,4 +40,6 @@ int kajamtag_init(char*);
 int findHeader(FILE*);
 int getFrameHeader(FILE*);
 int storeData(char*, char*, int);
+
 char* getTitle();
+char* getAlbum();

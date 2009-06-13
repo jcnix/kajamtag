@@ -91,6 +91,11 @@ int storeData(char* header, char* data, int size)
         tags.title = malloc(size);
         strcpy(tags.title, data);
     }
+    else if(strcmp(header, "TALB") == 0)
+    {
+        tags.album = malloc(size);
+        strcpy(tags.album, data);
+    }
     
     free(header);
     free(data);
@@ -101,4 +106,9 @@ int storeData(char* header, char* data, int size)
 char* getTitle()
 {
     return tags.title;
+}
+
+char* getAlbum()
+{
+    return tags.album;
 }
