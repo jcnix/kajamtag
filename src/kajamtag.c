@@ -25,12 +25,21 @@ int kajamtag_init(char* musicString)
     FILE *musicFile;
     musicFile = fopen(musicString, "rb");
     
-    findHeader(musicFile);
-    getFrameHeader(musicFile);
+    int totalBytes = findHeader(musicFile);
+    int foundBytes = 10; //Header is 10 bytes
+    
+    printf("Total Bytes: %d\n", totalBytes);
+    printf("Found Bytes: %d\n", foundBytes);
+    
+    while(foundBytes < totalBytes) {
+        foundBytes += getFrameHeader(musicFile);
+        printf("Found Bytes: %d\n", foundBytes);
+    }
     
     return 1;
 }
 
+/* Returns the number of bytes the ID3 tag is. */
 int findHeader(FILE *musicFile)
 {
     char* identifier = malloc(3);
@@ -49,21 +58,16 @@ int findHeader(FILE *musicFile)
     fread(&size, 4, 1, musicFile);
     size = TAG_TO_INT(htobe32(size));
     
-    printf("%s\n", identifier);
-    printf("%d ", majorVer);
-    printf("%d\n", minorVer);
-    printf("%d\n", flags);
-    printf("%d\n", size);
-    
     free(identifier);
     
-    return 1;
+    return size;
 }
 
+/* returns number of bytes the frame is */
 int getFrameHeader(FILE *musicFile)
 {
-    char* header = malloc(4);
-    fread(header, 1, 4, musicFile);
+    char* identifier = malloc(4);
+    fread(identifier, 1, 4, musicFile);
     
     int size = 0;
     fread(&size, 4, 1, musicFile);
@@ -79,25 +83,28 @@ int getFrameHeader(FILE *musicFile)
     char *data = malloc(size - 1);
     fread(data, 1, size - 1, musicFile);
     
-    storeData(header, data, size);
+    printf("Identifier: %s\n", identifier);
     
-    return 1;
+    storeData(identifier, data, size);
+    
+    //Add 10 to include size of frame header
+    return size + 10;
 }
 
-int storeData(char* header, char* data, int size)
+int storeData(char* identifier, char* data, int size)
 {    
-    if(strcmp(header, "TIT2") == 0)
+    if(strcmp(identifier, "TIT2") == 0)
     {
         tags.title = malloc(size);
         strcpy(tags.title, data);
     }
-    else if(strcmp(header, "TALB") == 0)
+    else if(strcmp(identifier, "TALB") == 0)
     {
         tags.album = malloc(size);
         strcpy(tags.album, data);
     }
     
-    free(header);
+    free(identifier);
     free(data);
     
     return 1;

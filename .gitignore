@@ -1,6 +1,5 @@
 a.out
-example/test.mp3
-example/test3.mp3
+example/*.mp3
 bin/
 build/
 kajamtag.o
