@@ -84,6 +84,7 @@ int getFrameHeader(FILE *musicFile)
     fread(data, 1, size - 1, musicFile);
     
     printf("Identifier: %s\n", identifier);
+    printf("Size: %d\n", size);
     
     storeData(identifier, data, size);
     

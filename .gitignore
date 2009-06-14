@@ -1,7 +1,7 @@
 a.out
 example/*.mp3
-bin/
-build/
+bin/*
+build/*
 kajamtag.o
 example/kajamtag
 
