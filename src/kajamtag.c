@@ -85,6 +85,7 @@ int getFrameHeader(FILE *musicFile)
     
     printf("Identifier: %s\n", identifier);
     printf("Size: %d\n", size);
+    printf("Data: %s\n", data);
     
     storeData(identifier, data, size);
     
