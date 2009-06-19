@@ -32,7 +32,11 @@ int kajamtag_init(char* musicString)
     printf("Found Bytes: %d\n", foundBytes);
     
     while(foundBytes < totalBytes) {
-        foundBytes += getFrameHeader(musicFile);
+        int bytes = getFrameHeader(musicFile);
+        if(bytes == 0)
+            break;
+        
+        foundBytes += bytes;
         printf("Found Bytes: %d\n", foundBytes);
     }
     
@@ -47,7 +51,7 @@ int findHeader(FILE *musicFile)
     
     int majorVer = 0;
     fread(&majorVer, 1, 1, musicFile);
-    printf("%d\n", majorVer);
+    //printf("%d\n", majorVer);
     
     int minorVer = 0;
     fread(&minorVer, 1, 1, musicFile);
@@ -73,6 +77,12 @@ int getFrameHeader(FILE *musicFile)
     int size = 0;
     fread(&size, 4, 1, musicFile);
     size = TAG_TO_INT(htobe32(size));
+    
+    //Blank header, probably done reading
+    if(size == 0) {
+        return 0;
+        free(identifier);
+    }
 
     int flags = 0;
     fread(&flags, 2, 1, musicFile);
@@ -81,9 +91,10 @@ int getFrameHeader(FILE *musicFile)
     int skip = 0;
     fread(&skip, 1, 1, musicFile);
     
-    char *data = malloc(size - 1);
+    char *data = malloc(size);
     fread(data, 1, size - 1, musicFile);
     
+    printf("***Test\n");
     printf("Identifier: %s\n", identifier);
     printf("Size: %d\n", size);
     printf("Data: %s\n", data);
@@ -120,6 +131,7 @@ int storeData(char* identifier, char* data, int size)
 
 char* getTitle()
 {
+    printf("%s\n", tags.title);
     return tags.title;
 }
 
