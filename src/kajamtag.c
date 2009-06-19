@@ -47,6 +47,7 @@ int findHeader(FILE *musicFile)
     
     int majorVer = 0;
     fread(&majorVer, 1, 1, musicFile);
+    printf("%d\n", majorVer);
     
     int minorVer = 0;
     fread(&minorVer, 1, 1, musicFile);
@@ -105,6 +106,11 @@ int storeData(char* identifier, char* data, int size)
         tags.album = malloc(size);
         strcpy(tags.album, data);
     }
+    else if(strcmp(identifier, "TPE1") == 0)
+    {
+        tags.artist = malloc(size);
+        strcpy(tags.artist, data);
+    }
     
     free(identifier);
     free(data);
@@ -120,4 +126,9 @@ char* getTitle()
 char* getAlbum()
 {
     return tags.album;
+}
+
+char* getArtist()
+{
+    return tags.artist;
 }

@@ -43,3 +43,4 @@ int storeData(char*, char*, int);
 
 char* getTitle();
 char* getAlbum();
+char* getArtist();
