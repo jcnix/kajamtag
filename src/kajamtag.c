@@ -25,36 +25,26 @@ int kajamtag_init(char* musicString)
     FILE *musicFile;
     musicFile = fopen(musicString, "rb");
     
-    totalBytes = findHeader(musicFile);
-    int foundBytes = 10; //Header is 10 bytes
+    int version = findHeader(musicFile);
+    printf("Version: %d\n", version);
     
-    printf("Total Bytes: %d\n", totalBytes);
-    printf("Found Bytes: %d\n", foundBytes);
-    
-    while(foundBytes < totalBytes) {
-        int bytes = getFrameHeader(musicFile);
+    int bytes = 0;
+    while((bytes = getFrameHeader(musicFile, version)) != 0) {
         if(bytes == 0)
             break;
-        if(bytes == -1)
-            continue;
-        
-        foundBytes += bytes;
-        printf("Found Bytes: %d\n", foundBytes);
     }
     
     return 1;
 }
 
-/* Returns the number of bytes the ID3 tag is. */
+/* Returns the ID3 tag version */
 int findHeader(FILE *musicFile)
 {
     char* identifier = malloc(3);
     fread(identifier, sizeof(char), 3, musicFile);
-    printf("%s\n", identifier);
     
-    int majorVer = 0;
+    int majorVer;
     fread(&majorVer, 1, 1, musicFile);
-    printf("Version: 2.%d\n", majorVer);
     
     int minorVer = 0;
     fread(&minorVer, sizeof(char), 1, musicFile);
@@ -73,18 +63,21 @@ int findHeader(FILE *musicFile)
     
     free(identifier);
     
-    return size;
+    return majorVer;
 }
 
 /* returns number of bytes the frame is */
-int getFrameHeader(FILE *musicFile)
+int getFrameHeader(FILE *musicFile, int version)
 {
     char* identifier = malloc(4);
     fread(identifier, sizeof(char), 4, musicFile);
     
     int size = 0;
     fread(&size, sizeof(int), 1, musicFile);
-    size = TAG_TO_INT(htobe32(size));
+    
+    //ID3 2.4 uses synchronized ints, 2.3 does not 
+    if(version == 4) size = TAG_TO_INT(htobe32(size));
+    else if(version == 3) size = htobe32(size);
 
     //Blank header, probably done reading
     if(size == 0) {
