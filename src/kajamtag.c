@@ -47,17 +47,17 @@ int kajamtag_init(char* musicString)
 int findHeader(FILE *musicFile)
 {
     char* identifier = malloc(3);
-    fread(identifier, 1, 3, musicFile);
+    fread(identifier, sizeof(char), 3, musicFile);
     
     int majorVer = 0;
     fread(&majorVer, 1, 1, musicFile);
     printf("Version: 2.%d\n", majorVer);
     
     int minorVer = 0;
-    fread(&minorVer, 1, 1, musicFile);
+    fread(&minorVer, sizeof(char), 1, musicFile);
 
     char flags = 0;
-    fread(&flags, 1, 1, musicFile);
+    fread(&flags, sizeof(char), 1, musicFile);
     int usynch = getFlag(flags, 7);
     int exHeader = getFlag(flags, 6);
     int exp = getFlag(flags, 5);
@@ -65,7 +65,7 @@ int findHeader(FILE *musicFile)
     printf("Flags: %d %d %d %d\n", usynch, exHeader, exp, footer);
 
     int size = 0;
-    fread(&size, 4, 1, musicFile);
+    fread(&size, sizeof(int), 1, musicFile);
     size = TAG_TO_INT(htobe32(size));
     
     free(identifier);
@@ -77,10 +77,10 @@ int findHeader(FILE *musicFile)
 int getFrameHeader(FILE *musicFile)
 {
     char* identifier = malloc(4);
-    fread(identifier, 1, 4, musicFile);
+    fread(identifier, sizeof(char), 4, musicFile);
     
     int size = 0;
-    fread(&size, 4, 1, musicFile);
+    fread(&size, sizeof(int), 1, musicFile);
     size = TAG_TO_INT(htobe32(size));
     
     //Blank header, probably done reading
@@ -94,10 +94,10 @@ int getFrameHeader(FILE *musicFile)
     
     //skip a byte, not sure what the blank byte is for... padding?
     int skip = 0;
-    fread(&skip, 1, 1, musicFile);
+    fread(&skip, sizeof(char), 1, musicFile);
     
     char *data = malloc(size);
-    fread(data, 1, size - 1, musicFile);
+    fread(data, sizeof(char), size - 1, musicFile);
     
     printf("Identifier: %s\n", identifier);
     printf("Size: %d\n", size);
