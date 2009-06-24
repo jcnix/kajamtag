@@ -36,6 +36,8 @@ struct kajamtag
 typedef struct kajamtag kajamtag_t;
 kajamtag_t tags;
 
+int totalBytes;
+
 int kajamtag_init(char*);
 int findHeader(FILE*);
 int getFrameHeader(FILE*);

@@ -25,7 +25,7 @@ int kajamtag_init(char* musicString)
     FILE *musicFile;
     musicFile = fopen(musicString, "rb");
     
-    int totalBytes = findHeader(musicFile);
+    totalBytes = findHeader(musicFile);
     int foundBytes = 10; //Header is 10 bytes
     
     printf("Total Bytes: %d\n", totalBytes);
@@ -35,6 +35,8 @@ int kajamtag_init(char* musicString)
         int bytes = getFrameHeader(musicFile);
         if(bytes == 0)
             break;
+        if(bytes == -1)
+            continue;
         
         foundBytes += bytes;
         printf("Found Bytes: %d\n", foundBytes);
@@ -48,6 +50,7 @@ int findHeader(FILE *musicFile)
 {
     char* identifier = malloc(3);
     fread(identifier, sizeof(char), 3, musicFile);
+    printf("%s\n", identifier);
     
     int majorVer = 0;
     fread(&majorVer, 1, 1, musicFile);
@@ -82,12 +85,16 @@ int getFrameHeader(FILE *musicFile)
     int size = 0;
     fread(&size, sizeof(int), 1, musicFile);
     size = TAG_TO_INT(htobe32(size));
-    
+
     //Blank header, probably done reading
     if(size == 0) {
-        return 0;
         free(identifier);
+        return 0;
     }
+    //else if(size > totalBytes) {
+    //    free(identifier);
+    //    return -1;
+    //}
 
     int flags = 0;
     fread(&flags, 2, 1, musicFile);
@@ -99,7 +106,7 @@ int getFrameHeader(FILE *musicFile)
     char *data = malloc(size);
     fread(data, sizeof(char), size - 1, musicFile);
     
-    printf("Identifier: %s\n", identifier);
+    printf("Ident: %s\n", identifier);
     printf("Size: %d\n", size);
     printf("Data: %s\n", data);
     
