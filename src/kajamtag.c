@@ -51,13 +51,18 @@ int findHeader(FILE *musicFile)
     
     int majorVer = 0;
     fread(&majorVer, 1, 1, musicFile);
-    //printf("%d\n", majorVer);
+    printf("Version: 2.%d\n", majorVer);
     
     int minorVer = 0;
     fread(&minorVer, 1, 1, musicFile);
 
     char flags = 0;
     fread(&flags, 1, 1, musicFile);
+    int usynch = getFlag(flags, 7);
+    int exHeader = getFlag(flags, 6);
+    int exp = getFlag(flags, 5);
+    int footer = getFlag(flags, 4);
+    printf("Flags: %d %d %d %d\n", usynch, exHeader, exp, footer);
 
     int size = 0;
     fread(&size, 4, 1, musicFile);
@@ -94,7 +99,6 @@ int getFrameHeader(FILE *musicFile)
     char *data = malloc(size);
     fread(data, 1, size - 1, musicFile);
     
-    printf("***Test\n");
     printf("Identifier: %s\n", identifier);
     printf("Size: %d\n", size);
     printf("Data: %s\n", data);
@@ -129,9 +133,13 @@ int storeData(char* identifier, char* data, int size)
     return 1;
 }
 
+int getFlag(int byte, int bit)  
+{  
+    return (byte & 1 << bit)? 1: 0;  
+} 
+
 char* getTitle()
 {
-    printf("%s\n", tags.title);
     return tags.title;
 }
 
