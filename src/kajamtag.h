@@ -39,6 +39,7 @@ kajamtag_t tags;
 
 int kajamtag_init(char*);
 int isID3(FILE*);
+int isOgg(FILE*);
 char* getTitle();
 char* getAlbum();
 char* getArtist();

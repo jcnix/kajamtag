@@ -55,6 +55,21 @@ int isID3(FILE* file)
     return ID3;
 }
 
+int isOgg(FILE* file)
+{
+    char* identifier = malloc(3);
+    fread(identifier, sizeof(char), 3, file);
+
+    int ogg;
+    if(strcmp(identifier, "Ogg") == 0)
+        ogg = 1;
+    else
+        ogg = 0;
+
+    free(identifier);
+    return ogg;
+}
+
 char* getTitle()
 {
     return tags.title;
