@@ -22,6 +22,8 @@
 #define _KAJAMTAG_H
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "id3.h"
 
 struct kajamtag 
@@ -36,6 +38,7 @@ typedef struct kajamtag kajamtag_t;
 kajamtag_t tags;
 
 int kajamtag_init(char*);
+int isID3(FILE*);
 char* getTitle();
 char* getAlbum();
 char* getArtist();

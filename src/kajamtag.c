@@ -25,16 +25,34 @@ int kajamtag_init(char* musicString)
     FILE *musicFile;
     musicFile = fopen(musicString, "rb");
     
-    int version = id3_header(musicFile);
-    printf("Version: %d\n", version);
+    if(isID3(musicFile))
+    {
+        int version = id3_header(musicFile);
+        printf("Version: %d\n", version);
     
-    int bytes = 0;
-    while((bytes = id3_frame(musicFile, version)) != 0) {
-        if(bytes == 0)
-            break;
+        int bytes = 0;
+        while((bytes = id3_frame(musicFile, version)) != 0) {
+            if(bytes == 0)
+                break;
+        }
     }
     
     return 1;
+}
+
+int isID3(FILE* file)
+{
+    char* identifier = malloc(3);
+    fread(identifier, sizeof(char), 3, file);
+    
+    int ID3;
+    if(strcmp(identifier, "ID3") == 0)
+        ID3 = 1;
+    else
+        ID3 = 0;
+    
+    free(identifier);
+    return ID3;
 }
 
 char* getTitle()
