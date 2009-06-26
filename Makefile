@@ -11,16 +11,18 @@ LDFLAGS = -lm
 BUILD_DIR = build
 BIN_DIR = bin
 TARGET = bin/libkajamtag.so
-SRCS = src/kajamtag.c
-OBJS = build/kajamtag.o
+SRCS = src/kajamtag.c src/id3.c
+HDRS = src/kajamtag.h src/id3.h
+OBJS = build/kajamtag.o build/id3.o
 
 all: $(SRCS) $(OBJS) $(TARGET) 
 
 $(TARGET): $(OBJS) $(BIN_DIR)
 	$(CC) -shared -o $(TARGET) $(OBJS)	
 
-build/kajamtag.o: src/kajamtag.c src/kajamtag.h $(BUILD_DIR)
-	$(CC) $(CFLAGS) $(SRCS) -o $(OBJS)
+$(OBJS): $(SRCS) $(HDRS) $(BUILD_DIR)
+	$(CC) $(CFLAGS) $(SRCS)
+	mv *.o $(BUILD_DIR)
 
 $(BUILD_DIR)/:
 	mkdir -p $@

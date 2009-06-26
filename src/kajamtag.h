@@ -18,12 +18,11 @@
  * along with KaJamTag.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <endian.h>
+#ifndef _KAJAMTAG_H
+#define _KAJAMTAG_H
 
-#define TAG_TO_INT(tag) ((tag) &0x7f) | (((tag) &0x7f00) >> 1) | (((tag)&0x7f0000)>>2) | (((tag)&0x7f000000)>>3)
+#include <stdio.h>
+#include "id3.h"
 
 struct kajamtag 
 {
@@ -36,14 +35,9 @@ struct kajamtag
 typedef struct kajamtag kajamtag_t;
 kajamtag_t tags;
 
-int totalBytes;
-
 int kajamtag_init(char*);
-int findHeader(FILE*);
-int getFrameHeader(FILE*, int);
-int storeData(char*, char*, int);
-int getFlag(int, int);
-
 char* getTitle();
 char* getAlbum();
 char* getArtist();
+
+#endif
