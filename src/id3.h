@@ -33,8 +33,8 @@
 
 #define TAG_TO_INT(tag) ((tag) &0x7f) | (((tag) &0x7f00) >> 1) | (((tag)&0x7f0000)>>2) | (((tag)&0x7f000000)>>3)
 
-int findHeader(FILE*);
-int getFrameHeader(FILE*, int);
+int id3_header(FILE*);
+int id3_frame(FILE*, int);
 int storeData(char*, char*, int);
 int getFlag(int, int);
 

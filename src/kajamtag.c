@@ -25,11 +25,11 @@ int kajamtag_init(char* musicString)
     FILE *musicFile;
     musicFile = fopen(musicString, "rb");
     
-    int version = findHeader(musicFile);
+    int version = id3_header(musicFile);
     printf("Version: %d\n", version);
     
     int bytes = 0;
-    while((bytes = getFrameHeader(musicFile, version)) != 0) {
+    while((bytes = id3_frame(musicFile, version)) != 0) {
         if(bytes == 0)
             break;
     }

@@ -21,7 +21,7 @@
 #include "id3.h"
 
 /* Returns the ID3 tag version */
-int findHeader(FILE *musicFile)
+int id3_header(FILE *musicFile)
 {
     char* identifier = malloc(3);
     fread(identifier, sizeof(char), 3, musicFile);
@@ -50,7 +50,7 @@ int findHeader(FILE *musicFile)
 }
 
 /* returns number of bytes the frame is */
-int getFrameHeader(FILE *musicFile, int version)
+int id3_frame(FILE *musicFile, int version)
 {
     char* identifier = malloc(4);
     fread(identifier, sizeof(char), 4, musicFile);
@@ -67,10 +67,6 @@ int getFrameHeader(FILE *musicFile, int version)
         free(identifier);
         return 0;
     }
-    //else if(size > totalBytes) {
-    //    free(identifier);
-    //    return -1;
-    //}
 
     int flags = 0;
     fread(&flags, 2, 1, musicFile);
