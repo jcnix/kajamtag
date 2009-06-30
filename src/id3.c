@@ -31,10 +31,10 @@ int id3_header(FILE *musicFile)
 
     char flags = 0;
     fread(&flags, sizeof(char), 1, musicFile);
-    int usynch = getFlag(flags, 7);
-    int exHeader = getFlag(flags, 6);
-    int exp = getFlag(flags, 5);
-    int footer = getFlag(flags, 4);
+    //int usynch = getFlag(flags, 7);
+    //int exHeader = getFlag(flags, 6);
+    //int exp = getFlag(flags, 5);
+    //int footer = getFlag(flags, 4);
     //printf("Flags: %d %d %d %d\n", usynch, exHeader, exp, footer);
 
     int size = 0;
