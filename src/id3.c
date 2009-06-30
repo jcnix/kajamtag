@@ -35,7 +35,7 @@ int id3_header(FILE *musicFile)
     int exHeader = getFlag(flags, 6);
     int exp = getFlag(flags, 5);
     int footer = getFlag(flags, 4);
-    printf("Flags: %d %d %d %d\n", usynch, exHeader, exp, footer);
+    //printf("Flags: %d %d %d %d\n", usynch, exHeader, exp, footer);
 
     int size = 0;
     fread(&size, sizeof(int), 1, musicFile);
@@ -73,9 +73,9 @@ int id3_frame(FILE *musicFile, int version)
     char *data = malloc(size);
     fread(data, sizeof(char), size - 1, musicFile);
     
-    printf("Ident: %s\n", identifier);
-    printf("Size: %d\n", size);
-    printf("Data: %s\n", data);
+    //printf("Ident: %s\n", identifier);
+    //printf("Size: %d\n", size);
+    //printf("Data: %s\n", data);
     
     storeData(identifier, data, size);
     
