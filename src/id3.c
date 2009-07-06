@@ -107,6 +107,7 @@ int id3_storeData(char* identifier, char* data, int size)
     return 1;
 }
 
+/* returns 0 or 1, depending on if a flag is set or not */
 int id3_getFlag(int byte, int bit)  
 {  
     return (byte & 1 << bit)? 1: 0;  

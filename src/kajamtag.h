@@ -38,8 +38,9 @@ typedef struct kajamtag kajamtag_t;
 kajamtag_t tags;
 
 int kajamtag_init(char*);
-int isID3(FILE*);
-int isOgg(FILE*);
+char* readIdentifier(FILE*);
+int isID3(char*);
+int isOgg(char*);
 char* getTitle();
 char* getAlbum();
 char* getArtist();
