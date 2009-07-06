@@ -25,6 +25,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "id3.h"
+#include "ogg.h"
 
 struct kajamtag 
 {
