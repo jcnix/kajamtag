@@ -11,9 +11,9 @@ LDFLAGS = -lm
 BUILD_DIR = build
 BIN_DIR = bin
 TARGET = bin/libkajamtag.so
-SRCS = src/kajamtag.c src/id3.c
-HDRS = src/kajamtag.h src/id3.h
-OBJS = build/kajamtag.o build/id3.o
+SRCS = src/kajamtag.c src/id3.c src/ogg.c
+HDRS = src/kajamtag.h src/id3.h src/ogg.h
+OBJS = build/kajamtag.o build/id3.o build/ogg.o
 
 all: $(SRCS) $(OBJS) $(TARGET) 
 

@@ -1,5 +1,5 @@
 /*
- * File:   id3.h
+ * File:   ogg.c
  * Author: Casey Jones
  *
  * This file is part of KaJamTag.
@@ -17,26 +17,21 @@
  * You should have received a copy of the GNU General Public License
  * along with KaJamTag.  If not, see <http://www.gnu.org/licenses/>.
  */
+ 
+ #include "ogg.h"
 
-/*
- * Kajamtag ID3 tag reader
- */
+int ogg_header(FILE *musicFile)
+{
+    return 0;
+}
 
-#ifndef _ID3_H
-#define _ID3_H
+int ogg_frame(FILE *musicFile)
+{
+    return 0;
+}
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <endian.h>
-#include "kajamtag.h"
-
-#define TAG_TO_INT(tag) ((tag) &0x7f) | (((tag) &0x7f00) >> 1) | (((tag)&0x7f0000)>>2) | (((tag)&0x7f000000)>>3)
-
-int id3_header(FILE*);
-int id3_frame(FILE*, int);
-int id3_storeData(char*, char*, int);
-int id3_getFlag(int, int);
-
-#endif
+int ogg_storeData(char* identifier, char* data, int size)
+{
+    return 0;
+}
 

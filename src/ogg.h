@@ -1,5 +1,5 @@
 /*
- * File:   id3.h
+ * File:   ogg.h
  * Author: Casey Jones
  *
  * This file is part of KaJamTag.
@@ -19,24 +19,20 @@
  */
 
 /*
- * Kajamtag ID3 tag reader
+ * Kajamtag Ogg tag reader
  */
 
-#ifndef _ID3_H
-#define _ID3_H
+#ifndef _OGG_H
+#define _OGG_H
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <endian.h>
 #include "kajamtag.h"
 
-#define TAG_TO_INT(tag) ((tag) &0x7f) | (((tag) &0x7f00) >> 1) | (((tag)&0x7f0000)>>2) | (((tag)&0x7f000000)>>3)
-
-int id3_header(FILE*);
-int id3_frame(FILE*, int);
-int id3_storeData(char*, char*, int);
-int id3_getFlag(int, int);
+int ogg_header(FILE*);
+int ogg_frame(FILE*);
+int ogg_storeData(char*, char*, int);
 
 #endif
 
