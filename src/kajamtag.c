@@ -21,7 +21,7 @@
 #include "kajamtag.h"
 
 int kajamtag_init(char* musicString)
-{    
+{
     FILE *musicFile;
     musicFile = fopen(musicString, "rb");
     
@@ -67,22 +67,18 @@ char* readIdentifier(FILE* file)
 
 int isID3(char* identifier)
 {
-    int ID3;
+    int ID3 = 0;
     if(strcmp(identifier, "ID3") == 0)
         ID3 = 1;
-    else
-        ID3 = 0;
     
     return ID3;
 }
 
 int isOgg(char* identifier)
 {
-    int ogg;
+    int ogg = 0;
     if(strcmp(identifier, "Ogg") == 0)
         ogg = 1;
-    else
-        ogg = 0;
 
     return ogg;
 }
@@ -101,3 +97,4 @@ char* getArtist()
 {
     return tags.artist;
 }
+

@@ -22,6 +22,8 @@
 
 int ogg_header(FILE *musicFile)
 {
+    printf("Ogg\n");
+    
     return 0;
 }
 
