@@ -35,7 +35,8 @@
 
 int id3_header(FILE*);
 int id3_frame(FILE*, int);
-int storeData(char*, char*, int);
-int getFlag(int, int);
+int id3_storeData(char*, char*, int);
+int id3_getFlag(int, int);
 
 #endif
+

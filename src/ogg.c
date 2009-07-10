@@ -1,5 +1,5 @@
 /*
- * File:   kajamtag.h
+ * File:   ogg.c
  * Author: Casey Jones
  *
  * This file is part of KaJamTag.
@@ -17,33 +17,23 @@
  * You should have received a copy of the GNU General Public License
  * along with KaJamTag.  If not, see <http://www.gnu.org/licenses/>.
  */
+ 
+ #include "ogg.h"
 
-#ifndef _KAJAMTAG_H
-#define _KAJAMTAG_H
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "id3.h"
-#include "ogg.h"
-
-struct kajamtag 
+int ogg_header(FILE *musicFile)
 {
-    char* title;
-    char* album;
-    char* artist;
-    char* track;
-};
+    printf("Ogg\n");
+    
+    return 0;
+}
 
-typedef struct kajamtag kajamtag_t;
-kajamtag_t tags;
+int ogg_frame(FILE *musicFile)
+{
+    return 0;
+}
 
-int kajamtag_init(char*);
-char* readIdentifier(FILE*);
-int isID3(char*);
-int isOgg(char*);
-char* getTitle();
-char* getAlbum();
-char* getArtist();
+int ogg_storeData(char* identifier, char* data, int size)
+{
+    return 0;
+}
 
-#endif

@@ -21,52 +21,65 @@
 #include "kajamtag.h"
 
 int kajamtag_init(char* musicString)
-{    
+{
     FILE *musicFile;
     musicFile = fopen(musicString, "rb");
     
-    if(isID3(musicFile))
+    char* identifier = readIdentifier(musicFile);
+    
+    if(isID3(identifier))
     {
+        free(identifier);
         int version = id3_header(musicFile);
-        printf("Version: %d\n", version);
     
         int bytes = 0;
-        while((bytes = id3_frame(musicFile, version)) != 0) {
+        while((bytes = id3_frame(musicFile, version)) != 0) 
+        {
             if(bytes == 0)
                 break;
         }
+    }
+    else if(isOgg(identifier))
+    {
+        free(identifier);
+        ogg_header(musicFile);
+        
+        int bytes = 0;
+        while((bytes = ogg_frame(musicFile)) != 0)
+        {
+            if(bytes == 0)
+                break;
+        }         
     }
     
     return 1;
 }
 
-int isID3(FILE* file)
+/* Reads the first three bytes
+ * retuns identifier string */
+char* readIdentifier(FILE* file)
 {
     char* identifier = malloc(3);
     fread(identifier, sizeof(char), 3, file);
     
-    int ID3;
+    return identifier;
+}
+
+int isID3(char* identifier)
+{
+    int ID3 = 0;
     if(strcmp(identifier, "ID3") == 0)
         ID3 = 1;
-    else
-        ID3 = 0;
     
-    free(identifier);
     return ID3;
 }
 
-int isOgg(FILE* file)
+int isOgg(char* identifier)
 {
-    char* identifier = malloc(3);
-    fread(identifier, sizeof(char), 3, file);
-
-    int ogg;
+    int ogg = 0;
     if(strcmp(identifier, "Ogg") == 0)
         ogg = 1;
-    else
-        ogg = 0;
 
-    free(identifier);
     return ogg;
 }
 
@@ -84,3 +97,4 @@ char* getArtist()
 {
     return tags.artist;
 }
+

@@ -31,10 +31,10 @@ int id3_header(FILE *musicFile)
 
     char flags = 0;
     fread(&flags, sizeof(char), 1, musicFile);
-    //int usynch = getFlag(flags, 7);
-    //int exHeader = getFlag(flags, 6);
-    //int exp = getFlag(flags, 5);
-    //int footer = getFlag(flags, 4);
+    //int usynch = id3_getFlag(flags, 7);
+    //int exHeader = id3_getFlag(flags, 6);
+    //int exp = id3_getFlag(flags, 5);
+    //int footer = id3_getFlag(flags, 4);
     //printf("Flags: %d %d %d %d\n", usynch, exHeader, exp, footer);
 
     int size = 0;
@@ -77,13 +77,13 @@ int id3_frame(FILE *musicFile, int version)
     //printf("Size: %d\n", size);
     //printf("Data: %s\n", data);
     
-    storeData(identifier, data, size);
+    id3_storeData(identifier, data, size);
     
     //Add 10 to include size of frame header
     return size + 10;
 }
 
-int storeData(char* identifier, char* data, int size)
+int id3_storeData(char* identifier, char* data, int size)
 {    
     if(strcmp(identifier, "TIT2") == 0)
     {
@@ -107,7 +107,9 @@ int storeData(char* identifier, char* data, int size)
     return 1;
 }
 
-int getFlag(int byte, int bit)  
+/* returns 0 or 1, depending on if a flag is set or not */
+int id3_getFlag(int byte, int bit)  
 {  
     return (byte & 1 << bit)? 1: 0;  
-} 
+}
+
