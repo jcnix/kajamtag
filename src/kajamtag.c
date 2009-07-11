@@ -42,14 +42,9 @@ int kajamtag_init(char* musicString)
     else if(isOgg(identifier))
     {
         free(identifier);
-        ogg_header(musicFile);
-        
+
         int bytes = 0;
-        while((bytes = ogg_frame(musicFile)) != 0)
-        {
-            if(bytes == 0)
-                break;
-        }         
+        bytes = ogg_read(musicFile);
     }
     
     return 1;

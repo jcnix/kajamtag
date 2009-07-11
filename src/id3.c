@@ -54,8 +54,10 @@ int id3_frame(FILE *musicFile, int version)
     fread(&size, sizeof(int), 1, musicFile);
     
     //ID3 2.4 uses synchronized ints, 2.3 does not 
-    if(version == 4) size = TAG_TO_INT(htobe32(size));
-    else if(version == 3) size = htobe32(size);
+    if(version == 4) 
+        size = TAG_TO_INT(htobe32(size));
+    else if(version == 3) 
+        size = htobe32(size);
 
     //Blank header, probably done reading
     if(size == 0) {

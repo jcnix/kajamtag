@@ -30,9 +30,10 @@
 #include <string.h>
 #include "kajamtag.h"
 
-int ogg_header(FILE*);
-int ogg_frame(FILE*);
-int ogg_storeData(char*, char*, int);
+#define INIT_SIZE 50*sizeof(char)
+
+int ogg_read(FILE*);
+int ogg_storeData(char*);
 
 #endif
 

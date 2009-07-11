@@ -18,22 +18,50 @@
  * along with KaJamTag.  If not, see <http://www.gnu.org/licenses/>.
  */
  
- #include "ogg.h"
+#include "ogg.h"
 
-int ogg_header(FILE *musicFile)
+int ogg_read(FILE *musicFile)
 {
-    printf("Ogg\n");
+    int readBytes = 0;
+    int i = 0;
+    char byte = 0;
+    char* bytes = malloc(INIT_SIZE);
+    int inTag = 0;
     
+    while(readBytes <= 500)
+    {
+        fread(&byte, sizeof(char), 1, musicFile);
+        readBytes++;
+        
+        /* Not an Alpha character, we'll assume
+         * that it ends whatever we're trying to read */
+        if(byte < 0x20 || byte > 0x7a)
+        {
+            if(inTag) {
+                inTag = 0;
+                *(bytes+i) = '\0';
+                i = 0;
+                ogg_storeData(bytes);
+            }
+        }
+        /* We're reading alpha characters, store these */
+        else
+        {
+            inTag = 1;
+            *(bytes+i) = byte;
+            i++;
+        }
+    }
+
     return 0;
 }
 
-int ogg_frame(FILE *musicFile)
+int ogg_storeData(char* bytes)
 {
+    printf("%s\n", bytes);
+    //TODO: Lets store some data...
+    
+    free(bytes);
+    bytes = malloc(INIT_SIZE);
     return 0;
 }
-
-int ogg_storeData(char* identifier, char* data, int size)
-{
-    return 0;
-}
-
