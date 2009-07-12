@@ -58,10 +58,35 @@ int ogg_read(FILE *musicFile)
 
 int ogg_storeData(char* bytes)
 {
-    printf("%s\n", bytes);
-    //TODO: Lets store some data...
+    if(strchr(bytes, '=') == NULL)
+    {
+        return 0;
+    }
     
+    char* tokens = strtok(bytes, "=");
+    if(tokens == NULL)
+        return 0;
+    
+    char* id = strdup(tokens);
+    
+    tokens = strtok(NULL, "=");    
+    if(tokens == NULL)
+        return 0;
+    
+    char* data = strdup(tokens);
+    
+    //Store some data!
+    if(strcmp(id, "TITLE") == 0)
+        tags.title = data;
+    
+    if(strcmp(id, "ALBUM") == 0)
+        tags.album = data;
+    
+    if(strcmp(id, "ALBUM ARTIST") == 0)
+        tags.artist = data;
+    
+    free(id);
     free(bytes);
     bytes = malloc(INIT_SIZE);
-    return 0;
+    return 1;
 }
