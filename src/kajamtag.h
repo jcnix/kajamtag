@@ -27,6 +27,11 @@
 #include "id3.h"
 #include "ogg.h"
 
+#ifdef _cplusplus
+extern "C" {
+#endif
+
+
 struct kajamtag 
 {
     char* title;
@@ -45,5 +50,9 @@ int isOgg(char*);
 char* getTitle();
 char* getAlbum();
 char* getArtist();
+
+#ifdef _cplusplus
+}
+#endif
 
 #endif
