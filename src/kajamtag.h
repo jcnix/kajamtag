@@ -41,15 +41,15 @@ struct kajamtag
 };
 
 typedef struct kajamtag kajamtag_t;
-kajamtag_t tags;
+kajamtag_t k_tags;
 
 int kajamtag_init(char*);
-char* readIdentifier(FILE*);
-int isID3(char*);
-int isOgg(char*);
-char* getTitle();
-char* getAlbum();
-char* getArtist();
+char* k_readIdentifier(FILE*);
+int k_isID3(char*);
+int k_isOgg(char*);
+char* k_getTitle();
+char* k_getAlbum();
+char* k_getArtist();
 
 #ifdef _cplusplus
 }

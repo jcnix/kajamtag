@@ -89,18 +89,18 @@ int id3_storeData(char* identifier, char* data, int size)
 {    
     if(strcmp(identifier, "TIT2") == 0)
     {
-        tags.title = malloc(size);
-        strcpy(tags.title, data);
+        k_tags.title = malloc(size);
+        strcpy(k_tags.title, data);
     }
     else if(strcmp(identifier, "TALB") == 0)
     {
-        tags.album = malloc(size);
-        strcpy(tags.album, data);
+        k_tags.album = malloc(size);
+        strcpy(k_tags.album, data);
     }
     else if(strcmp(identifier, "TPE1") == 0)
     {
-        tags.artist = malloc(size);
-        strcpy(tags.artist, data);
+        k_tags.artist = malloc(size);
+        strcpy(k_tags.artist, data);
     }
     
     free(identifier);

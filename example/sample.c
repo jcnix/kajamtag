@@ -24,9 +24,9 @@
 int main()
 {
     kajamtag_init("test.ogg");
-    char* title = getTitle();
-    char* album = getAlbum();
-    char* artist = getArtist();
+    char* title = k_getTitle();
+    char* album = k_getAlbum();
+    char* artist = k_getArtist();
     
     printf("Title: %s\n", title);
     printf("Album: %s\n", album);

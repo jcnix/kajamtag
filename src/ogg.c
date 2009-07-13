@@ -77,13 +77,13 @@ int ogg_storeData(char* bytes)
     
     //Store some data!
     if(strcmp(id, "TITLE") == 0)
-        tags.title = data;
+        k_tags.title = data;
     
     if(strcmp(id, "ALBUM") == 0)
-        tags.album = data;
+        k_tags.album = data;
     
     if(strcmp(id, "ALBUM ARTIST") == 0)
-        tags.artist = data;
+        k_tags.artist = data;
     
     free(id);
     free(bytes);

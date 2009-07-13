@@ -25,9 +25,9 @@ int kajamtag_init(char* musicString)
     FILE *musicFile;
     musicFile = fopen(musicString, "rb");
     
-    char* identifier = readIdentifier(musicFile);
+    char* identifier = k_readIdentifier(musicFile);
     
-    if(isID3(identifier))
+    if(k_isID3(identifier))
     {
         free(identifier);
         int version = id3_header(musicFile);
@@ -39,7 +39,7 @@ int kajamtag_init(char* musicString)
                 break;
         }
     }
-    else if(isOgg(identifier))
+    else if(k_isOgg(identifier))
     {
         free(identifier);
 
@@ -52,7 +52,7 @@ int kajamtag_init(char* musicString)
 
 /* Reads the first three bytes
  * retuns identifier string */
-char* readIdentifier(FILE* file)
+char* k_readIdentifier(FILE* file)
 {
     char* identifier = malloc(3);
     fread(identifier, sizeof(char), 3, file);
@@ -60,7 +60,7 @@ char* readIdentifier(FILE* file)
     return identifier;
 }
 
-int isID3(char* identifier)
+int k_isID3(char* identifier)
 {
     int ID3 = 0;
     if(strcmp(identifier, "ID3") == 0)
@@ -69,7 +69,7 @@ int isID3(char* identifier)
     return ID3;
 }
 
-int isOgg(char* identifier)
+int k_isOgg(char* identifier)
 {
     int ogg = 0;
     if(strcmp(identifier, "Ogg") == 0)
@@ -78,18 +78,18 @@ int isOgg(char* identifier)
     return ogg;
 }
 
-char* getTitle()
+char* k_getTitle()
 {
-    return tags.title;
+    return k_tags.title;
 }
 
-char* getAlbum()
+char* k_getAlbum()
 {
-    return tags.album;
+    return k_tags.album;
 }
 
-char* getArtist()
+char* k_getArtist()
 {
-    return tags.artist;
+    return k_tags.artist;
 }
 
