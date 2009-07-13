@@ -44,9 +44,6 @@ typedef struct kajamtag kajamtag_t;
 kajamtag_t k_tags;
 
 int kajamtag_init(char*);
-char* k_readIdentifier(FILE*);
-int k_isID3(char*);
-int k_isOgg(char*);
 char* k_getTitle();
 char* k_getAlbum();
 char* k_getArtist();

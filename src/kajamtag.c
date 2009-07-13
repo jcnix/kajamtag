@@ -20,6 +20,10 @@
 
 #include "kajamtag.h"
 
+static char* k_readIdentifier(FILE*);
+static int k_isID3(char*);
+static int k_isOgg(char*);
+
 int kajamtag_init(char* musicString)
 {
     FILE *musicFile;
