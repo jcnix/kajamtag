@@ -1,2 +1,12 @@
-Not anywhere near done.  Just barely started.  Check back later, and it might actually be useful. ;)
+To install:
+make
+make install
+
+This places some header files in /usr/include/kajamtag, and places a shared library in /usr/lib named libkajamtag.so
+
+To link against libkajamtag.so, append -lkajamtag to your gcc compile line.
+
+There is a sample C program and Makefile in example/
+
+C++ and Python bindings will be coming eventually.
 
