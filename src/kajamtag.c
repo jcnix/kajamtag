@@ -20,16 +20,16 @@
 
 #include "kajamtag.h"
 
-static char* k_readIdentifier(FILE*);
+static char* k_readIdentifier(char*);
 static int k_isID3(char*);
 static int k_isOgg(char*);
 
 int kajamtag_init(char* musicString)
 {
     FILE *musicFile;
-    musicFile = fopen(musicString, "rb");
     
-    char* identifier = k_readIdentifier(musicFile);
+    char* identifier = k_readIdentifier(musicString);
+    musicFile = fopen(musicString, "rb");
     
     if(k_isID3(identifier))
     {
@@ -51,15 +51,19 @@ int kajamtag_init(char* musicString)
         bytes = ogg_read(musicFile);
     }
     
+    fclose(musicFile);
+    
     return 1;
 }
 
 /* Reads the first three bytes
  * retuns identifier string */
-char* k_readIdentifier(FILE* file)
+char* k_readIdentifier(char* strFile)
 {
+    FILE* file = fopen(strFile, "rb");
     char* identifier = malloc(3);
     fread(identifier, sizeof(char), 3, file);
+    fclose(file);
     
     return identifier;
 }

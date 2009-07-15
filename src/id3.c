@@ -23,6 +23,9 @@
 /* Returns the ID3 tag version */
 int id3_header(FILE *musicFile)
 {    
+    char* identifier = malloc(3);
+    fread(identifier, sizeof(char), 3, musicFile);
+    
     int majorVer;
     fread(&majorVer, 1, 1, musicFile);
     
