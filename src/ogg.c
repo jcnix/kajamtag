@@ -20,7 +20,7 @@
  
 #include "ogg.h"
 
-int ogg_read(FILE *musicFile)
+int ogg_read(FILE *musicFile, kajamtag_t *k_tags)
 {
     int readBytes = 0;
     int i = 0;
@@ -41,7 +41,7 @@ int ogg_read(FILE *musicFile)
                 inTag = 0;
                 *(bytes+i) = '\0';
                 i = 0;
-                ogg_storeData(bytes);
+                ogg_storeData(bytes, k_tags);
             }
         }
         /* We're reading alpha characters, store these */
@@ -56,7 +56,7 @@ int ogg_read(FILE *musicFile)
     return 0;
 }
 
-int ogg_storeData(char* bytes)
+int ogg_storeData(char* bytes, kajamtag_t *k_tags)
 {
     if(strchr(bytes, '=') == NULL)
     {
@@ -77,13 +77,13 @@ int ogg_storeData(char* bytes)
     
     //Store some data!
     if(strcmp(id, "TITLE") == 0)
-        k_tags.title = data;
+        k_tags->title = data;
     
     if(strcmp(id, "ALBUM") == 0)
-        k_tags.album = data;
+        k_tags->album = data;
     
     if(strcmp(id, "ALBUM ARTIST") == 0)
-        k_tags.artist = data;
+        k_tags->artist = data;
     
     free(id);
     free(bytes);
