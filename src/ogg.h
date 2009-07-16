@@ -1,5 +1,5 @@
 /*
- * File:   testprogram.c
+ * File:   ogg.h
  * Author: Casey Jones
  *
  * This file is part of KaJamTag.
@@ -18,19 +18,22 @@
  * along with KaJamTag.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdio.h>
-#include <kajamtag/kajamtag.h>
+/*
+ * Kajamtag Ogg tag reader
+ */
 
-int main()
-{
-    kajamtag_init("test.mp3");
-    char* title = k_getTitle();
-    char* album = k_getAlbum();
-    char* artist = k_getArtist();
-    
-    printf("Title: %s\n", title);
-    printf("Album: %s\n", album);
-    printf("Artist: %s\n", artist);
-    
-    return 1;
-}
+#ifndef _OGG_H
+#define _OGG_H
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "kajamtag.h"
+
+#define INIT_SIZE 50*sizeof(char)
+
+int ogg_read(FILE*, kajamtag_t *);
+int ogg_storeData(char*, kajamtag_t *);
+
+#endif
+

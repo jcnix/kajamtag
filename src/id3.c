@@ -23,6 +23,9 @@
 /* Returns the ID3 tag version */
 int id3_header(FILE *musicFile)
 {    
+    char* identifier = malloc(3);
+    fread(identifier, sizeof(char), 3, musicFile);
+    
     int majorVer;
     fread(&majorVer, 1, 1, musicFile);
     
@@ -31,10 +34,10 @@ int id3_header(FILE *musicFile)
 
     char flags = 0;
     fread(&flags, sizeof(char), 1, musicFile);
-    //int usynch = getFlag(flags, 7);
-    //int exHeader = getFlag(flags, 6);
-    //int exp = getFlag(flags, 5);
-    //int footer = getFlag(flags, 4);
+    //int usynch = id3_getFlag(flags, 7);
+    //int exHeader = id3_getFlag(flags, 6);
+    //int exp = id3_getFlag(flags, 5);
+    //int footer = id3_getFlag(flags, 4);
     //printf("Flags: %d %d %d %d\n", usynch, exHeader, exp, footer);
 
     int size = 0;
@@ -45,7 +48,7 @@ int id3_header(FILE *musicFile)
 }
 
 /* returns number of bytes the frame is */
-int id3_frame(FILE *musicFile, int version)
+int id3_frame(FILE *musicFile, int version, kajamtag_t *k_tags)
 {
     char* identifier = malloc(4);
     fread(identifier, sizeof(char), 4, musicFile);
@@ -54,9 +57,11 @@ int id3_frame(FILE *musicFile, int version)
     fread(&size, sizeof(int), 1, musicFile);
     
     //ID3 2.4 uses synchronized ints, 2.3 does not 
-    if(version == 4) size = TAG_TO_INT(htobe32(size));
-    else if(version == 3) size = htobe32(size);
-
+    if(version == 4) 
+        size = TAG_TO_INT(htobe32(size));
+    else if(version == 3) 
+        size = htobe32(size);
+    
     //Blank header, probably done reading
     if(size == 0) {
         free(identifier);
@@ -77,28 +82,28 @@ int id3_frame(FILE *musicFile, int version)
     //printf("Size: %d\n", size);
     //printf("Data: %s\n", data);
     
-    storeData(identifier, data, size);
+    id3_storeData(identifier, data, size, k_tags);
     
     //Add 10 to include size of frame header
     return size + 10;
 }
 
-int storeData(char* identifier, char* data, int size)
-{    
+int id3_storeData(char* identifier, char* data, int size, kajamtag_t *k_tags)
+{
     if(strcmp(identifier, "TIT2") == 0)
     {
-        tags.title = malloc(size);
-        strcpy(tags.title, data);
+        k_tags->title = malloc(size);
+        strcpy(k_tags->title, data);
     }
     else if(strcmp(identifier, "TALB") == 0)
     {
-        tags.album = malloc(size);
-        strcpy(tags.album, data);
+        k_tags->album = malloc(size);
+        strcpy(k_tags->album, data);
     }
     else if(strcmp(identifier, "TPE1") == 0)
     {
-        tags.artist = malloc(size);
-        strcpy(tags.artist, data);
+        k_tags->artist = malloc(size);
+        strcpy(k_tags->artist, data);
     }
     
     free(identifier);
@@ -107,7 +112,9 @@ int storeData(char* identifier, char* data, int size)
     return 1;
 }
 
-int getFlag(int byte, int bit)  
+/* returns 0 or 1, depending on if a flag is set or not */
+int id3_getFlag(int byte, int bit)  
 {  
     return (byte & 1 << bit)? 1: 0;  
-} 
+}
+

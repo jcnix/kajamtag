@@ -20,67 +20,86 @@
 
 #include "kajamtag.h"
 
+static char* k_readIdentifier(char*);
+static int k_isID3(char*);
+static int k_isOgg(char*);
+
+static kajamtag_t *global_tags;
+
 int kajamtag_init(char* musicString)
-{    
+{
+    kajamtag_t *k_tags;
+    global_tags = k_tags;
     FILE *musicFile;
+    
+    char* identifier = k_readIdentifier(musicString);
     musicFile = fopen(musicString, "rb");
     
-    if(isID3(musicFile))
+    if(k_isID3(identifier))
     {
         int version = id3_header(musicFile);
-        printf("Version: %d\n", version);
     
         int bytes = 0;
-        while((bytes = id3_frame(musicFile, version)) != 0) {
+        while((bytes = id3_frame(musicFile, version, k_tags)) != 0) 
+        {
             if(bytes == 0)
                 break;
         }
     }
+    else if(k_isOgg(identifier))
+    {
+        free(identifier);
+
+        int bytes = 0;
+        bytes = ogg_read(musicFile, k_tags);
+    }
+    
+    fclose(musicFile);
     
     return 1;
 }
 
-int isID3(FILE* file)
+/* Reads the first three bytes
+ * retuns identifier string */
+char* k_readIdentifier(char* strFile)
 {
+    FILE* file = fopen(strFile, "rb");
     char* identifier = malloc(3);
     fread(identifier, sizeof(char), 3, file);
+    fclose(file);
     
-    int ID3;
+    return identifier;
+}
+
+int k_isID3(char* identifier)
+{
+    int ID3 = 0;
     if(strcmp(identifier, "ID3") == 0)
         ID3 = 1;
-    else
-        ID3 = 0;
     
-    free(identifier);
     return ID3;
 }
 
-int isOgg(FILE* file)
+int k_isOgg(char* identifier)
 {
-    char* identifier = malloc(3);
-    fread(identifier, sizeof(char), 3, file);
-
-    int ogg;
+    int ogg = 0;
     if(strcmp(identifier, "Ogg") == 0)
         ogg = 1;
-    else
-        ogg = 0;
 
-    free(identifier);
     return ogg;
 }
 
-char* getTitle()
+char* k_getTitle()
 {
-    return tags.title;
+    return global_tags->title;
 }
 
-char* getAlbum()
+char* k_getAlbum()
 {
-    return tags.album;
+    return global_tags->album;
 }
 
-char* getArtist()
+char* k_getArtist()
 {
-    return tags.artist;
+    return global_tags->artist;
 }
