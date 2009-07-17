@@ -38,7 +38,7 @@ int kajamtag_init(char* musicString)
     if(k_isID3(identifier))
     {
         int version = id3_header(musicFile);
-    
+        
         int bytes = 0;
         while((bytes = id3_frame(musicFile, version, k_tags)) != 0) 
         {
@@ -74,7 +74,7 @@ char* k_readIdentifier(char* strFile)
 int k_isID3(char* identifier)
 {
     int ID3 = 0;
-    if(strcmp(identifier, "ID3") == 0)
+    if(strncmp(identifier, "ID3", 3) == 0)
         ID3 = 1;
     
     return ID3;
@@ -83,7 +83,7 @@ int k_isID3(char* identifier)
 int k_isOgg(char* identifier)
 {
     int ogg = 0;
-    if(strcmp(identifier, "Ogg") == 0)
+    if(strncmp(identifier, "Ogg", 3) == 0)
         ogg = 1;
 
     return ogg;
