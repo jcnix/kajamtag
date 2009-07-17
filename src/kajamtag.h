@@ -24,10 +24,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "id3.h"
+#include "ogg.h"
 
 #ifdef _cplusplus
 extern "C" {
 #endif
+
 
 struct kajamtag 
 {
@@ -36,10 +39,9 @@ struct kajamtag
     char* artist;
     char* track;
 };
-typedef struct kajamtag kajamtag_t;
 
-#include "id3.h"
-#include "ogg.h"
+typedef struct kajamtag kajamtag_t;
+kajamtag_t k_tags;
 
 int kajamtag_init(char*);
 char* k_getTitle();

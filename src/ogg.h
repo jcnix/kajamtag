@@ -32,8 +32,8 @@
 
 #define INIT_SIZE 50*sizeof(char)
 
-int ogg_read(FILE*, kajamtag_t *);
-int ogg_storeData(char*, kajamtag_t *);
+int ogg_read(FILE*);
+int ogg_storeData(char*);
 
 #endif
 

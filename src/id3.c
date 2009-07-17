@@ -48,7 +48,7 @@ int id3_header(FILE *musicFile)
 }
 
 /* returns number of bytes the frame is */
-int id3_frame(FILE *musicFile, int version, kajamtag_t *k_tags)
+int id3_frame(FILE *musicFile, int version)
 {
     char* identifier = malloc(4);
     fread(identifier, sizeof(char), 4, musicFile);
@@ -61,7 +61,7 @@ int id3_frame(FILE *musicFile, int version, kajamtag_t *k_tags)
         size = TAG_TO_INT(htobe32(size));
     else if(version == 3) 
         size = htobe32(size);
-    
+
     //Blank header, probably done reading
     if(size == 0) {
         free(identifier);
@@ -82,28 +82,28 @@ int id3_frame(FILE *musicFile, int version, kajamtag_t *k_tags)
     //printf("Size: %d\n", size);
     //printf("Data: %s\n", data);
     
-    id3_storeData(identifier, data, size, k_tags);
+    id3_storeData(identifier, data, size);
     
     //Add 10 to include size of frame header
     return size + 10;
 }
 
-int id3_storeData(char* identifier, char* data, int size, kajamtag_t *k_tags)
-{
+int id3_storeData(char* identifier, char* data, int size)
+{    
     if(strncmp(identifier, "TIT2", 4) == 0)
     {
-        k_tags->title = malloc(size);
-        strcpy(k_tags->title, data);
+        k_tags.title = malloc(size);
+        strcpy(k_tags.title, data);
     }
     else if(strncmp(identifier, "TALB", 4) == 0)
     {
-        k_tags->album = malloc(size);
-        strcpy(k_tags->album, data);
+        k_tags.album = malloc(size);
+        strcpy(k_tags.album, data);
     }
     else if(strncmp(identifier, "TPE1", 4) == 0)
     {
-        k_tags->artist = malloc(size);
-        strcpy(k_tags->artist, data);
+        k_tags.artist = malloc(size);
+        strcpy(k_tags.artist, data);
     }
     
     free(identifier);
