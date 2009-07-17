@@ -90,17 +90,17 @@ int id3_frame(FILE *musicFile, int version, kajamtag_t *k_tags)
 
 int id3_storeData(char* identifier, char* data, int size, kajamtag_t *k_tags)
 {
-    if(strcmp(identifier, "TIT2") == 0)
+    if(strncmp(identifier, "TIT2", 4) == 0)
     {
         k_tags->title = malloc(size);
         strcpy(k_tags->title, data);
     }
-    else if(strcmp(identifier, "TALB") == 0)
+    else if(strncmp(identifier, "TALB", 4) == 0)
     {
         k_tags->album = malloc(size);
         strcpy(k_tags->album, data);
     }
-    else if(strcmp(identifier, "TPE1") == 0)
+    else if(strncmp(identifier, "TPE1", 4) == 0)
     {
         k_tags->artist = malloc(size);
         strcpy(k_tags->artist, data);
