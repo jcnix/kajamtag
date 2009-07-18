@@ -28,7 +28,7 @@ int ogg_read(FILE *musicFile)
     char* bytes = malloc(INIT_SIZE);
     int inTag = 0;
     
-    while(readBytes <= 500)
+    while(strcmp(bytes, "vorbis+BCV") != 0)
     {
         fread(&byte, sizeof(char), 1, musicFile);
         readBytes++;
