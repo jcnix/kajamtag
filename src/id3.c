@@ -77,6 +77,7 @@ int id3_frame(FILE *musicFile, int version)
     
     char *data = malloc(size);
     fread(data, sizeof(char), size - 1, musicFile);
+    data[size-1] = '\0';
     
     //printf("Ident: %s\n", identifier);
     //printf("Size: %d\n", size);
