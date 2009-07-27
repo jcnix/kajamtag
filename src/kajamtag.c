@@ -26,6 +26,9 @@ static int k_isOgg(char*);
 
 int kajamtag_init(char* musicString)
 {
+    if(strcmp(musicString, "") == 0)
+        return 0;
+    
     FILE *musicFile;
     
     char* identifier = k_readIdentifier(musicString);
