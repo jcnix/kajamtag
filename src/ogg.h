@@ -28,12 +28,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "kajamtag.h"
 
 #define INIT_SIZE 50*sizeof(char)
 
 int ogg_read(FILE*);
 int ogg_storeData(char*);
+char* strup(char*);
 
 #endif
 

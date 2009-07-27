@@ -68,6 +68,7 @@ int ogg_storeData(char* bytes)
         return 0;
     
     char* id = strdup(tokens);
+    id = strup(id);
     
     tokens = strtok(NULL, "=");    
     if(tokens == NULL)
@@ -85,8 +86,24 @@ int ogg_storeData(char* bytes)
     if(strcmp(id, "ALBUM ARTIST") == 0)
         k_tags.artist = data;
     
-    free(id);
-    free(bytes);
+    //free(id);
+    //free(bytes);
     bytes = malloc(INIT_SIZE);
     return 1;
+}
+
+char* strup(char* in)
+{
+    char c;
+    int i;
+    
+    for(i = 0; i < strlen(in); i++)
+    {
+        c = in[i];
+        if(islower(c))
+            c = toupper(c);
+        in[i] = c;
+    }
+    
+    return in;
 }
