@@ -31,7 +31,7 @@
 #include <ctype.h>
 #include "kajamtag.h"
 
-#define INIT_SIZE 50*sizeof(char)
+#define INIT_SIZE 100*sizeof(char)
 
 int ogg_read(FILE*);
 int ogg_storeData(char*);

@@ -25,7 +25,7 @@ int ogg_read(FILE *musicFile)
     int readBytes = 0;
     int i = 0;
     char byte = 0;
-    char* bytes = malloc(INIT_SIZE);
+    char bytes[INIT_SIZE];
     int inTag = 0;
     
     while(strcmp(bytes, "vorbis+BCV") != 0)
@@ -39,7 +39,7 @@ int ogg_read(FILE *musicFile)
         {
             if(inTag) {
                 inTag = 0;
-                *(bytes+i) = '\0';
+                bytes[i] = '\0';
                 i = 0;
                 ogg_storeData(bytes);
             }
@@ -48,7 +48,7 @@ int ogg_read(FILE *musicFile)
         else
         {
             inTag = 1;
-            *(bytes+i) = byte;
+            bytes[i] = byte;
             i++;
         }
     }
@@ -86,8 +86,6 @@ int ogg_storeData(char* bytes)
     if(strcmp(id, "ALBUM ARTIST") == 0)
         k_tags.artist = data;
     
-    //free(id);
-    //free(bytes);
     bytes = malloc(INIT_SIZE);
     return 1;
 }
