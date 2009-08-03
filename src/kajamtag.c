@@ -53,6 +53,11 @@ int kajamtag_init(char* musicString)
         int bytes = 0;
         bytes = ogg_read(musicFile);
     }
+    else {
+        k_tags.title = "Unrecognized format";
+        k_tags.artist = "Unrecognized format";
+        k_tags.album = "Unrecognized format";
+    }
     
     fclose(musicFile);
     
