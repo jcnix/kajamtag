@@ -23,7 +23,7 @@
 /* Returns the ID3 tag version */
 int id3_header(FILE *musicFile)
 {    
-    char* identifier = malloc(3);
+    char identifier[3];
     fread(identifier, sizeof(char), 3, musicFile);
     
     int majorVer;
@@ -34,12 +34,7 @@ int id3_header(FILE *musicFile)
 
     char flags = 0;
     fread(&flags, sizeof(char), 1, musicFile);
-    //int usynch = id3_getFlag(flags, 7);
-    //int exHeader = id3_getFlag(flags, 6);
-    //int exp = id3_getFlag(flags, 5);
-    //int footer = id3_getFlag(flags, 4);
-    //printf("Flags: %d %d %d %d\n", usynch, exHeader, exp, footer);
-
+    
     int size = 0;
     fread(&size, sizeof(int), 1, musicFile);
     size = TAG_TO_INT(htobe32(size));
@@ -50,7 +45,7 @@ int id3_header(FILE *musicFile)
 /* returns number of bytes the frame is */
 int id3_frame(FILE *musicFile, int version)
 {
-    char* identifier = malloc(4);
+    char identifier[4];
     fread(identifier, sizeof(char), 4, musicFile);
     
     int size = 0;
@@ -64,7 +59,6 @@ int id3_frame(FILE *musicFile, int version)
 
     //Blank header, probably done reading
     if(size == 0) {
-        free(identifier);
         return 0;
     }
 
@@ -75,13 +69,9 @@ int id3_frame(FILE *musicFile, int version)
     int skip = 0;
     fread(&skip, sizeof(char), 1, musicFile);
     
-    char *data = malloc(size);
+    char data[size];
     fread(data, sizeof(char), size - 1, musicFile);
     data[size-1] = '\0';
-    
-    //printf("Ident: %s\n", identifier);
-    //printf("Size: %d\n", size);
-    //printf("Data: %s\n", data);
     
     id3_storeData(identifier, data, size);
     
@@ -106,9 +96,6 @@ int id3_storeData(char* identifier, char* data, int size)
         k_tags.artist = malloc(size);
         strcpy(k_tags.artist, data);
     }
-    
-    free(identifier);
-    free(data);
     
     return 1;
 }
