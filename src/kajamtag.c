@@ -98,16 +98,25 @@ int k_isOgg(char* identifier)
 
 char* k_getTitle()
 {
+    if(k_tags.title == NULL)
+        k_tags.title = "NO_DATA";
+    
     return k_tags.title;
 }
 
 char* k_getAlbum()
 {
+    if(k_tags.album == NULL)
+        k_tags.album = "NO_DATA";
+    
     return k_tags.album;
 }
 
 char* k_getArtist()
 {
+    if(k_tags.artist == NULL)
+        k_tags.artist = "NO_DATA";
+    
     return k_tags.artist;
 }
 
