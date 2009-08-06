@@ -69,11 +69,18 @@ int id3_frame(FILE *musicFile, int version)
     int skip = 0;
     fread(&skip, sizeof(char), 1, musicFile);
     
-    char data[size];
+    //Using a malloc here because in some cases, we try
+    //allocating a huge amount of memory.  Using an array 
+    //we couldn't check that.
+    char* data = malloc(size);
+    if(data == NULL)
+        return 0;
+    
     fread(data, sizeof(char), size - 1, musicFile);
-    data[size-1] = '\0';
+    *(data + size-1) = '\0';
     
     id3_storeData(identifier, data, size);
+    free(data);
     
     //Add 10 to include size of frame header
     return size + 10;
