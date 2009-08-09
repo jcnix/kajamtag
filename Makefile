@@ -42,4 +42,8 @@ install: $(INCLUDE_DIR)
 	cp src/kajamtag.h $(INCLUDE_DIR)
 	cp src/id3.h $(INCLUDE_DIR)
 	cp src/ogg.h $(INCLUDE_DIR)
-    
+
+uninstall:
+	rm /usr/lib/libkajamtag.so
+	rm -rf $(INCLUDE_DIR)
+
