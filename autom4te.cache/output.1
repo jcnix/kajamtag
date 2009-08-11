@@ -2498,10 +2498,6 @@ fi
 # Define the identity of the package.
  PACKAGE=kajamtag
  VERSION=0.2
-ac_config_headers="$ac_config_headers config.h"
-
-case `pwd` in
-  *\ * | *\	*
 
 
 cat >>confdefs.h <<_ACEOF
@@ -2541,6 +2537,10 @@ am__tar='${AMTAR} chof - "$$tardir"'; am__untar='${AMTAR} xf -'
 
 
 
+ac_config_headers="$ac_config_headers config.h"
+
+case `pwd` in
+  *\ * | *\	*)
     { $as_echo "$as_me:$LINENO: WARNING: Libtool does not cope well with whitespace in \`pwd\`" >&5
 $as_echo "$as_me: WARNING: Libtool does not cope well with whitespace in \`pwd\`" >&2;} ;;
 esac

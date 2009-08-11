@@ -119,4 +119,3 @@ char* k_getArtist()
     
     return k_tags.artist;
 }
-
