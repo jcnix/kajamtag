@@ -1,3 +1,7 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*
  * File:   id3.h
  * Author: Casey Jones
@@ -40,3 +44,6 @@ int id3_getFlag(int, int);
 
 #endif
 
+#ifdef __cplusplus
+}
+#endif

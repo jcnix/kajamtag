@@ -1,3 +1,7 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*
  * File:   ogg.h
  * Author: Casey Jones
@@ -39,3 +43,6 @@ char* strup(char*);
 
 #endif
 
+#ifdef __cplusplus
+}
+#endif

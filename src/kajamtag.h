@@ -1,3 +1,7 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*
  * File:   kajamtag.h
  * Author: Casey Jones
@@ -27,11 +31,6 @@
 #include "id3.h"
 #include "ogg.h"
 
-#ifdef _cplusplus
-extern "C" {
-#endif
-
-
 struct kajamtag 
 {
     char* title;
@@ -48,8 +47,8 @@ char* k_getTitle();
 char* k_getAlbum();
 char* k_getArtist();
 
-#ifdef _cplusplus
-}
 #endif
 
+#ifdef __cplusplus
+}
 #endif
