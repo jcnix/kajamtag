@@ -7,4 +7,11 @@ build/*
 *.la
 example/kajamtag
 *~
+config.log
+config.status
+libtool
+src/.deps/
+src/.libs/
+src/Makefile
+stamp-h1
 
