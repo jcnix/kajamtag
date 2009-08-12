@@ -4,5 +4,6 @@ aclocal \
 && autoconf \
 && autoheader \
 && libtoolize \
-&& automake -a
+&& automake -a \
+&& ./configure
 
