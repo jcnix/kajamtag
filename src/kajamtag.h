@@ -28,8 +28,8 @@ extern "C" {
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "id3.h"
-#include "ogg.h"
+#include "kajamtagid3.h"
+#include "kajamtagogg.h"
 
 struct kajamtag 
 {

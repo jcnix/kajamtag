@@ -18,7 +18,7 @@
  * along with KaJamTag.  If not, see <http://www.gnu.org/licenses/>.
  */
  
-#include "ogg.h"
+#include "kajamtagogg.h"
 
 int ogg_read(FILE *musicFile)
 {
