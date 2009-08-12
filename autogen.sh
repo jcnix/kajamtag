@@ -3,5 +3,6 @@
 aclocal \
 && autoconf \
 && autoheader \
+&& libtoolize \
 && automake -a
 
