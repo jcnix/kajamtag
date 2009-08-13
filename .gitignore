@@ -1,6 +1,5 @@
 example/*.mp3
 example/*.ogg
-bin/*
 build/*
 *.o
 *.lo
@@ -28,4 +27,7 @@ m4/
 missing
 src/Makefile.in
 config.h
+bin/.deps
+bin/.libs
+bin/Makefile.in
 

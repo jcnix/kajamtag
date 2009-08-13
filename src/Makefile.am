@@ -1,2 +1,2 @@
-nobase_include_HEADERS = kajamtag.h id3.h ogg.h
+nobase_include_HEADERS = kajamtag.h kajamtagid3.h kajamtagogg.h
 
