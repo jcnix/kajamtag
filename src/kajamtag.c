@@ -119,3 +119,8 @@ char* k_getArtist()
     
     return k_tags.artist;
 }
+
+int k_getTrack()
+{
+    return k_tags.track;
+}

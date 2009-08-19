@@ -36,7 +36,7 @@ struct kajamtag
     char* title;
     char* album;
     char* artist;
-    char* track;
+    int track;
 };
 
 typedef struct kajamtag kajamtag_t;

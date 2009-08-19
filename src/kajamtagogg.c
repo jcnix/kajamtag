@@ -86,6 +86,9 @@ int ogg_storeData(char* bytes)
     if(strcmp(id, "ALBUM ARTIST") == 0)
         k_tags.artist = data;
     
+    if(strcmp(id, "TRACKNUMBER") == 0)
+        k_tags.track = atoi(data);
+    
     bytes = malloc(INIT_SIZE);
     return 1;
 }
