@@ -88,14 +88,15 @@ int id3_frame(FILE *musicFile, int version)
 
 int id3_storeData(char* identifier, char* data, int size)
 {    
+    char* d = strdup(data);
     if(strncmp(identifier, "TIT2", 4) == 0)
-        k_tags.title = strdup(data);
+        k_tags.title = d;
     else if(strncmp(identifier, "TALB", 4) == 0)
-        k_tags.album = strdup(data);
+        k_tags.album = d;
     else if(strncmp(identifier, "TPE1", 4) == 0)
-        k_tags.artist = strdup(data);
+        k_tags.artist = d;
     else if(strncmp(identifier, "TRCK", 4) == 0)
-        k_tags.track = atoi(data);
+        k_tags.track = atoi(d);
         
     
     return 1;

@@ -31,4 +31,5 @@ bin/.deps
 bin/.libs
 bin/Makefile.in
 Makefile.in
+*.tar.gz
 
