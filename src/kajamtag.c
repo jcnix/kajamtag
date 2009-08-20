@@ -120,6 +120,14 @@ char* k_getArtist()
     return k_tags.artist;
 }
 
+char* k_getGenre()
+{
+    if(k_tags.artist == NULL)
+        k_tags.artist = "NO_DATA";
+    
+    return k_tags.genre;
+}
+
 int k_getTrack()
 {
     return k_tags.track;

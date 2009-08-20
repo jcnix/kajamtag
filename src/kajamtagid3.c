@@ -95,6 +95,8 @@ int id3_storeData(char* identifier, char* data, int size)
         k_tags.album = d;
     else if(strncmp(identifier, "TPE1", 4) == 0)
         k_tags.artist = d;
+    else if(strncmp(identifier, "TCON", 4) == 0)
+        k_tags.genre = d;
     else if(strncmp(identifier, "TRCK", 4) == 0)
         k_tags.track = atoi(d);
         

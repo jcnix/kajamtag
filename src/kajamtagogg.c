@@ -79,14 +79,13 @@ int ogg_storeData(char* bytes)
     //Store some data!
     if(strcmp(id, "TITLE") == 0)
         k_tags.title = data;
-    
-    if(strcmp(id, "ALBUM") == 0)
+    else if(strcmp(id, "ALBUM") == 0)
         k_tags.album = data;
-    
-    if(strcmp(id, "ALBUM ARTIST") == 0)
+    else if(strcmp(id, "ALBUM ARTIST") == 0)
         k_tags.artist = data;
-    
-    if(strcmp(id, "TRACKNUMBER") == 0)
+    else if(strcmp(id, "GENRE") == 0)
+        k_tags.genre = data;
+    else if(strcmp(id, "TRACKNUMBER") == 0)
         k_tags.track = atoi(data);
     
     bytes = malloc(INIT_SIZE);

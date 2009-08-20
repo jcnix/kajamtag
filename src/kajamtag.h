@@ -36,6 +36,7 @@ struct kajamtag
     char* title;
     char* album;
     char* artist;
+    char* genre;
     int track;
 };
 
