@@ -46,6 +46,7 @@ int kajamtag_init(char*);
 char* k_getTitle();
 char* k_getAlbum();
 char* k_getArtist();
+int k_getTrack();
 
 #endif
 
