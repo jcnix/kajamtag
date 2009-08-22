@@ -96,6 +96,29 @@ int k_isOgg(char* identifier)
     return ogg;
 }
 
+char* k_getTag(Tag tag)
+{
+    char* data;
+    switch(tag)
+    {
+        case TITLE:
+            data = k_tags.title;
+            break;
+        case ALBUM:
+            data = k_tags.album;
+            break;
+        case ARTIST:
+            data = k_tags.artist;
+            break;
+        case GENRE:
+            data = k_tags.genre;
+            break;
+        default:
+            //Should never happen
+            break;
+    }
+}
+
 char* k_getTitle()
 {
     if(k_tags.title == NULL)

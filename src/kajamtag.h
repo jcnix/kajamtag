@@ -31,6 +31,14 @@ extern "C" {
 #include "kajamtagid3.h"
 #include "kajamtagogg.h"
 
+enum Tag {
+    TITLE,
+    ALBUM,
+    ARTIST,
+    GENRE,
+    TRACK
+};
+
 struct kajamtag 
 {
     char* title;
@@ -44,6 +52,8 @@ typedef struct kajamtag kajamtag_t;
 kajamtag_t k_tags;
 
 int kajamtag_init(char*);
+
+char* k_getTag(Tag);
 char* k_getTitle();
 char* k_getAlbum();
 char* k_getArtist();
