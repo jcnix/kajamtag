@@ -47,14 +47,14 @@ struct kajamtag
     int track;
 };
 
-const char* id3tags[] = {
+static const char* id3tags[] = {
     "TIT2",
     "TALB",
     "TPE1",
     "TCON"
 };
 
-const char* oggtags[] = {
+static const char* oggtags[] = {
     "TITLE",
     "ALBUM",
     "ALBMUM ARTIST",
