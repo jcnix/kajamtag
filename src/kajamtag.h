@@ -36,7 +36,6 @@ enum Tag {
     ALBUM,
     ARTIST,
     GENRE,
-    TRACK
 };
 
 struct kajamtag 
@@ -54,9 +53,6 @@ kajamtag_t k_tags;
 int kajamtag_init(char*);
 
 char* k_getTag(Tag);
-char* k_getTitle();
-char* k_getAlbum();
-char* k_getArtist();
 int k_getTrack();
 
 #endif
