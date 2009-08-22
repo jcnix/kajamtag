@@ -31,7 +31,7 @@ extern "C" {
 #include "kajamtagid3.h"
 #include "kajamtagogg.h"
 
-enum Tag {
+enum Ktag {
     TITLE,
     ALBUM,
     ARTIST,
@@ -52,7 +52,7 @@ kajamtag_t k_tags;
 
 int kajamtag_init(char*);
 
-char* k_getTag(Tag);
+char* k_getTag(Ktag);
 int k_getTrack();
 
 #endif
