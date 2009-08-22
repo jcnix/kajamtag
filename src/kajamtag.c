@@ -20,11 +20,13 @@
 
 #include "kajamtag.h"
 
+static const char* getId3Char(Ktag);
+static const char* getOggChar(Ktag);
 static char* k_readIdentifier(char*);
 static int k_isID3(char*);
 static int k_isOgg(char*);
 
-int kajamtag_init(char* musicString)
+int kajamtag_read(char* musicString)
 {
     if(strcmp(musicString, "") == 0)
         return 0;
@@ -64,6 +66,36 @@ int kajamtag_init(char* musicString)
     fclose(musicFile);
     
     return 1;
+}
+
+void k_writeTag(char* file, Ktag tag, char* data)
+{
+    char* ctag;
+    
+    switch(tag)
+    {
+        case KTITLE:
+            break;
+        case KALBUM:
+            break;
+        case KARTIST:
+            break;
+        case KGENRE:
+            break;
+        default:
+            //shouldn't happen
+            break;
+    }
+}
+
+static const char* getId3Char(Ktag t)
+{
+    return id3tags[t];
+}
+
+static const char* getOggChar(Ktag t)
+{
+    return oggtags[t];
 }
 
 /* Reads the first three bytes
@@ -127,22 +159,4 @@ char* k_getTag(Ktag tag)
 int k_getTrack()
 {
     return k_tags.track;
-}
-
-void k_writeTag(Ktag tag, char* data)
-{
-    switch(tag)
-    {
-        case KTITLE:
-            break;
-        case KALBUM:
-            break;
-        case KARTIST:
-            break;
-        case KGENRE:
-            break;
-        default:
-            //shouldn't happen
-            break;
-    }
 }

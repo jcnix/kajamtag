@@ -47,14 +47,27 @@ struct kajamtag
     int track;
 };
 
+const char* id3tags[] = {
+    "TIT2",
+    "TALB",
+    "TPE1",
+    "TCON"
+};
+
+const char* oggtags[] = {
+    "TITLE",
+    "ALBUM",
+    "ALBMUM ARTIST",
+    "GENRE"
+};
+
 typedef struct kajamtag kajamtag_t;
 kajamtag_t k_tags;
 
-int kajamtag_init(char*);
-
+int kajamtag_read(char*);
 char* k_getTag(Ktag);
 int k_getTrack();
-void k_writeTag(Ktag, char*);
+void k_write(char*, Ktag, char*);
 
 #endif
 
