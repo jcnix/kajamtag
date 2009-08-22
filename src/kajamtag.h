@@ -31,12 +31,12 @@ extern "C" {
 #include "kajamtagid3.h"
 #include "kajamtagogg.h"
 
-enum Ktag {
-    TITLE,
-    ALBUM,
-    ARTIST,
-    GENRE,
-};
+typedef enum {
+    KTITLE,
+    KALBUM,
+    KARTIST,
+    KGENRE,
+} Ktag;
 
 struct kajamtag 
 {

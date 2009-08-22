@@ -19,14 +19,14 @@
  */
 
 #include <stdio.h>
-#include <kajamtag/kajamtag.h>
+#include <kajamtag.h>
 
 int main()
 {
     kajamtag_init("test.mp3");
-    char* title = k_getTitle();
-    char* album = k_getAlbum();
-    char* artist = k_getArtist();
+    char* title = k_getTag(KTITLE);
+    char* album = k_getTag(KALBUM);
+    char* artist = k_getTag(KARTIST);
     
     printf("Title: %s\n", title);
     printf("Album: %s\n", album);

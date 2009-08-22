@@ -101,16 +101,16 @@ char* k_getTag(Ktag tag)
     char* data;
     switch(tag)
     {
-        case TITLE:
+        case KTITLE:
             data = k_tags.title;
             break;
-        case ALBUM:
+        case KALBUM:
             data = k_tags.album;
             break;
-        case ARTIST:
+        case KARTIST:
             data = k_tags.artist;
             break;
-        case GENRE:
+        case KGENRE:
             data = k_tags.genre;
             break;
         default:

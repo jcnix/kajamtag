@@ -99,7 +99,6 @@ int id3_storeData(char* identifier, char* data, int size)
         k_tags.genre = d;
     else if(strncmp(identifier, "TRCK", 4) == 0)
         k_tags.track = atoi(d);
-        
     
     return 1;
 }
