@@ -128,3 +128,21 @@ int k_getTrack()
 {
     return k_tags.track;
 }
+
+void k_writeTag(Ktag tag, char* data)
+{
+    switch(tag)
+    {
+        case KTITLE:
+            break;
+        case KALBUM:
+            break;
+        case KARTIST:
+            break;
+        case KGENRE:
+            break;
+        default:
+            //shouldn't happen
+            break;
+    }
+}

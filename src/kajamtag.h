@@ -54,6 +54,7 @@ int kajamtag_init(char*);
 
 char* k_getTag(Ktag);
 int k_getTrack();
+void k_writeTag(Ktag, char*);
 
 #endif
 
