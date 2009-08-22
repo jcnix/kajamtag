@@ -68,8 +68,29 @@ int kajamtag_read(char* musicString)
     return 1;
 }
 
-void k_writeTag(char* file, Ktag tag, char* data)
+int kajamtag_write(char* file, Ktag tag, char* data)
 {
+    if(strcmp(musicString, "") == 0)
+        return 0;
+    
+    FILE *musicFile;
+    
+    char* identifier = k_readIdentifier(musicString);
+    musicFile = fopen(musicString, "rb");
+    
+    int id3 = 0;
+    int ogg = 0;
+    if(k_isID3(identifier))
+    {
+        free(identifier);
+        id3 = 1;
+    }
+    else if(k_isOgg(identifier))
+    {
+        free(identifier);
+        ogg = 1;
+    }
+    
     char* ctag;
     
     switch(tag)
@@ -86,6 +107,10 @@ void k_writeTag(char* file, Ktag tag, char* data)
             //shouldn't happen
             break;
     }
+    
+    fclose(musicFile);
+    
+    return 1;
 }
 
 static const char* getId3Char(Ktag t)

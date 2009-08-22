@@ -65,9 +65,9 @@ typedef struct kajamtag kajamtag_t;
 kajamtag_t k_tags;
 
 int kajamtag_read(char*);
+int kajamtag_write(char*, Ktag, char*);
 char* k_getTag(Ktag);
 int k_getTrack();
-void k_write(char*, Ktag, char*);
 
 #endif
 
