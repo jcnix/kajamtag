@@ -43,7 +43,7 @@ int id3_header(FILE *musicFile)
 }
 
 /* returns number of bytes the frame is */
-int id3_frame(FILE *musicFile, int version)
+char* id3_frame(FILE *musicFile, int version)
 {
     char identifier[4];
     fread(identifier, sizeof(char), 4, musicFile);
@@ -59,7 +59,7 @@ int id3_frame(FILE *musicFile, int version)
 
     //Blank header, probably done reading
     if(size == 0) {
-        return 0;
+        return NULL;
     }
 
     int flags = 0;
@@ -74,7 +74,7 @@ int id3_frame(FILE *musicFile, int version)
     //we couldn't check that.
     char* data = malloc(size);
     if(data == NULL)
-        return 0;
+        return NULL;
     
     fread(data, sizeof(char), size - 1, musicFile);
     *(data + size-1) = '\0';
@@ -83,7 +83,7 @@ int id3_frame(FILE *musicFile, int version)
     free(data);
     
     //Add 10 to include size of frame header
-    return size + 10;
+    return identifier;
 }
 
 int id3_storeData(char* identifier, char* data, int size)
@@ -99,6 +99,24 @@ int id3_storeData(char* identifier, char* data, int size)
         k_tags.genre = d;
     else if(strncmp(identifier, "TRCK", 4) == 0)
         k_tags.track = atoi(d);
+    
+    return 1;
+}
+
+int id3_writeData(char* identifier, char* data)
+{
+    int size = strlen(data);
+    char *id;
+    while(id = id3_frame())
+    {
+        if(id == NULL)
+            break;
+        
+        if(strcmp(id, identifier))
+        {
+            //write
+        }
+    }
     
     return 1;
 }
