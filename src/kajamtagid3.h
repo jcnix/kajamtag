@@ -38,10 +38,16 @@ extern "C" {
 #define TAG_TO_INT(tag) ((tag) &0x7f) | (((tag) &0x7f00) >> 1) | (((tag)&0x7f0000)>>2) | (((tag)&0x7f000000)>>3)
 
 int id3_header(FILE*);
-char* id3_frame(FILE*, int);
+int id3_frame(FILE*, int);
 int id3_storeData(char*, char*, int);
 int id3_writeData(char*, char*);
 int id3_getFlag(int, int);
+
+char* id3_readID(FILE*);
+int id3_readSize(FILE*, int);
+int id3_readFlags(FILE*);
+char* id3_readData(FILE*, int);
+int id3_readByte(FILE*);
 
 #endif
 

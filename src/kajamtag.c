@@ -42,10 +42,8 @@ int kajamtag_read(char* musicString)
         int version = id3_header(musicFile);
         
         char *id;
-        while(id = id3_frame(musicFile, version)) 
+        while(id3_frame(musicFile, version)) 
         {
-            if(id == NULL)
-                break;
         }
     }
     else if(k_isOgg(identifier))
