@@ -21,23 +21,19 @@
 #include "kajamtagid3.h"
 
 /* Returns the ID3 tag version */
-int id3_header(FILE *musicFile)
+int id3_header(FILE *f)
 {    
-    char identifier[3];
-    fread(identifier, sizeof(char), 3, musicFile);
+    char *id = id3_readID(f);
     
     int majorVer;
-    fread(&majorVer, 1, 1, musicFile);
+    fread(&majorVer, 1, 1, f);
     
     int minorVer = 0;
-    fread(&minorVer, sizeof(char), 1, musicFile);
+    fread(&minorVer, 1, 1, f);
 
-    char flags = 0;
-    fread(&flags, sizeof(char), 1, musicFile);
+    char flags = id3_readFlags(f);
     
-    int size = 0;
-    fread(&size, sizeof(int), 1, musicFile);
-    size = TAG_TO_INT(htobe32(size));
+    int size = id3_readSize(f, 4);
     
     return majorVer;
 }
