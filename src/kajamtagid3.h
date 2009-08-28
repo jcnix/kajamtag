@@ -39,8 +39,8 @@ extern "C" {
 
 int id3_header(FILE*);
 int id3_frame(FILE*, int);
+int id3_write(FILE* char*, char*);
 int id3_storeData(char*, char*, int);
-int id3_writeData(char*, char*);
 int id3_getFlag(int, int);
 
 char* id3_readID(FILE*);
@@ -48,6 +48,8 @@ int id3_readSize(FILE*, int);
 int id3_readFlags(FILE*);
 char* id3_readData(FILE*, int);
 int id3_readByte(FILE*);
+int id3_writeSize(FILE*, int);
+int id3_writeData(FILE*, char*);
 
 #endif
 

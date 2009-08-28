@@ -65,6 +65,25 @@ int id3_frame(FILE *f, int version)
     return 1;
 }
 
+int id3_write(FILE* f, char* identifier, char* data)
+{
+    int size = strlen(data);
+    char *id = "";
+    
+    while(strcmp(id, identifier) != 0)
+        id = id3_readData(f);
+    
+    id3_writeSize(f, size);
+    
+    id3_readFlags(f); //advancing the file pointer
+    id3_readByte(f);
+    
+    //Write the new data
+    id3_writeData(f, data);
+    
+    return 1;
+}
+
 int id3_storeData(char* identifier, char* data, int size)
 {    
     char* d = strdup(data);
@@ -78,14 +97,6 @@ int id3_storeData(char* identifier, char* data, int size)
         k_tags.genre = d;
     else if(strncmp(identifier, "TRCK", 4) == 0)
         k_tags.track = atoi(d);
-    
-    return 1;
-}
-
-int id3_writeData(char* identifier, char* data)
-{
-    int size = strlen(data);
-    char *id;
     
     return 1;
 }
@@ -146,3 +157,14 @@ int id3_getFlag(int byte, int bit)
     return (byte & 1 << bit)? 1: 0;  
 }
 
+int id3_writeSize(FILE* f, int size)
+{
+    fwrite(&size, sizeof(int), 1, f);
+    return 1;
+}
+
+int id3_writeData(FILE* f, char* data)
+{
+    fwrite(data, sizeof(char), strlen(data) - 1, f);
+    return 1;
+}
