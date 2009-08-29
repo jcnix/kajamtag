@@ -1,3 +1,7 @@
+Sorry about lacking good documentation on how to use this library.
+There is a sample C program and Makefile in example/, which I will try keeping up to date.
+When the API gets more stable, I'll write some proper documentation.  I don't have any desire to make huge changes to the documentation right now.
+
 To install:
 ./configure
 make
@@ -6,8 +10,6 @@ make install
 This places some header files in /usr/include/kajamtag, and places a shared library in /usr/lib named libkajamtag.so
 
 To link against libkajamtag.so, append -lkajamtag to your gcc compile line.
-
-There is a sample C program and Makefile in example/
 
 C++ and Python bindings will be coming eventually.
 
