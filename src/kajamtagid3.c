@@ -71,7 +71,7 @@ int id3_write(FILE* f, char* identifier, char* data)
     char *id = "";
     
     while(strcmp(id, identifier) != 0)
-        id = id3_readData(f);
+        id = id3_readData(f, size);
     
     id3_writeSize(f, size);
     
