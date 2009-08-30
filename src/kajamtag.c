@@ -93,22 +93,7 @@ int kajamtag_write(char* file, Ktag tag, char* data)
     }
     
     char* ctag;
-    
-    switch(tag)
-    {
-        case KTITLE:
-            if(id3) id3_write(file, id3tags[tag], data, version);
-            break;
-        case KALBUM:
-            break;
-        case KARTIST:
-            break;
-        case KGENRE:
-            break;
-        default:
-            //shouldn't happen
-            break;
-    }
+        if(id3) id3_write(musicFile, id3tags[tag], data, version);
     
     fclose(musicFile);
     

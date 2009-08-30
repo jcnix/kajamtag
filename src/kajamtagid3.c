@@ -71,14 +71,15 @@ int id3_frame(FILE *f, int version)
 
 int id3_write(FILE* f, char* identifier, char* data, int version)
 {
-    printf("writing\n");
     int size = strlen(data);
     char *id = "";
     
+    fseek(f, 0, SEEK_SET);
+    id3_header(f); //advance file pointer
+    
     while(1) {
-        printf("id: %s\n", id);
         id = id3_readID(f);
-        if(strcmp(id, identifier) != 0)
+        if(strcmp(id, identifier) == 0)
             break;
         else {
             //rewind 4 bytes and finish reading the frame
@@ -87,7 +88,6 @@ int id3_write(FILE* f, char* identifier, char* data, int version)
         }
     }
     
-    printf("id: %s\n", id);
     id3_writeSize(f, size);
     
     id3_readFlags(f); //advancing the file pointer
