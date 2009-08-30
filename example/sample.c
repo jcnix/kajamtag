@@ -23,7 +23,7 @@
 
 int main()
 {
-    kajamtag_init("test.mp3");
+    kajamtag_read("test.mp3");
     char* title = k_getTag(KTITLE);
     char* album = k_getTag(KALBUM);
     char* artist = k_getTag(KARTIST);
