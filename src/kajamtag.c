@@ -78,9 +78,12 @@ int kajamtag_write(char* file, Ktag tag, char* data)
     
     int id3 = 0;
     int ogg = 0;
+    int version;
+    
     if(k_isID3(identifier))
     {
         free(identifier);
+        version = id3_header(musicFile);
         id3 = 1;
     }
     else if(k_isOgg(identifier))
@@ -94,6 +97,7 @@ int kajamtag_write(char* file, Ktag tag, char* data)
     switch(tag)
     {
         case KTITLE:
+            if(id3) id3_write(file, id3tags[tag], data, version);
             break;
         case KALBUM:
             break;

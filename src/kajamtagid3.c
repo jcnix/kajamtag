@@ -62,21 +62,32 @@ int id3_frame(FILE *f, int version)
     if(data == NULL)
         return 0;
     
-    id3_storeData(id, data, size);
+    id3_storeData(id, data);
     free(id);
     free(data);
 
     return 1;
 }
 
-int id3_write(FILE* f, char* identifier, char* data)
+int id3_write(FILE* f, char* identifier, char* data, int version)
 {
+    printf("writing\n");
     int size = strlen(data);
     char *id = "";
     
-    while(strcmp(id, identifier) != 0)
-        id = id3_readData(f, size);
+    while(1) {
+        printf("id: %s\n", id);
+        id = id3_readID(f);
+        if(strcmp(id, identifier) != 0)
+            break;
+        else {
+            //rewind 4 bytes and finish reading the frame
+            fseek(f, -4, SEEK_CUR);
+            id3_frame(f, version);
+        }
+    }
     
+    printf("id: %s\n", id);
     id3_writeSize(f, size);
     
     id3_readFlags(f); //advancing the file pointer
@@ -88,7 +99,7 @@ int id3_write(FILE* f, char* identifier, char* data)
     return 1;
 }
 
-int id3_storeData(char* identifier, char* data, int size)
+int id3_storeData(char* identifier, char* data)
 {    
     char* d = strdup(data);
     if(strncmp(identifier, "TIT2", 4) == 0)
@@ -163,12 +174,14 @@ int id3_getFlag(int byte, int bit)
 
 int id3_writeSize(FILE* f, int size)
 {
+    printf("size: %d\n", size);
     fwrite(&size, sizeof(int), 1, f);
     return 1;
 }
 
 int id3_writeData(FILE* f, char* data)
 {
+    printf("data: %s\n", data);
     fwrite(data, sizeof(char), strlen(data) - 1, f);
     return 1;
 }
