@@ -74,7 +74,7 @@ int kajamtag_write(char* file, Ktag tag, char* data)
     FILE *musicFile;
     
     char* identifier = k_readIdentifier(file);
-    musicFile = fopen(file, "rb");
+    musicFile = fopen(file, "rb+");
     
     int id3 = 0;
     int ogg = 0;
