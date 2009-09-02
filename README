@@ -3,7 +3,7 @@ There is a sample C program and Makefile in example/, which I will try keeping u
 When the API gets more stable, I'll write some proper documentation.  I don't have any desire to make huge changes to the documentation right now.
 
 To install:
-./configure
+./autogen.sh
 make
 make install
 
