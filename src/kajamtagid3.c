@@ -182,6 +182,6 @@ int id3_writeSize(FILE* f, int size)
 int id3_writeData(FILE* f, char* data)
 {
     printf("data: %s\n", data);
-    fwrite(data, sizeof(char), strlen(data) - 1, f);
+    fwrite(data, sizeof(char), strlen(data), f);
     return 1;
 }
