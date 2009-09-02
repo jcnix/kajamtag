@@ -25,12 +25,13 @@ int ogg_read(FILE *musicFile)
     int readBytes = 0;
     int i = 0;
     char byte = 0;
-    char bytes[INIT_SIZE];
+    char strData[INIT_SIZE];
     int inTag = 0;
+    size_t bytes;
     
-    while(strcmp(bytes, "vorbis+BCV") != 0)
+    while(strcmp(strData, "vorbis+BCV") != 0)
     {
-        fread(&byte, sizeof(char), 1, musicFile);
+        bytes = fread(&byte, sizeof(char), 1, musicFile);
         readBytes++;
         
         /* Not an Alpha character, we'll assume
@@ -39,16 +40,16 @@ int ogg_read(FILE *musicFile)
         {
             if(inTag) {
                 inTag = 0;
-                bytes[i] = '\0';
+                strData[i] = '\0';
                 i = 0;
-                ogg_storeData(bytes);
+                ogg_storeData(strData);
             }
         }
         /* We're reading alpha characters, store these */
         else
         {
             inTag = 1;
-            bytes[i] = byte;
+            strData[i] = byte;
             i++;
         }
     }

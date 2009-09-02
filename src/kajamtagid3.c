@@ -22,22 +22,23 @@
 
 /* Returns the ID3 tag version */
 int id3_header(FILE *musicFile)
-{    
+{
+    size_t bytes;
     char identifier[3];
-    fread(identifier, sizeof(char), 3, musicFile);
+    bytes = fread(identifier, sizeof(char), 3, musicFile);
     
     int majorVer;
-    fread(&majorVer, 1, 1, musicFile);
+    bytes = fread(&majorVer, 1, 1, musicFile);
     
     int minorVer = 0;
-    fread(&minorVer, sizeof(char), 1, musicFile);
+    bytes = fread(&minorVer, sizeof(char), 1, musicFile);
 
     char flags = 0;
-    fread(&flags, sizeof(char), 1, musicFile);
+    bytes = fread(&flags, sizeof(char), 1, musicFile);
     
     int size = 0;
     fread(&size, sizeof(int), 1, musicFile);
-    size = TAG_TO_INT(htobe32(size));
+    bytes = size = TAG_TO_INT(htobe32(size));
     
     return majorVer;
 }
@@ -119,14 +120,14 @@ int id3_storeData(char* identifier, char* data)
 char* id3_readID(FILE* f)
 {
     char *id = malloc(4*sizeof(char));
-    fread(id, sizeof(char), 4, f);
+    size_t bytes = fread(id, sizeof(char), 4, f);
     return id;
 }
 
 int id3_readSize(FILE* f, int version)
 {
     int size = 0;
-    fread(&size, sizeof(int), 1, f);
+    size_t bytes = fread(&size, sizeof(int), 1, f);
     
     //ID3 2.4 uses synchronized ints, 2.3 does not 
     if(version == 4) 
@@ -140,7 +141,7 @@ int id3_readSize(FILE* f, int version)
 int id3_readFlags(FILE* f)
 {
     int flags = 0;
-    fread(&flags, 2, 1, f);
+    size_t bytes = fread(&flags, 2, 1, f);
     return flags;
 }
 
@@ -153,7 +154,7 @@ char* id3_readData(FILE* f, int size)
     if(data == NULL)
         return NULL;
     
-    fread(data, sizeof(char), size - 1, f);
+    size_t bytes = fread(data, sizeof(char), size - 1, f);
     *(data + size-1) = '\0';
     
     return data;
@@ -162,7 +163,7 @@ char* id3_readData(FILE* f, int size)
 int id3_readByte(FILE* f)
 {
     int byte = 0;
-    fread(&byte, sizeof(char), 1, f);
+    size_t bytes = fread(&byte, sizeof(char), 1, f);
     return byte;
 }
 
@@ -175,13 +176,13 @@ int id3_getFlag(int byte, int bit)
 int id3_writeSize(FILE* f, int size)
 {
     printf("size: %d\n", size);
-    fwrite(&size, sizeof(int), 1, f);
+    size_t bytes = fwrite(&size, sizeof(int), 1, f);
     return 1;
 }
 
 int id3_writeData(FILE* f, char* data)
 {
     printf("data: %s\n", data);
-    fwrite(data, sizeof(char), strlen(data), f);
+    size_t bytes = fwrite(data, sizeof(char), strlen(data), f);
     return 1;
 }
