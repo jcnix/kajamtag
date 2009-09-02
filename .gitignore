@@ -32,4 +32,5 @@ bin/.libs
 bin/Makefile.in
 Makefile.in
 *.tar.gz
+*.bak
 

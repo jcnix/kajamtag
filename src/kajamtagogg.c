@@ -1,5 +1,5 @@
 /*
- * File:   ogg.c
+ * File:   kajamtagogg.c
  * Author: Casey Jones
  *
  * This file is part of KaJamTag.

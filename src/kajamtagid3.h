@@ -3,7 +3,7 @@ extern "C" {
 #endif
 
 /*
- * File:   id3.h
+ * File:   kajamtagid3.h
  * Author: Casey Jones
  *
  * This file is part of KaJamTag.

@@ -1,5 +1,5 @@
 /*
- * File:   id3.c
+ * File:   kajamtagid3.c
  * Author: Casey Jones
  *
  * This file is part of KaJamTag.
