@@ -70,8 +70,9 @@ int id3_frame(FILE *f, int version)
     return 1;
 }
 
-int id3_write(FILE* f, char* identifier, char* data, int version)
+int id3_write(FILE* f, char* identifier, char* data)
 {
+    int version = id3_header(f);
     int size = strlen(data);
     char *id = "";
     
