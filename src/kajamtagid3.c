@@ -75,9 +75,6 @@ int id3_write(FILE* f, char* identifier, char* data, int version)
     int size = strlen(data);
     char *id = "";
     
-    fseek(f, 0, SEEK_SET);
-    id3_header(f); //advance file pointer
-    
     while(1) {
         id = id3_readID(f);
         if(strcmp(id, identifier) == 0)
@@ -175,14 +172,12 @@ int id3_getFlag(int byte, int bit)
 
 int id3_writeSize(FILE* f, int size)
 {
-    printf("size: %d\n", size);
     size_t bytes = fwrite(&size, sizeof(int), 1, f);
     return 1;
 }
 
 int id3_writeData(FILE* f, char* data)
 {
-    printf("data: %s\n", data);
     size_t bytes = fwrite(data, sizeof(char), strlen(data), f);
     return 1;
 }

@@ -23,6 +23,8 @@
 
 int main()
 {
+    kajamtag_write("test.mp3", KTITLE, "test");
+    
     kajamtag_read("test.mp3");
     char* title = k_getTag(KTITLE);
     char* album = k_getTag(KALBUM);
@@ -31,8 +33,6 @@ int main()
     printf("Title: %s\n", title);
     printf("Album: %s\n", album);
     printf("Artist: %s\n", artist);
-    
-    kajamtag_write("test.mp3", KTITLE, "test");
     
     return 1;
 }
