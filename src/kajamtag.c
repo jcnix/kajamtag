@@ -18,7 +18,7 @@
  * along with KaJamTag.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "kajamtag.h"
+#include "kajamtag/kajamtag.h"
 
 static const char* getId3Char(Ktag);
 static const char* getOggChar(Ktag);

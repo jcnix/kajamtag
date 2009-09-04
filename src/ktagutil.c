@@ -1,9 +1,5 @@
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /*
- * File:   kajamtagogg.h
+ * File:   kajamtagutility.c
  * Author: Casey Jones
  *
  * This file is part of KaJamTag.
@@ -22,27 +18,17 @@ extern "C" {
  * along with KaJamTag.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * Kajamtag Ogg tag reader
- */
+#include "kajamtag/ktagutil.h"
 
-#ifndef _OGG_H
-#define _OGG_H
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-#include "kajamtag.h"
-
-#define INIT_SIZE 100*sizeof(char)
-
-int ogg_read(FILE*);
-int ogg_storeData(char*);
-char* strup(char*);
-
-#endif
-
-#ifdef __cplusplus
+/* Used after freads and fwrites
+ * If the real number of bytes read doesn't match how many
+ * bytes should have been read return false */
+//TODO: return something more fatal than 0 or 1
+// stop execution perhaps?
+int error(size_t real, int desired)
+{
+    if(real == desired)
+        return 1;
+    else
+        return 0;
 }
-#endif

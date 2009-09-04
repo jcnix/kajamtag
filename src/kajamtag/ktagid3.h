@@ -1,9 +1,5 @@
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /*
- * File:   kajamtag.h
+ * File:   kajamtagid3.h
  * Author: Casey Jones
  *
  * This file is part of KaJamTag.
@@ -22,52 +18,39 @@ extern "C" {
  * along with KaJamTag.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef _KAJAMTAG_H
-#define _KAJAMTAG_H
+/*
+ * Kajamtag ID3 tag reader
+ */
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
+#ifndef _ID3_H
+#define _ID3_H
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "kajamtagid3.h"
-#include "kajamtagogg.h"
+#include <endian.h>
+#include "kajamtag.h"
 
-typedef enum {
-    KTITLE,
-    KALBUM,
-    KARTIST,
-    KGENRE,
-} Ktag;
+#define TAG_TO_INT(tag) ((tag) &0x7f) | (((tag) &0x7f00) >> 1) | (((tag)&0x7f0000)>>2) | (((tag)&0x7f000000)>>3)
 
-struct kajamtag 
-{
-    char* title;
-    char* album;
-    char* artist;
-    char* genre;
-    int track;
-};
+int id3_header(FILE*);
+int id3_frame(FILE*, int);
+int id3_write(FILE*, char*, char*);
+int id3_storeData(char*, char*);
+int id3_getFlag(int, int);
 
-static const char* id3tags[] = {
-    "TIT2",
-    "TALB",
-    "TPE1",
-    "TCON"
-};
-
-static const char* oggtags[] = {
-    "TITLE",
-    "ALBUM",
-    "ALBMUM ARTIST",
-    "GENRE"
-};
-
-typedef struct kajamtag kajamtag_t;
-kajamtag_t k_tags;
-
-int kajamtag_read(char*);
-int kajamtag_write(char*, Ktag, char*);
-char* k_getTag(Ktag);
-int k_getTrack();
+char* id3_readID(FILE*);
+int id3_readSize(FILE*, int);
+int id3_readFlags(FILE*);
+char* id3_readData(FILE*, int);
+int id3_readByte(FILE*);
+int id3_writeSize(FILE*, int);
+int id3_writeData(FILE*, char*);
 
 #endif
 
