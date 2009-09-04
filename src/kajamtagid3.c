@@ -75,18 +75,25 @@ int id3_write(FILE* f, char* identifier, char* data)
     int version = id3_header(f);
     int size = strlen(data);
     char *id = "";
+    int oldSize = 0;
     
     while(1) {
         id = id3_readID(f);
-        if(strcmp(id, identifier) == 0)
-            break;
-        else {
-            //rewind 4 bytes and finish reading the frame
+        
+        if(strcmp(id, identifier) == 0) {
+            oldSize = id3_readSize(f, version);
             fseek(f, -4, SEEK_CUR);
-            id3_frame(f, version);
+            
+            break;
+        }
+        else {
+            //rewind 4 bytes since readID reads 4 bytes
+            //and finish reading the frame
+            fseek(f, -4, SEEK_CUR);
         }
     }
     
+    int diffSize = oldSize - size;
     id3_writeSize(f, size);
     
     id3_readFlags(f); //advancing the file pointer
