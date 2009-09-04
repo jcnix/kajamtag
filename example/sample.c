@@ -19,7 +19,7 @@
  */
 
 #include <stdio.h>
-#include <kajamtag.h>
+#include <kajamtag/kajamtag.h>
 
 int main()
 {
