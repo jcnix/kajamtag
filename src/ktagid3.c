@@ -46,21 +46,14 @@ int id3_header(FILE *musicFile)
 /* returns number of bytes the frame is */
 int id3_frame(FILE *f, int version)
 {
-    char *id = id3_readID(f);
+    char *id;
+    int size;
+    int flags;
+    char *data;
     
-    int size = id3_readSize(f, version);
-    //Blank header, probably done reading
-    if(size == 0) {
-        return 0;
-    }
-
-    int flags = id3_readFlags(f);
+    int read = id3_readFullFrame(f, version, &id, &size, &flags, &data);
     
-    //skip a byte, not sure what the blank byte is for... padding?
-    id3_readByte(f);
-    
-    char *data = id3_readData(f, size);
-    if(data == NULL)
+    if(!read)
         return 0;
     
     id3_storeData(id, data);
@@ -102,6 +95,10 @@ int id3_write(FILE* f, char* identifier, char* data)
     //Write the new data
     id3_writeData(f, data);
     
+    //Rewrite the rest of the data
+    char oldData[oldSize];
+    fread(oldData, sizeof(char), oldSize, f);    
+    
     return 1;
 }
 
@@ -118,6 +115,26 @@ int id3_storeData(char* identifier, char* data)
         k_tags.genre = d;
     else if(strncmp(identifier, "TRCK", 4) == 0)
         k_tags.track = atoi(d);
+    
+    return 1;
+}
+
+//This function reads a frame and returns all data
+int id3_readFullFrame(FILE* f, int version, char **id, int *size, int *flags, char **data)
+{    
+    *id = id3_readID(f);
+    
+    *size = id3_readSize(f, version);
+    //Blank header, probably done reading
+    if(*size == 0 || *size > 32000) // ~32kb
+        return 0;
+    
+    *flags = id3_readFlags(f);
+    id3_readByte(f); //skip a byte
+    
+    *data = id3_readData(f, *size);
+    if(data == NULL)
+        return 0;
     
     return 1;
 }

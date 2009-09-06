@@ -44,6 +44,7 @@ int id3_write(FILE*, char*, char*);
 int id3_storeData(char*, char*);
 int id3_getFlag(int, int);
 
+int id3_readFullFrame(FILE*, int, char**, int*, int*, char**);
 char* id3_readID(FILE*);
 int id3_readSize(FILE*, int);
 int id3_readFlags(FILE*);
