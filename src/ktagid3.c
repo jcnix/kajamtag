@@ -37,8 +37,8 @@ int id3_header(FILE *musicFile)
     bytes = fread(&flags, sizeof(char), 1, musicFile);
     
     int size = 0;
-    fread(&size, sizeof(int), 1, musicFile);
-    bytes = size = TAG_TO_INT(htobe32(size));
+    bytes = fread(&size, sizeof(int), 1, musicFile);
+    size = TAG_TO_INT(htobe32(size));
     
     return majorVer;
 }
