@@ -90,14 +90,21 @@ int id3_write(FILE* f, char* identifier, char* data)
     id3_writeSize(f, size);
     
     id3_readFlags(f); //advancing the file pointer
-    id3_readByte(f);
+    id3_readByte(f, 1);
     
     //Write the new data
     id3_writeData(f, data);
     
-    //Rewrite the rest of the data
-    char oldData[oldSize];
-    fread(oldData, sizeof(char), oldSize, f);    
+    /* Rewrite the rest of the data */
+    id3_readByte(f, oldSize); //advance file pointer
+    char *id, *data;
+    int size, flags;    
+    int read = id3_readFullFrame(f, version, &id, &size, &flags, &data);
+    fseek(f, -oldSize, SEEK_CUR); //rewind back to end of last tag
+    fwrite(id, sizeof(char), strlen(id), f);
+    fwrite(size, sizeof(char), 1, f);
+    fwrite(flags, sizeof(char), strlen(flags), f);
+    fwrite(data, sizeof(char), strlen(data), f);
     
     return 1;
 }
@@ -182,11 +189,11 @@ char* id3_readData(FILE* f, int size)
     return data;
 }
 
-int id3_readByte(FILE* f)
+void id3_readByte(FILE* f, int size)
 {
-    int byte = 0;
-    size_t bytes = fread(&byte, sizeof(char), 1, f);
-    return byte;
+    char* data = malloc(size);
+    size_t bytes = fread(data, sizeof(char), size, f);
+    free(data);
 }
 
 /* returns 0 or 1, depending on if a flag is set or not */

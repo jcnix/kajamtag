@@ -1,5 +1,5 @@
 /*
- * File:   testprogram.c
+ * File:   sample.c
  * Author: Casey Jones
  *
  * This file is part of KaJamTag.
