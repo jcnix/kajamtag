@@ -96,15 +96,19 @@ int id3_write(FILE* f, char* identifier, char* data)
     id3_writeData(f, data);
     
     /* Rewrite the rest of the data */
-    id3_readByte(f, oldSize); //advance file pointer
-    char *id, *data;
-    int size, flags;    
-    int read = id3_readFullFrame(f, version, &id, &size, &flags, &data);
-    fseek(f, -oldSize, SEEK_CUR); //rewind back to end of last tag
-    fwrite(id, sizeof(char), strlen(id), f);
-    fwrite(size, sizeof(char), 1, f);
-    fwrite(flags, sizeof(char), strlen(flags), f);
-    fwrite(data, sizeof(char), strlen(data), f);
+    int read = 1;
+    while(read != 0)
+    {
+        id3_readByte(f, oldSize); //advance file pointer
+        char *id, *data;
+        int size, flags;    
+        read = id3_readFullFrame(f, version, &id, &size, &flags, &data);
+        fseek(f, -oldSize, SEEK_CUR); //rewind back to end of last tag
+        fwrite(id, sizeof(char), strlen(id), f);
+        fwrite(size, sizeof(char), 1, f);
+        fwrite(flags, sizeof(char), strlen(flags), f);
+        fwrite(data, sizeof(char), strlen(data), f);
+    }
     
     return 1;
 }
@@ -137,7 +141,7 @@ int id3_readFullFrame(FILE* f, int version, char **id, int *size, int *flags, ch
         return 0;
     
     *flags = id3_readFlags(f);
-    id3_readByte(f); //skip a byte
+    id3_readByte(f, 1); //skip a byte
     
     *data = id3_readData(f, *size);
     if(data == NULL)

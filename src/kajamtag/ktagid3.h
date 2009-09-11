@@ -49,7 +49,7 @@ char* id3_readID(FILE*);
 int id3_readSize(FILE*, int);
 int id3_readFlags(FILE*);
 char* id3_readData(FILE*, int);
-int id3_readByte(FILE*, int);
+void id3_readByte(FILE*, int);
 int id3_writeSize(FILE*, int);
 int id3_writeData(FILE*, char*);
 
