@@ -99,15 +99,18 @@ int id3_write(FILE* f, char* identifier, char* data)
     int read = 1;
     while(read != 0)
     {
-        id3_readByte(f, oldSize); //advance file pointer
-        char *id, *data;
-        int size, flags;    
-        read = id3_readFullFrame(f, version, &id, &size, &flags, &data);
+        printf("%d\n", diffSize);
+        id3_readByte(f, diffSize); //advance file pointer
+        char *nid, *ndata;
+        int nsize, flags;
+        read = id3_readFullFrame(f, version, &nid, &nsize, &flags, &ndata);
+        printf("%s\n", nid);
+        printf("%s\n", ndata);
         fseek(f, -oldSize, SEEK_CUR); //rewind back to end of last tag
-        fwrite(id, sizeof(char), strlen(id), f);
-        fwrite(size, sizeof(char), 1, f);
-        fwrite(flags, sizeof(char), strlen(flags), f);
-        fwrite(data, sizeof(char), strlen(data), f);
+        fwrite(nid, sizeof(char), strlen(id), f);
+        fwrite(&nsize, sizeof(char), 1, f);
+        fwrite(&flags, 2, 1, f);
+        fwrite(ndata, sizeof(char), strlen(data), f);
     }
     
     return 1;
