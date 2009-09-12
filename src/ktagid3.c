@@ -90,7 +90,7 @@ int id3_write(FILE* f, char* identifier, char* data)
     
     int diffSize = oldSize - size;
     printf("Diff Size: %d\n", diffSize);
-    id3_writeSize(f, size);
+    id3_writeSize(f, size, version);
     
     id3_readFlags(f); //advancing the file pointer
     id3_readByte(f, 1);
@@ -110,9 +110,9 @@ int id3_write(FILE* f, char* identifier, char* data)
         printf("%s\n", ndata);
         fseek(f, -diffSize, SEEK_CUR); //rewind back to end of last tag
         fwrite(nid, sizeof(char), strlen(id), f);
-        fwrite(&nsize, sizeof(char), 1, f);
+        id3_writeSize(f, nsize, version);
         fwrite(&flags, 2, 1, f);
-        fwrite(ndata, sizeof(char), strlen(data), f);
+        id3_writeData(f, ndata);
     }
     
     return 1;
@@ -167,7 +167,7 @@ int id3_readSize(FILE* f, int version)
     int size = 0;
     size_t bytes = fread(&size, sizeof(int), 1, f);
     
-    //ID3 2.4 uses synchronized ints, 2.3 does not 
+    //ID3 2.4 uses synchronized ints, 2.3 does not    
     if(version == 4) 
         size = TAG_TO_INT(htobe32(size));
     else if(version == 3) 
@@ -211,8 +211,13 @@ int id3_getFlag(int byte, int bit)
     return (byte & 1 << bit)? 1: 0;  
 }
 
-int id3_writeSize(FILE* f, int size)
+int id3_writeSize(FILE* f, int size, int version)
 {
+    if(version == 4)
+        size = INT_TO_TAG(be32toh(size));
+    else if(version == 3)
+        size = be32toh(size);
+    
     size_t bytes = fwrite(&size, sizeof(int), 1, f);
     return 1;
 }
