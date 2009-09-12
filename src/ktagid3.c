@@ -89,7 +89,7 @@ int id3_write(FILE* f, char* identifier, char* data)
     }
     
     int diffSize = oldSize - size;
-    printf("Diff Size%d\n", diffSize);
+    printf("Diff Size: %d\n", diffSize);
     id3_writeSize(f, size);
     
     id3_readFlags(f); //advancing the file pointer
@@ -102,13 +102,13 @@ int id3_write(FILE* f, char* identifier, char* data)
     int read = 1;
     while(read != 0)
     {
-        id3_readByte(f, diffSize); //advance file pointer
+        fseek(f, diffSize, SEEK_CUR); //advance file pointer
         char *nid, *ndata;
         int nsize, flags;
         read = id3_readFullFrame(f, version, &nid, &nsize, &flags, &ndata);
         printf("%s\n", nid);
         printf("%s\n", ndata);
-        fseek(f, -oldSize, SEEK_CUR); //rewind back to end of last tag
+        fseek(f, -diffSize, SEEK_CUR); //rewind back to end of last tag
         fwrite(nid, sizeof(char), strlen(id), f);
         fwrite(&nsize, sizeof(char), 1, f);
         fwrite(&flags, 2, 1, f);
