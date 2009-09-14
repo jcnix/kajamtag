@@ -58,7 +58,7 @@ static const char* id3tags[] = {
 static const char* oggtags[] = {
     "TITLE",
     "ALBUM",
-    "ALBMUM ARTIST",
+    "ALBUM ARTIST",
     "GENRE"
 };
 

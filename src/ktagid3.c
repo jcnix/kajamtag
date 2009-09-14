@@ -167,10 +167,10 @@ int id3_readSize(FILE* f, int version)
     int size = 0;
     size_t bytes = fread(&size, sizeof(int), 1, f);
     
-    //ID3 2.4 uses synchronized ints, 2.3 does not    
-    if(version == 4) 
+    //ID3 2.4 uses synchronized ints, 2.3 does not
+    if(version == 4)
         size = TAG_TO_INT(htobe32(size));
-    else if(version == 3) 
+    else if(version == 3)
         size = htobe32(size);
     
     return size;
