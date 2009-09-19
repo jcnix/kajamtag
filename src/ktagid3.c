@@ -67,7 +67,6 @@ int id3_write(FILE* f, char* identifier, char* data)
 {
     int version = id3_header(f);
     int size = strlen(data);
-    printf("New Size: %d\n", size);
     char *id = "";
     int oldSize = 0;
     
@@ -76,7 +75,6 @@ int id3_write(FILE* f, char* identifier, char* data)
         
         if(strcmp(id, identifier) == 0) {
             oldSize = id3_readSize(f, version) - 1; //subtract null
-            printf("Old Size: %d\n", oldSize);
             fseek(f, -4, SEEK_CUR);
             
             break;
@@ -89,7 +87,6 @@ int id3_write(FILE* f, char* identifier, char* data)
     }
     
     int diffSize = oldSize - size;
-    printf("Diff Size: %d\n", diffSize);
     id3_writeSize(f, size, version);
     
     id3_readFlags(f); //advancing the file pointer
@@ -97,22 +94,30 @@ int id3_write(FILE* f, char* identifier, char* data)
     
     //Write the new data
     id3_writeData(f, data);
+    printf("pos: %ld\n", ftell(f));
     
     /* Rewrite the rest of the data */
     int read = 1;
+    char *nid, *ndata;
+    int nsize, flags;
     while(read != 0)
     {
         fseek(f, diffSize, SEEK_CUR); //advance file pointer
-        char *nid, *ndata;
-        int nsize, flags;
+        printf("pos: %ld\n", ftell(f));
+        
         read = id3_readFullFrame(f, version, &nid, &nsize, &flags, &ndata);
-        printf("%s\n", nid);
-        printf("%s\n", ndata);
-        fseek(f, -diffSize, SEEK_CUR); //rewind back to end of last tag
+        printf("pos: %ld\n", ftell(f));
+        printf("next id: %s\n", nid);
+        printf("next size: %d\n", nsize);
+        printf("next data: %s\n", ndata);
+        fseek(f, -diffSize - (10 + nsize), SEEK_CUR); //rewind back to end of last tag
+        printf("pos: %d\n", ftell(f));
+        
         fwrite(nid, sizeof(char), strlen(id), f);
         id3_writeSize(f, nsize, version);
         fwrite(&flags, 2, 1, f);
         id3_writeData(f, ndata);
+        printf("pos: %ld\n", ftell(f));
     }
     
     return 1;
@@ -213,6 +218,7 @@ int id3_getFlag(int byte, int bit)
 
 int id3_writeSize(FILE* f, int size, int version)
 {
+    size += 1;
     if(version == 4)
         size = INT_TO_TAG(be32toh(size));
     else if(version == 3)
