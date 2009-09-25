@@ -116,6 +116,7 @@ int id3_write(FILE* f, char* identifier, char* data)
         fwrite(nid, sizeof(char), strlen(id), f);
         id3_writeSize(f, nsize, version);
         fwrite(&flags, 2, 1, f);
+        fwrite("\0", 1, 1, f); 
         id3_writeData(f, ndata);
         printf("pos: %ld\n", ftell(f));
     }
