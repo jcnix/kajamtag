@@ -70,6 +70,7 @@ int id3_write(FILE* f, char* identifier, char* data)
     char *id = "";
     int oldSize = 0;
     
+    //Find the frame we want to rewrite
     while(1) {
         id = id3_readID(f);
         
@@ -87,14 +88,13 @@ int id3_write(FILE* f, char* identifier, char* data)
     }
     
     int diffSize = oldSize - size;
-    id3_writeSize(f, size, version);
+    id3_writeSize(f, size + 1, version); //add null
     
     id3_readFlags(f); //advancing the file pointer
     id3_readByte(f, 1);
     
     //Write the new data
     id3_writeData(f, data);
-    printf("pos: %ld\n", ftell(f));
     
     /* Rewrite the rest of the data */
     int read = 1;
@@ -103,22 +103,15 @@ int id3_write(FILE* f, char* identifier, char* data)
     while(read != 0)
     {
         fseek(f, diffSize, SEEK_CUR); //advance file pointer
-        printf("pos: %ld\n", ftell(f));
-        
         read = id3_readFullFrame(f, version, &nid, &nsize, &flags, &ndata);
-        printf("pos: %ld\n", ftell(f));
-        printf("next id: %s\n", nid);
-        printf("next size: %d\n", nsize);
-        printf("next data: %s\n", ndata);
-        fseek(f, -diffSize - (10 + nsize), SEEK_CUR); //rewind back to end of last tag
-        printf("pos: %d\n", ftell(f));
+        //rewind back to where we need to write
+        fseek(f, -diffSize - (10 + nsize), SEEK_CUR);
         
         fwrite(nid, sizeof(char), strlen(id), f);
         id3_writeSize(f, nsize, version);
         fwrite(&flags, 2, 1, f);
         fwrite("\0", 1, 1, f); 
         id3_writeData(f, ndata);
-        printf("pos: %ld\n", ftell(f));
     }
     
     return 1;
@@ -219,7 +212,6 @@ int id3_getFlag(int byte, int bit)
 
 int id3_writeSize(FILE* f, int size, int version)
 {
-    size += 1;
     if(version == 4)
         size = INT_TO_TAG(be32toh(size));
     else if(version == 3)
