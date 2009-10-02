@@ -92,15 +92,9 @@ int id3_write(FILE* f, char* identifier, char* data)
             read = id3_readFullFrame(f, version, &nid, &nsize, &flags, &ndata);
         }
     }
+    int position = ftell(f); //bookmark location
     
     int diffSize = oldSize - size;
-    id3_writeSize(f, size + 1, version); //add null
-    
-    id3_readFlags(f); //advancing the file pointer
-    id3_readByte(f, 1);
-    
-    //Write the new data
-    id3_writeData(f, data);
     
     /* Rewrite the rest of the data */
     while(read != 0)
@@ -116,6 +110,17 @@ int id3_write(FILE* f, char* identifier, char* data)
         fwrite("\0", 1, 1, f); 
         id3_writeData(f, ndata);
     }
+    
+    fseek(f, position, SEEK_SET); //return to where the data should go
+    
+    //add terminating null of the data string
+    id3_writeSize(f, size + 1, version);
+    
+    id3_readFlags(f); //advancing the file pointer
+    id3_readByte(f, 1);
+    
+    //Write the new data
+    id3_writeData(f, data);
     
     return 1;
 }

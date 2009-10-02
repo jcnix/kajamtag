@@ -23,9 +23,9 @@
 
 int main()
 {
-    kajamtag_write("test.mp3", KTITLE, "test");
+    kajamtag_write("test2.mp3", KTITLE, "Some really long string that should be long");
     
-    kajamtag_read("test.mp3");
+    kajamtag_read("test2.mp3");
     char* title = k_getTag(KTITLE);
     char* album = k_getTag(KALBUM);
     char* artist = k_getTag(KARTIST);
