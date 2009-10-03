@@ -95,20 +95,25 @@ int id3_write(FILE* f, char* identifier, char* data)
     int diffSize = oldSize - size;
     fseek(f, oldSize+7, SEEK_CUR); //advance file pointer
     
-    /* Rewrite the rest of the data */
-    while(read != 0)
-    {
+    /* Rewrite the rest of the data
+     * We're going to cheat a little here and find how much data there is left
+     * and then read the rest as a big hunk and then write it again.
+     * This is because we'd have to read backwards if the new data is
+     * larger than the old data, otherwise we'd overwrite data we haven't read yet.*/
+    int sumSize = 0;
+    while(read != 0) {
         read = id3_readFullFrame(f, version, &nid, &nsize, &flags, &ndata);
-        //rewind back to where we need to write
-        fseek(f, -diffSize - (10 + nsize), SEEK_CUR);
-        
-        fwrite(nid, sizeof(char), strlen(id), f);
-        id3_writeSize(f, nsize, version);
-        fwrite(&flags, 2, 1, f);
-        fwrite("\0", 1, 1, f); 
-        id3_writeData(f, ndata);
-        fseek(f, diffSize, SEEK_CUR);
+        if(nsize < 500000) // ~500kb
+        {
+            sumSize += nsize + 11;
+        }
     }
+    fseek(f, position + oldSize + 7, SEEK_SET);
+    char* bigBuffer = malloc(sumSize);
+    fread(bigBuffer, sizeof(char), sumSize, f);
+    //return to original spot, and adjust to where the new spot should be
+    fseek(f, -sumSize - diffSize, SEEK_CUR);
+    fwrite(bigBuffer, sizeof(char), sumSize, f); //write the big hunk
     
     fseek(f, position, SEEK_SET); //return to where the data should go
     
