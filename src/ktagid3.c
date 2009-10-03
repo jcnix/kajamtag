@@ -77,12 +77,10 @@ int id3_write(FILE* f, char* identifier, char* data)
     //Find the frame we want to rewrite
     while(read != 0) {
         id = id3_readID(f);
-        printf("id: %s\n", id);
         
         if(strcmp(id, identifier) == 0) {
             oldSize = id3_readSize(f, version) - 1; //subtract null
             fseek(f, -4, SEEK_CUR);
-            
             break;
         }
         else {
@@ -95,11 +93,11 @@ int id3_write(FILE* f, char* identifier, char* data)
     int position = ftell(f); //bookmark location
     
     int diffSize = oldSize - size;
+    fseek(f, oldSize+7, SEEK_CUR); //advance file pointer
     
     /* Rewrite the rest of the data */
     while(read != 0)
     {
-        fseek(f, diffSize, SEEK_CUR); //advance file pointer
         read = id3_readFullFrame(f, version, &nid, &nsize, &flags, &ndata);
         //rewind back to where we need to write
         fseek(f, -diffSize - (10 + nsize), SEEK_CUR);
@@ -109,6 +107,7 @@ int id3_write(FILE* f, char* identifier, char* data)
         fwrite(&flags, 2, 1, f);
         fwrite("\0", 1, 1, f); 
         id3_writeData(f, ndata);
+        fseek(f, diffSize, SEEK_CUR);
     }
     
     fseek(f, position, SEEK_SET); //return to where the data should go
