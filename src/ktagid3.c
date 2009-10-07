@@ -126,6 +126,15 @@ int id3_write(FILE* f, char* identifier, char* data)
     //Write the new data
     id3_writeData(f, data);
     
+    //Rewrite the ID3 tag size in the header
+    fseek(f, 6, SEEK_SET);
+    int isize = 0;
+    fread(&isize, sizeof(int), 1, f);
+    fseek(f, 6, SEEK_SET); //return to where we were
+    isize = TAG_TO_INT(htobe32(isize));
+    isize = htobe32(TAG_TO_INT(isize - diffSize));
+    fwrite(&isize, sizeof(int), 1, f);
+
     return 1;
 }
 
