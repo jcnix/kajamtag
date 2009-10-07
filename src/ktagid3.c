@@ -234,7 +234,7 @@ int id3_getFlag(int byte, int bit)
 int id3_writeSize(FILE* f, int size, int version)
 {
     if(version == 4)
-        size = INT_TO_TAG(be32toh(size));
+        size = htobe32(TAG_TO_INT(size));
     else if(version == 3)
         size = be32toh(size);
     
