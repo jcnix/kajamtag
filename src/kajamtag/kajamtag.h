@@ -67,7 +67,7 @@ kajamtag_t k_tags;
 
 int kajamtag_read(char*);
 int kajamtag_write(char*, Ktag, char*);
-char* k_getTag(Ktag);
+char* k_getData(Ktag);
 char* k_getTitle();
 char* k_getArtist();
 char* k_getAlbum();

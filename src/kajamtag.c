@@ -138,7 +138,7 @@ int k_isOgg(char* identifier)
     return ogg;
 }
 
-char* k_getTag(Ktag tag)
+char* k_getData(Ktag tag)
 {
     char* data;
     switch(tag)
