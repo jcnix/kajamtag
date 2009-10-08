@@ -1,7 +1,9 @@
-Kajamtag 0.3
+Kajamtag 0.2.5
 -changed kajamtag_init() to kajamtag_read()
 -initial ID3 write support
--removed k_getTitle(), k_getArtist, etc; replaced by k_getTag(KTITLE), etc.
+	-supports ID3 v2.3 and v2.4
+	-use kajamtag_write()
+-Added k_getData() function.
 -Added Genre (KGENRE) and track number (k_getTrack()) support.
 
 Kajamtag 0.2
