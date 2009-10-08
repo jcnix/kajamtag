@@ -166,6 +166,35 @@ char* k_getTag(Ktag tag)
     return data;
 }
 
+char* k_getTitle()
+{
+    char* data = k_tags.title;
+    
+    if(data == NULL)
+        data = "NO_DATA";
+    
+    return data;
+}
+
+char* k_getArtist()
+{
+    char* data = k_tags.artist;
+    
+    if(data == NULL)
+        data = "NO_DATA";
+    
+    return data;
+}
+char* k_getAlbum()
+{
+    char* data = k_tags.album;
+    
+    if(data == NULL)
+        data = "NO_DATA";
+    
+    return data;
+}
+
 int k_getTrack()
 {
     return k_tags.track;
