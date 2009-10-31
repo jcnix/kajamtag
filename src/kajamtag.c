@@ -36,6 +36,7 @@ int kajamtag_read(char* musicString)
     char* identifier = k_readIdentifier(musicString);
     musicFile = fopen(musicString, "rb");
     
+    badTag = 0;
     if(k_isID3(identifier))
     {
         free(identifier);
@@ -56,9 +57,7 @@ int kajamtag_read(char* musicString)
     //"BAD_TAG" means the tag is not recognized.
     //It it neither ID3 nor Ogg.
     else {
-        k_tags.title = "BAD_TAG";
-        k_tags.artist = "BAD_TAG";
-        k_tags.album = "BAD_TAG";
+        badTag = 1;
     }
     
     fclose(musicFile);
@@ -140,6 +139,9 @@ int k_isOgg(char* identifier)
 
 char* k_getData(Ktag tag)
 {
+    if(badTag)
+        return "BAD_TAG";
+    
     char* data;
     switch(tag)
     {
@@ -178,6 +180,9 @@ char* k_getTitle()
 
 char* k_getArtist()
 {
+    if(badTag)
+        return "BAD_TAG";
+    
     char* data = k_tags.artist;
     
     if(data == NULL)
@@ -187,6 +192,9 @@ char* k_getArtist()
 }
 char* k_getAlbum()
 {
+    if(badTag)
+        return "BAD_TAG";
+    
     char* data = k_tags.album;
     
     if(data == NULL)
@@ -197,5 +205,8 @@ char* k_getAlbum()
 
 int k_getTrack()
 {
+    if(badTag)
+        return 0;
+    
     return k_tags.track;
 }

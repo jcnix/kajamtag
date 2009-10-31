@@ -65,6 +65,8 @@ static const char* oggtags[] = {
 typedef struct kajamtag kajamtag_t;
 kajamtag_t k_tags;
 
+int badTag;
+
 int kajamtag_read(char*);
 int kajamtag_write(char*, Ktag, char*);
 char* k_getData(Ktag);
