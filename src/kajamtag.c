@@ -55,7 +55,7 @@ int kajamtag_read(char* musicString)
         bytes = ogg_read(musicFile);
     }
     //"BAD_TAG" means the tag is not recognized.
-    //It it neither ID3 nor Ogg.
+    //It is neither ID3 nor Ogg.
     else {
         badTag = 1;
     }
@@ -170,6 +170,9 @@ char* k_getData(Ktag tag)
 
 char* k_getTitle()
 {
+    if(badTag)
+        return "BAD_TAG";
+    
     char* data = k_tags.title;
     
     if(data == NULL)
