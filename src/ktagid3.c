@@ -70,12 +70,12 @@ int id3_write(FILE* f, char* identifier, char* data)
     char *id = "";
     int oldSize = 0;
     
-    int read = 1;
+    int fullFrameRead = 1;
     char *nid, *ndata;
     int nsize, flags;
     
     //Find the frame we want to rewrite
-    while(read != 0) {
+    while(fullFrameRead != 0) {
         id = id3_readID(f);
         
         if(strcmp(id, identifier) == 0) {
@@ -87,10 +87,11 @@ int id3_write(FILE* f, char* identifier, char* data)
             //rewind 4 bytes since readID reads 4 bytes
             //and finish reading the frame
             fseek(f, -4, SEEK_CUR);
-            read = id3_readFullFrame(f, version, &nid, &nsize, &flags, &ndata);
+            fullFrameRead = id3_readFullFrame(f, version, &nid, &nsize, &flags,
+                                              &ndata);
         }
     }
-    int position = ftell(f); //bookmark location
+    int bookmarkPos = ftell(f); //bookmark location
     
     int diffSize = oldSize - size;
     fseek(f, oldSize+7, SEEK_CUR); //advance file pointer
@@ -101,21 +102,22 @@ int id3_write(FILE* f, char* identifier, char* data)
      * This is because we'd have to read backwards if the new data is
      * larger than the old data, otherwise we'd overwrite data we haven't read yet.*/
     int sumSize = 0;
-    while(read != 0) {
-        read = id3_readFullFrame(f, version, &nid, &nsize, &flags, &ndata);
+    while(fullFrameRead != 0) {
+        fullFrameRead = id3_readFullFrame(f, version, &nid, &nsize, &flags, 
+                                          &ndata);
         if(nsize < 500000) // ~500kb
         {
             sumSize += nsize + 11;
         }
     }
-    fseek(f, position + oldSize + 7, SEEK_SET);
+    fseek(f, bookmarkPos + oldSize + 7, SEEK_SET);
     char* bigBuffer = malloc(sumSize);
     fread(bigBuffer, sizeof(char), sumSize, f);
     //return to original spot, and adjust to where the new spot should be
     fseek(f, -sumSize - diffSize, SEEK_CUR);
     fwrite(bigBuffer, sizeof(char), sumSize, f); //write the big hunk
     
-    fseek(f, position, SEEK_SET); //return to where the data should go
+    fseek(f, bookmarkPos, SEEK_SET); //return to where the data should go
     
     //add terminating null of the data string
     id3_writeSize(f, size + 1, version);
