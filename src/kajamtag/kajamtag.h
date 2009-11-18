@@ -33,13 +33,6 @@ extern "C" {
 #include "ktagogg.h"
 #include "ktag_constants.h"
 
-typedef enum {
-    KTITLE,
-    KALBUM,
-    KARTIST,
-    KGENRE,
-} Ktag;
-
 struct kajamtag 
 {
     char* title;

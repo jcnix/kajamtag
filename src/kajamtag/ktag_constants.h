@@ -18,7 +18,15 @@
  * along with KaJamTag.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-struct Tags {
+typedef enum {
+    KTITLE,
+    KALBUM,
+    KARTIST,
+    KGENRE,
+} Ktag;
+
+struct Tags
+{
     //Pointer to an array of strings.
     char*** tags;
 };
