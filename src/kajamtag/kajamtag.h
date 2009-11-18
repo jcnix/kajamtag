@@ -55,6 +55,15 @@ static const char* id3tags[] = {
     "TCON"
 };
 
+//ID3 v2.2 tags.
+//They only use 3 chars instead of 4.
+static const char* id3_v2_2_tags[] = {
+    "TT2",
+    "TAL",
+    "TP1",
+    "TCO"
+}
+
 static const char* oggtags[] = {
     "TITLE",
     "ALBUM",

@@ -23,7 +23,7 @@
 
 int main()
 {
-    kajamtag_write("test.mp3", KTITLE, "some super long string that should be good");
+    kajamtag_write("test.mp3", KTITLE, "some super long string that should be goodaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
     
     kajamtag_read("test.mp3");
     char* title = k_getTag(KTITLE);
