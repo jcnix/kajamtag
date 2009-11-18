@@ -18,52 +18,30 @@
  * along with KaJamTag.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#ifndef _KAJAMTAG_H
-#define _KAJAMTAG_H
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include "ktagid3.h"
-#include "ktagogg.h"
-#include "ktag_constants.h"
-
-typedef enum {
-    KTITLE,
-    KALBUM,
-    KARTIST,
-    KGENRE,
-} Ktag;
-
-struct kajamtag 
-{
-    char* title;
-    char* album;
-    char* artist;
-    char* genre;
-    int track;
+struct Tags {
+    //Pointer to an array of strings.
+    char*** tags;
 };
 
-typedef struct kajamtag kajamtag_t;
-kajamtag_t k_tags;
+static const char* id3tags[] = {
+    "TIT2",
+    "TALB",
+    "TPE1",
+    "TCON"
+};
 
-int badTag;
+//ID3 v2.2 tags.
+//They only use 3 chars instead of 4.
+static const char* id3_v2_2_tags[] = {
+    "TT2",
+    "TAL",
+    "TP1",
+    "TCO"
+};
 
-int kajamtag_read(char*);
-int kajamtag_write(char*, Ktag, char*);
-char* k_getData(Ktag);
-char* k_getTitle();
-char* k_getArtist();
-char* k_getAlbum();
-int k_getTrack();
-
-#endif
-
-#ifdef __cplusplus
-}
-#endif
+static const char* oggtags[] = {
+    "TITLE",
+    "ALBUM",
+    "ALBUM ARTIST",
+    "GENRE"
+};
