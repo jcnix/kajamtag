@@ -62,7 +62,7 @@ static const char* id3_v2_2_tags[] = {
     "TAL",
     "TP1",
     "TCO"
-}
+};
 
 static const char* oggtags[] = {
     "TITLE",
