@@ -141,7 +141,7 @@ int id3_write(FILE* f, char* identifier, char* data)
 }
 
 int id3_storeData(char* identifier, char* data)
-{    
+{
     char* d = strdup(data);
     if(strncmp(identifier, "TIT2", 4) == 0)
         k_tags.title = d;

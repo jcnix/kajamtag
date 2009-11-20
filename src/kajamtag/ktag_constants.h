@@ -31,7 +31,7 @@ typedef enum {
 struct Tags
 {
     //Pointer to an array of strings.
-    char*** tags;
+    char*** ids;
 };
 
 static const char* tags_id3[] = {
