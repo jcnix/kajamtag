@@ -18,6 +18,9 @@
  * along with KaJamTag.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef _KTAG_CONSTANTS_H
+#define _KTAG_CONSTANTS_H
+
 typedef enum {
     KTITLE,
     KALBUM,
@@ -53,3 +56,5 @@ static const char* oggtags[] = {
     "ALBUM ARTIST",
     "GENRE"
 };
+
+#endif
