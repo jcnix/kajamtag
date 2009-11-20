@@ -34,7 +34,7 @@ struct Tags
     char*** tags;
 };
 
-static const char* id3tags[] = {
+static const char* tags_id3[] = {
     "TIT2",
     "TALB",
     "TPE1",
@@ -43,14 +43,14 @@ static const char* id3tags[] = {
 
 //ID3 v2.2 tags.
 //They only use 3 chars instead of 4.
-static const char* id3_v2_2_tags[] = {
+static const char* tags_id3_v2_2s[] = {
     "TT2",
     "TAL",
     "TP1",
     "TCO"
 };
 
-static const char* oggtags[] = {
+static const char* tags_ogg[] = {
     "TITLE",
     "ALBUM",
     "ALBUM ARTIST",

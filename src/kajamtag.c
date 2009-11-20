@@ -90,7 +90,7 @@ int kajamtag_write(char* file, Ktag tag, char* data)
     }
     
     char* ctag;
-    if(id3) id3_write(musicFile, id3tags[tag], data);
+    if(id3) id3_write(musicFile, tags_id3[tag], data);
     
     fclose(musicFile);
     
@@ -99,12 +99,12 @@ int kajamtag_write(char* file, Ktag tag, char* data)
 
 static const char* getId3Char(Ktag t)
 {
-    return id3tags[t];
+    return tags_id3[t];
 }
 
 static const char* getOggChar(Ktag t)
 {
-    return oggtags[t];
+    return tags_id3[t];
 }
 
 /* Reads the first three bytes
