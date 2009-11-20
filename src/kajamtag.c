@@ -20,8 +20,6 @@
 
 #include "kajamtag/kajamtag.h"
 
-static const char* getId3Char(Ktag);
-static const char* getOggChar(Ktag);
 static char* k_readIdentifier(char*);
 static int k_isID3(char*);
 static int k_isOgg(char*);
@@ -95,16 +93,6 @@ int kajamtag_write(char* file, Ktag tag, char* data)
     fclose(musicFile);
     
     return 1;
-}
-
-static const char* getId3Char(Ktag t)
-{
-    return tags_id3[t];
-}
-
-static const char* getOggChar(Ktag t)
-{
-    return tags_id3[t];
 }
 
 /* Reads the first three bytes
