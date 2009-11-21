@@ -40,7 +40,6 @@ int kajamtag_read(char* musicString)
         free(identifier);
         int version = id3_header(musicFile);
         
-        char *id;
         while(id3_frame(musicFile, version)) 
         {
         }
