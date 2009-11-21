@@ -34,6 +34,8 @@ struct Tags
     char*** ids;
 };
 
+typedef struct Tags tags_t;
+
 static const char* tags_id3[] = {
     "TIT2",
     "TALB",
@@ -43,7 +45,7 @@ static const char* tags_id3[] = {
 
 //ID3 v2.2 tags.
 //They only use 3 chars instead of 4.
-static const char* tags_id3_v2_2s[] = {
+static const char* tags_id3_v2_2[] = {
     "TT2",
     "TAL",
     "TP1",
