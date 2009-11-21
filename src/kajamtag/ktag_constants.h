@@ -26,6 +26,7 @@ typedef enum {
     KALBUM,
     KARTIST,
     KGENRE,
+    KTRACK
 } Ktag;
 
 struct Tags
