@@ -44,7 +44,7 @@ int id3_header(FILE *musicFile)
 }
 
 /* returns number of bytes the frame is */
-int id3_frame(FILE *f, int version)
+int id3_frame(FILE *f, int version, tags_t tags)
 {
     char *id;
     int size;
@@ -56,7 +56,7 @@ int id3_frame(FILE *f, int version)
     if(!read)
         return 0;
     
-    id3_storeData(id, data);
+    id3_storeData(id, data, tags);
     free(id);
     free(data);
 
@@ -140,18 +140,18 @@ int id3_write(FILE* f, char* identifier, char* data)
     return 1;
 }
 
-int id3_storeData(char* identifier, char* data)
+int id3_storeData(char* identifier, char* data, tags_t tags)
 {
     char* d = strdup(data);
-    if(strncmp(identifier, "TIT2", 4) == 0)
+    if(strncmp(identifier, tags.ids[KTITLE], 4) == 0)
         k_tags.title = d;
-    else if(strncmp(identifier, "TALB", 4) == 0)
+    else if(strncmp(identifier, tags.ids[KALBUM], 4) == 0)
         k_tags.album = d;
-    else if(strncmp(identifier, "TPE1", 4) == 0)
+    else if(strncmp(identifier, tags.ids[KARTIST], 4) == 0)
         k_tags.artist = d;
-    else if(strncmp(identifier, "TCON", 4) == 0)
+    else if(strncmp(identifier, tags.ids[KGENRE], 4) == 0)
         k_tags.genre = d;
-    else if(strncmp(identifier, "TRCK", 4) == 0)
+    else if(strncmp(identifier, tags.ids[KTRACK], 4) == 0)
         k_tags.track = atoi(d);
     
     return 1;

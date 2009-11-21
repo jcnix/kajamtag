@@ -35,13 +35,14 @@ extern "C" {
 #include <string.h>
 #include <endian.h>
 #include "kajamtag.h"
+#include "ktag_constants.h"
 
 #define TAG_TO_INT(tag) ((tag)&0x7f) | (((tag)&0x7f00)>>1) | (((tag)&0x7f0000)>>2) | (((tag)&0x7f000000)>>3)
 
 int id3_header(FILE*);
-int id3_frame(FILE*, int);
+int id3_frame(FILE*, int, tags_t);
 int id3_write(FILE*, char*, char*);
-int id3_storeData(char*, char*);
+int id3_storeData(char*, char*, tags_t);
 int id3_getFlag(int, int);
 
 int id3_readFullFrame(FILE*, int, char**, int*, int*, char**);

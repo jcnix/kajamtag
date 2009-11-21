@@ -38,9 +38,15 @@ int kajamtag_read(char* musicString)
     if(k_isID3(identifier))
     {
         free(identifier);
+        tags_t tags;
         int version = id3_header(musicFile);
         
-        while(id3_frame(musicFile, version)) 
+        if(version == 2)
+            tags.ids = tags_id3_v2_2;
+        else
+            tags.ids = tags_id3;
+        
+        while(id3_frame(musicFile, version, tags)) 
         {
         }
     }
