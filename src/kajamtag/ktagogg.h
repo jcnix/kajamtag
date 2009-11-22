@@ -33,11 +33,12 @@ extern "C" {
 #include <string.h>
 #include <ctype.h>
 #include "kajamtag.h"
+#include "ktag_constants.h"
 
 #define INIT_SIZE 100*sizeof(char)
 
-int ogg_read(FILE*);
-int ogg_storeData(char*);
+int ogg_read(FILE*, tags_t);
+int ogg_storeData(char*, tags_t);
 char* strup(char*);
 
 #endif

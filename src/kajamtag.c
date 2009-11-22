@@ -30,6 +30,7 @@ int kajamtag_read(char* musicString)
         return 0;
     
     FILE *musicFile;
+    tags_t tags;
     
     char* identifier = k_readIdentifier(musicString);
     musicFile = fopen(musicString, "rb");
@@ -38,7 +39,6 @@ int kajamtag_read(char* musicString)
     if(k_isID3(identifier))
     {
         free(identifier);
-        tags_t tags;
         int version = id3_header(musicFile);
         
         if(version == 2)
@@ -53,9 +53,10 @@ int kajamtag_read(char* musicString)
     else if(k_isOgg(identifier))
     {
         free(identifier);
+        tags.ids = tags_ogg;
 
         int bytes = 0;
-        bytes = ogg_read(musicFile);
+        bytes = ogg_read(musicFile, tags);
     }
     //"BAD_TAG" means the tag is not recognized.
     //It is neither ID3 nor Ogg.

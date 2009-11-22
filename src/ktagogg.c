@@ -20,7 +20,7 @@
  
 #include "kajamtag/ktagogg.h"
 
-int ogg_read(FILE *musicFile)
+int ogg_read(FILE *musicFile, tags_t tags)
 {
     int readBytes = 0;
     int i = 0;
@@ -42,7 +42,7 @@ int ogg_read(FILE *musicFile)
                 inTag = 0;
                 strData[i] = '\0';
                 i = 0;
-                ogg_storeData(strData);
+                ogg_storeData(strData, tags);
             }
         }
         /* We're reading alpha characters, store these */
@@ -57,7 +57,7 @@ int ogg_read(FILE *musicFile)
     return 0;
 }
 
-int ogg_storeData(char* bytes)
+int ogg_storeData(char* bytes, tags_t tags)
 {
     if(strchr(bytes, '=') == NULL)
     {
@@ -78,21 +78,22 @@ int ogg_storeData(char* bytes)
     char* data = strdup(tokens);
     
     //Store some data!
-    if(strcmp(id, "TITLE") == 0)
+    if(strcmp(id, tags.ids[KTITLE]) == 0)
         k_tags.title = data;
-    else if(strcmp(id, "ALBUM") == 0)
+    else if(strcmp(id, tags.ids[KALBUM]) == 0)
         k_tags.album = data;
-    else if(strcmp(id, "ALBUM ARTIST") == 0)
+    else if(strcmp(id, tags.ids[KARTIST]) == 0)
         k_tags.artist = data;
-    else if(strcmp(id, "GENRE") == 0)
+    else if(strcmp(id, tags.ids[KGENRE]) == 0)
         k_tags.genre = data;
-    else if(strcmp(id, "TRACKNUMBER") == 0)
+    else if(strcmp(id, tags.ids[KTRACK]) == 0)
         k_tags.track = atoi(data);
     
     bytes = malloc(INIT_SIZE);
     return 1;
 }
 
+//Convert string to upper case
 char* strup(char* in)
 {
     char c;
