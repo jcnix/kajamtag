@@ -89,7 +89,6 @@ int ogg_storeData(char* bytes, tags_t tags)
     else if(strcmp(id, tags.ids[KTRACK]) == 0)
         k_tags.track = atoi(data);
     
-    bytes = malloc(INIT_SIZE);
     return 1;
 }
 
