@@ -18,6 +18,10 @@
  * along with KaJamTag.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifndef _KTAG_CONSTANTS_H
 #define _KTAG_CONSTANTS_H
 
@@ -61,4 +65,8 @@ static const char* tags_ogg[] = {
     "TRACKNUMBER"
 };
 
+#endif
+
+#ifdef __cplusplus
+}
 #endif
