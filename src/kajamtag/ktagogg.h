@@ -34,6 +34,7 @@ extern "C" {
 #include <ctype.h>
 #include "kajamtag.h"
 #include "ktag_constants.h"
+#include "ktagutil.h"
 
 #define INIT_SIZE 100*sizeof(char)
 

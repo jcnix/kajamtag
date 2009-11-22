@@ -36,6 +36,7 @@ extern "C" {
 #include <endian.h>
 #include "kajamtag.h"
 #include "ktag_constants.h"
+#include "ktagutil.h"
 
 #define TAG_TO_INT(tag) ((tag)&0x7f) | (((tag)&0x7f00)>>1) | (((tag)&0x7f0000)>>2) | (((tag)&0x7f000000)>>3)
 

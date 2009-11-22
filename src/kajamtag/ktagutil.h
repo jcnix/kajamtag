@@ -22,5 +22,8 @@
 //Not needed in the public API.
 
 #include <stdio.h>
+#include "kajamtag.h"
+#include "ktag_constants.h"
 
 int error(size_t, int);
+int util_storeData(char*, char*, tags_t);

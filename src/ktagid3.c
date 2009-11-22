@@ -143,16 +143,7 @@ int id3_write(FILE* f, char* identifier, char* data)
 int id3_storeData(char* identifier, char* data, tags_t tags)
 {
     char* d = strdup(data);
-    if(strncmp(identifier, tags.ids[KTITLE], 4) == 0)
-        k_tags.title = d;
-    else if(strncmp(identifier, tags.ids[KALBUM], 4) == 0)
-        k_tags.album = d;
-    else if(strncmp(identifier, tags.ids[KARTIST], 4) == 0)
-        k_tags.artist = d;
-    else if(strncmp(identifier, tags.ids[KGENRE], 4) == 0)
-        k_tags.genre = d;
-    else if(strncmp(identifier, tags.ids[KTRACK], 4) == 0)
-        k_tags.track = atoi(d);
+    util_storeData(identifier, d, tags);
     
     return 1;
 }

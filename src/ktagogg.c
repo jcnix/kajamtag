@@ -78,16 +78,7 @@ int ogg_storeData(char* bytes, tags_t tags)
     char* data = strdup(tokens);
     
     //Store some data!
-    if(strcmp(id, tags.ids[KTITLE]) == 0)
-        k_tags.title = data;
-    else if(strcmp(id, tags.ids[KALBUM]) == 0)
-        k_tags.album = data;
-    else if(strcmp(id, tags.ids[KARTIST]) == 0)
-        k_tags.artist = data;
-    else if(strcmp(id, tags.ids[KGENRE]) == 0)
-        k_tags.genre = data;
-    else if(strcmp(id, tags.ids[KTRACK]) == 0)
-        k_tags.track = atoi(data);
+    util_storeData(id, data, tags);
     
     return 1;
 }

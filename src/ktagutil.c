@@ -30,3 +30,19 @@ int fread_error(size_t real, int desired)
     else
         return 0;
 }
+
+/* Generic storeData function
+ * Can be used by both ID3 and Ogg or anything else */
+int util_storeData(char* identifier, char* data, tags_t tags)
+{
+    if(strcmp(identifier, tags.ids[KTITLE]) == 0)
+        k_tags.title = data;
+    else if(strcmp(identifier, tags.ids[KALBUM]) == 0)
+        k_tags.album = data;
+    else if(strcmp(identifier, tags.ids[KARTIST]) == 0)
+        k_tags.artist = data;
+    else if(strcmp(identifier, tags.ids[KGENRE]) == 0)
+        k_tags.genre = data;
+    else if(strcmp(identifier, tags.ids[KTRACK]) == 0)
+        k_tags.track = atoi(data);
+}
