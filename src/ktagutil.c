@@ -23,9 +23,7 @@
 /* Used after freads and fwrites
  * If the real number of bytes read doesn't match how many
  * bytes should have been read return false */
-//TODO: return something more fatal than 0 or 1
-// stop execution perhaps?
-int error(size_t real, int desired)
+int fread_error(size_t real, int desired)
 {
     if(real == desired)
         return 1;
