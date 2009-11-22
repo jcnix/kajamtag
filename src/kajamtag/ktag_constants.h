@@ -32,7 +32,7 @@ typedef enum {
 struct Tags
 {
     //Pointer to an array of strings.
-    char*** ids;
+    char** ids;
 };
 
 typedef struct Tags tags_t;
