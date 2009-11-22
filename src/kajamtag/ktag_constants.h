@@ -57,7 +57,8 @@ static const char* tags_ogg[] = {
     "TITLE",
     "ALBUM",
     "ALBUM ARTIST",
-    "GENRE"
+    "GENRE",
+    "TRACKNUMBER"
 };
 
 #endif
