@@ -47,6 +47,7 @@ static const char* tags_id3[] = {
     "TALB",
     "TPE1",
     "TCON",
+    "TRCK",
     "TCOM"
 };
 
@@ -57,6 +58,7 @@ static const char* tags_id3_v2_2[] = {
     "TAL",
     "TP1",
     "TCO",
+    "TRK",
     "TCM"
 };
 
