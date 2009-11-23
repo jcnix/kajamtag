@@ -151,6 +151,8 @@ char* k_getData(Ktag tag)
         case KGENRE:
             data = k_tags.genre;
             break;
+        case KCOMPOSER:
+            data = k_tags.composer;
         default:
             //Should never happen
             break;
@@ -206,4 +208,12 @@ int k_getTrack()
         return 0;
     
     return k_tags.track;
+}
+
+char* k_getComposer()
+{
+    if(badTag)
+        return 0;
+    
+    return k_tags.composer;
 }

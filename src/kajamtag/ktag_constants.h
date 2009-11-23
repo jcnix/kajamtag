@@ -30,7 +30,8 @@ typedef enum {
     KALBUM,
     KARTIST,
     KGENRE,
-    KTRACK
+    KTRACK,
+    KCOMPOSER
 } Ktag;
 
 struct Tags
@@ -45,7 +46,8 @@ static const char* tags_id3[] = {
     "TIT2",
     "TALB",
     "TPE1",
-    "TCON"
+    "TCON",
+    "TCOM"
 };
 
 //ID3 v2.2 tags.
@@ -54,7 +56,8 @@ static const char* tags_id3_v2_2[] = {
     "TT2",
     "TAL",
     "TP1",
-    "TCO"
+    "TCO",
+    "TCM"
 };
 
 static const char* tags_ogg[] = {
@@ -62,7 +65,8 @@ static const char* tags_ogg[] = {
     "ALBUM",
     "ALBUM ARTIST",
     "GENRE",
-    "TRACKNUMBER"
+    "TRACKNUMBER",
+    "COMPOSER"
 };
 
 #endif

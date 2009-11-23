@@ -40,6 +40,7 @@ struct kajamtag
     char* artist;
     char* genre;
     int track;
+    char* composer;
 };
 
 typedef struct kajamtag kajamtag_t;
@@ -49,11 +50,14 @@ int badTag;
 
 int kajamtag_read(char*);
 int kajamtag_write(char*, Ktag, char*);
+
 char* k_getData(Ktag);
+
 char* k_getTitle();
 char* k_getArtist();
 char* k_getAlbum();
 int k_getTrack();
+char* k_getComposer();
 
 #endif
 

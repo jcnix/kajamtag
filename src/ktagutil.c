@@ -45,4 +45,6 @@ int util_storeData(char* identifier, char* data, tags_t tags)
         k_tags.genre = data;
     else if(strcmp(identifier, tags.ids[KTRACK]) == 0)
         k_tags.track = atoi(data);
+    else if(strcmp(identifier, tags.ids[KCOMPOSER]) == 0)
+        k_tags.composer = data;
 }
