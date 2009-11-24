@@ -69,9 +69,9 @@ int id3_write(FILE* f, Ktag tag, char* data)
     
     tags_t tags;
     if(version == 2)
-        tags.ids = tags_id3_v2_2;
+        tags.ids = (char**) tags_id3_v2_2;
     else
-        tags.ids = tags_id3;
+        tags.ids = (char**) tags_id3;
     
     char* identifier = tags.ids[tag];
         

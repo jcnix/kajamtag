@@ -42,9 +42,9 @@ int kajamtag_read(char* musicString)
         int version = id3_header(musicFile);
         
         if(version == 2)
-            tags.ids = tags_id3_v2_2;
+            tags.ids = (char**) tags_id3_v2_2;
         else
-            tags.ids = tags_id3;
+            tags.ids = (char**) tags_id3;
         
         while(id3_frame(musicFile, version, tags)) 
         {
@@ -53,7 +53,7 @@ int kajamtag_read(char* musicString)
     else if(k_isOgg(identifier))
     {
         free(identifier);
-        tags.ids = tags_ogg;
+        tags.ids = (char**) tags_ogg;
 
         int bytes = 0;
         bytes = ogg_read(musicFile, tags);
