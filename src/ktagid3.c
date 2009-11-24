@@ -63,9 +63,18 @@ int id3_frame(FILE *f, int version, tags_t tags)
     return 1;
 }
 
-int id3_write(FILE* f, char* identifier, char* data)
+int id3_write(FILE* f, Ktag tag, char* data)
 {
     int version = id3_header(f);
+    
+    tags_t tags;
+    if(version == 2)
+        tags.ids = tags_id3_v2_2;
+    else
+        tags.ids = tags_id3;
+    
+    char* identifier = tags.ids[tag];
+        
     int size = strlen(data);
     char *id = "";
     int oldSize = 0;
@@ -150,7 +159,7 @@ int id3_storeData(char* identifier, char* data, tags_t tags)
 
 //This function reads a frame and returns all data
 int id3_readFullFrame(FILE* f, int version, char **id, int *size, int *flags, char **data)
-{    
+{
     *id = id3_readID(f);
     
     *size = id3_readSize(f, version);

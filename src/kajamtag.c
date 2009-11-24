@@ -95,7 +95,7 @@ int kajamtag_write(char* file, Ktag tag, char* data)
     
     char* ctag;
     if(id3)
-        id3_write(musicFile, tags_id3[tag], data);
+        id3_write(musicFile, tag, data);
     
     fclose(musicFile);
     

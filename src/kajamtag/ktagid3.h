@@ -42,7 +42,7 @@ extern "C" {
 
 int id3_header(FILE*);
 int id3_frame(FILE*, int, tags_t);
-int id3_write(FILE*, char*, char*);
+int id3_write(FILE*, Ktag, char*);
 int id3_storeData(char*, char*, tags_t);
 int id3_getFlag(int, int);
 
