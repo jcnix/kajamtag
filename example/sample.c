@@ -23,12 +23,12 @@
 
 int main()
 {
-    kajamtag_write("test.mp3", KTITLE, "some super long string that should be goodaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+    kajamtag_write("test.mp3", KTITLE, "test");
     
     kajamtag_read("test.mp3");
-    char* title = k_getTag(KTITLE);
-    char* album = k_getTag(KALBUM);
-    char* artist = k_getTag(KARTIST);
+    char* title = k_getData(KTITLE);
+    char* album = k_getData(KALBUM);
+    char* artist = k_getData(KARTIST);
     
     printf("Title: %s\n", title);
     printf("Album: %s\n", album);
