@@ -47,4 +47,6 @@ int util_storeData(char* id, char* data, tags_t tags)
         k_tags.track = atoi(data);
     else if(strncmp(id, tags.ids[KCOMPOSER], strlen(tags.ids[KCOMPOSER])) == 0)
         k_tags.composer = data;
+    else
+        free(data);
 }
