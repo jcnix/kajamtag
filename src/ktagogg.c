@@ -25,7 +25,7 @@ int ogg_read(FILE *musicFile, tags_t tags)
     int readBytes = 0;
     int i = 0;
     char byte = 0;
-    char strData[INIT_SIZE];
+    char strData[INIT_SIZE] = "";
     int inTag = 0;
     size_t bytes;
     
