@@ -65,7 +65,7 @@ static const char* tags_id3_v2_2[] = {
 static const char* tags_ogg[] = {
     "TITLE",
     "ALBUM",
-    "ALBUM ARTIST",
+    "ARTIST",
     "GENRE",
     "TRACKNUMBER",
     "COMPOSER"
