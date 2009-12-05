@@ -33,18 +33,18 @@ int fread_error(size_t real, int desired)
 
 /* Generic storeData function
  * Can be used by both ID3 and Ogg or anything else */
-int util_storeData(char* identifier, char* data, tags_t tags)
+int util_storeData(char* id, char* data, tags_t tags)
 {
-    if(strncmp(identifier, tags.ids[KTITLE], strlen(tags.ids[KTITLE])) == 0)
+    if(strncmp(id, tags.ids[KTITLE], strlen(tags.ids[KTITLE])) == 0)
         k_tags.title = data;
-    else if(strncmp(identifier, tags.ids[KALBUM], strlen(tags.ids[KALBUM])) == 0)
+    else if(strncmp(id, tags.ids[KALBUM], strlen(tags.ids[KALBUM])) == 0)
         k_tags.album = data;
-    else if(strncmp(identifier, tags.ids[KARTIST], strlen(tags.ids[KARTIST])) == 0)
+    else if(strncmp(id, tags.ids[KARTIST], strlen(tags.ids[KARTIST])) == 0)
         k_tags.artist = data;
-    else if(strncmp(identifier, tags.ids[KGENRE], strlen(tags.ids[KGENRE])) == 0)
+    else if(strncmp(id, tags.ids[KGENRE], strlen(tags.ids[KGENRE])) == 0)
         k_tags.genre = data;
-    else if(strncmp(identifier, tags.ids[KTRACK], strlen(tags.ids[KTRACK])) == 0)
+    else if(strncmp(id, tags.ids[KTRACK], strlen(tags.ids[KTRACK])) == 0)
         k_tags.track = atoi(data);
-    else if(strncmp(identifier, tags.ids[KCOMPOSER], strlen(tags.ids[KCOMPOSER])) == 0)
+    else if(strncmp(id, tags.ids[KCOMPOSER], strlen(tags.ids[KCOMPOSER])) == 0)
         k_tags.composer = data;
 }
