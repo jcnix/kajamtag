@@ -97,6 +97,8 @@ int id3_write(FILE* f, Ktag tag, char* data)
             fseek(f, -4, SEEK_CUR);
             fullFrameRead = id3_readFullFrame(f, version, &nid, &nsize, &flags,
                                               &ndata);
+            free(ndata);
+            free(nid);
         }
         free(id);
     }
@@ -114,6 +116,9 @@ int id3_write(FILE* f, Ktag tag, char* data)
     while(fullFrameRead != 0) {
         fullFrameRead = id3_readFullFrame(f, version, &nid, &nsize, &flags, 
                                           &ndata);
+                                          
+        free(ndata);
+        free(nid);
         if(nsize < 500000) // ~500kb
         {
             sumSize += nsize + 11;
@@ -125,6 +130,7 @@ int id3_write(FILE* f, Ktag tag, char* data)
     //return to original spot, and adjust to where the new spot should be
     fseek(f, -sumSize - diffSize, SEEK_CUR);
     fwrite(bigBuffer, sizeof(char), sumSize, f); //write the big hunk
+    free(bigBuffer);
     
     fseek(f, bookmarkPos, SEEK_SET); //return to where the data should go
     
