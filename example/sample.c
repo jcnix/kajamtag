@@ -23,7 +23,7 @@
 
 int main()
 {
-    kajamtag_write("test.mp3", KTITLE, "test");
+    //kajamtag_write("test.mp3", KTITLE, "test");
     
     kajamtag_read("test.mp3");
     char* title = k_getData(KTITLE);

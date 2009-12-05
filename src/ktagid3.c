@@ -76,7 +76,6 @@ int id3_write(FILE* f, Ktag tag, char* data)
     char* identifier = tags.ids[tag];
         
     int size = strlen(data);
-    char *id = "";
     int oldSize = 0;
     
     int fullFrameRead = 1;
@@ -85,7 +84,7 @@ int id3_write(FILE* f, Ktag tag, char* data)
     
     //Find the frame we want to rewrite
     while(fullFrameRead != 0) {
-        id = id3_readID(f);
+        char *id = id3_readID(f);
         
         if(strcmp(id, identifier) == 0) {
             oldSize = id3_readSize(f, version) - 1; //subtract null
@@ -99,6 +98,7 @@ int id3_write(FILE* f, Ktag tag, char* data)
             fullFrameRead = id3_readFullFrame(f, version, &nid, &nsize, &flags,
                                               &ndata);
         }
+        free(id);
     }
     int bookmarkPos = ftell(f); //bookmark location
     
