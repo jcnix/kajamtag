@@ -79,6 +79,7 @@ int ogg_storeData(char* bytes, tags_t tags)
     
     //Store some data!
     util_storeData(id, data, tags);
+    free(id);
     
     return 1;
 }
