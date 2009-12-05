@@ -51,6 +51,11 @@ int badTag;
 int kajamtag_read(char*);
 int kajamtag_write(char*, Ktag, char*);
 
+/* Frees all the memory storing the data.
+ * Should be run when done retrieving all
+ * the needed data from the tag */
+int kajamtag_close();
+
 char* k_getData(Ktag);
 
 char* k_getTitle();

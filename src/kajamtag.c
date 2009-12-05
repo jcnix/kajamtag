@@ -102,6 +102,15 @@ int kajamtag_write(char* file, Ktag tag, char* data)
     return 1;
 }
 
+int kajamtag_close()
+{
+    free(k_tags.title);
+    free(k_tags.album);
+    free(k_tags.artist);
+    free(k_tags.genre);
+    free(k_tags.composer);
+}
+
 /* Reads the first three bytes
  * retuns identifier string */
 char* k_readIdentifier(char* strFile)

@@ -34,5 +34,8 @@ int main()
     printf("Album: %s\n", album);
     printf("Artist: %s\n", artist);
     
+	kajamtag_close();
+
     return 1;
 }
+
