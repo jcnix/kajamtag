@@ -1,3 +1,9 @@
+Kajamtag 0.2.6
+-ID3 v2.2 support
+-Improved memory usage
+	-kajamtag_close()
+-Composer support
+
 Kajamtag 0.2.5
 -changed kajamtag_init() to kajamtag_read()
 -initial ID3 write support
