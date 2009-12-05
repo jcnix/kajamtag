@@ -1,5 +1,5 @@
-AC_INIT(kajamtag, 0.2.5, jonescaseyb@gmail.com)
-AM_INIT_AUTOMAKE(kajamtag, 0.2.5)
+AC_INIT(kajamtag, 0.2.6, jonescaseyb@gmail.com)
+AM_INIT_AUTOMAKE(kajamtag, 0.2.6)
 AC_CONFIG_HEADERS([config.h])
 AC_PROG_LIBTOOL
 AC_PROG_INSTALL
