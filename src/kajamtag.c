@@ -116,8 +116,11 @@ int kajamtag_close()
 char* k_readIdentifier(char* strFile)
 {
     FILE* file = fopen(strFile, "rb");
-    char* identifier = malloc(3);
-    fread(identifier, sizeof(char), 3, file);
+    
+    //Use 4 now.  If the file is a .flac, it will be four chars.
+    //For ID3 continue using strncmp with 3 chars.
+    char* identifier = malloc(4);
+    fread(identifier, sizeof(char), 4, file);
     fclose(file);
     
     return identifier;
