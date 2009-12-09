@@ -40,6 +40,10 @@ extern "C" {
 
 int ogg_read(FILE*, tags_t);
 int ogg_storeData(char*, tags_t);
+
+int ogg_readSize(FILE*);
+int ogg_skipBytes(FILE*, int);
+
 char* strup(char*);
 
 #endif

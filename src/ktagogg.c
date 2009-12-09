@@ -22,37 +22,61 @@
 
 int ogg_read(FILE *musicFile, tags_t tags)
 {
-    int readBytes = 0;
-    int i = 0;
-    char byte = 0;
-    char strData[INIT_SIZE] = "";
-    int inTag = 0;
     size_t bytes;
+    int size;
+    int header = 0;
     
-    while(strcmp(strData, "vorbis+BCV") != 0  && readBytes < 400)
+    char* id = malloc(4*sizeof(char));
+    bytes = fread(id, 1, 4, musicFile);
+    free(id);
+    
+    int version;
+    bytes = fread(&version, 1, 1, musicFile);
+    
+    size = ogg_readSize(musicFile);
+    ogg_skipBytes(musicFile, size);
+    
+    while(1)
     {
-        bytes = fread(&byte, sizeof(char), 1, musicFile);
-        readBytes++;
+        bytes = fread(&header, 1, 1, musicFile);        
+        size = ogg_readSize(musicFile);
         
-        /* Not an Alpha character, we'll assume
-         * that it ends whatever we're trying to read */
-        if(byte < 0x20 || byte > 0x7a)
-        {
-            if(inTag) {
-                inTag = 0;
-                strData[i] = '\0';
-                i = 0;
-                ogg_storeData(strData, tags);
-            }
-        }
-        /* We're reading alpha characters, store these */
+        if(header != 4)
+            ogg_skipBytes(musicFile, size);
         else
-        {
-            inTag = 1;
-            strData[i] = byte;
-            i++;
-        }
+            break;
     }
+    
+     int readBytes = 0;
+     int i = 0;
+     char byte = 0;
+     char strData[INIT_SIZE] = "";
+     int inTag = 0;
+     
+     while(strcmp(strData, "vorbis+BCV") != 0  && readBytes < size)
+     {
+         bytes = fread(&byte, sizeof(char), 1, musicFile);
+         readBytes++;
+         
+         /* Not an Alpha character, we'll assume
+          * that it ends whatever we're trying to read */
+         if(byte < 0x20 || byte > 0x7a)
+         {
+             if(inTag) {
+                 inTag = 0;
+                 strData[i] = '\0';
+                 i = 0;
+                 ogg_storeData(strData, tags);
+             }
+         }
+         /* We're reading alpha characters, store these */
+         else
+         {
+             inTag = 1;
+             strData[i] = byte;
+             i++;
+         }
+     }
 
     return 0;
 }
@@ -82,6 +106,29 @@ int ogg_storeData(char* bytes, tags_t tags)
     free(id);
     
     return 1;
+}
+
+int ogg_readSize(FILE* f)
+{
+    int size;
+    fread(&size, 3, 1, f);
+    
+    //Convert to big endian
+    size = htobe32(size);
+    
+    /* Shift one byte; 8 bits.
+     * Since the size is stored as 3 bytes,
+     * the 4th byte is just 0x00 */
+    size >>= 8;
+    
+    return size;
+}
+
+int ogg_skipBytes(FILE* f, int size)
+{
+    char* skip = malloc(size);
+    fread(skip, 1, size, f);
+    free(skip);
 }
 
 //Convert string to upper case
