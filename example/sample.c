@@ -25,7 +25,7 @@ int main()
 {
     //kajamtag_write("test.ogg", KTITLE, "test");
     
-    kajamtag_read("test.ogg");
+    kajamtag_read("test.flac");
     char* title = k_getData(KTITLE);
     char* album = k_getData(KALBUM);
     char* artist = k_getData(KARTIST);

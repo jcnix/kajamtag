@@ -1,5 +1,6 @@
 example/*.mp3
 example/*.ogg
+example/*.flac
 build/*
 *.o
 *.lo

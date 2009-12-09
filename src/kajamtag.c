@@ -126,19 +126,19 @@ char* k_readIdentifier(char* strFile)
     return identifier;
 }
 
-int k_isID3(char* identifier)
+int k_isID3(char* id)
 {
     int ID3 = 0;
-    if(strncmp(identifier, "ID3", 3) == 0)
+    if(strncmp(id, "ID3", 3) == 0)
         ID3 = 1;
     
     return ID3;
 }
 
-int k_isOgg(char* identifier)
+int k_isOgg(char* id)
 {
     int ogg = 0;
-    if(strncmp(identifier, "Ogg", 3) == 0)
+    if(strncmp(id, "Ogg", 3) == 0 || strncmp(id, "fLaC", 4) == 0)
         ogg = 1;
 
     return ogg;
