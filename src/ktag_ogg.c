@@ -47,36 +47,8 @@ int ogg_read(FILE *musicFile, tags_t tags)
             break;
     }
     
-     int readBytes = 0;
-     int i = 0;
-     char byte = 0;
-     char strData[INIT_SIZE] = "";
-     int inTag = 0;
-     
-     while(strcmp(strData, "vorbis+BCV") != 0  && readBytes < size)
-     {
-         bytes = fread(&byte, sizeof(char), 1, musicFile);
-         readBytes++;
-         
-         /* Not an Alpha character, we'll assume
-          * that it ends whatever we're trying to read */
-         if(byte < 0x20 || byte > 0x7d)
-         {
-             if(inTag) {
-                 inTag = 0;
-                 strData[i] = '\0';
-                 i = 0;
-                 ogg_storeData(strData, tags);
-             }
-         }
-         /* We're reading alpha characters, store these */
-         else
-         {
-             inTag = 1;
-             strData[i] = byte;
-             i++;
-         }
-     }
+    //Read through the Xiph comment area and store the data.
+    ogg_readComments(musicFile);
 
     return 0;
 }
@@ -106,6 +78,40 @@ int ogg_storeData(char* bytes, tags_t tags)
     free(id);
     
     return 1;
+}
+
+int ogg_readComments(FILE *f)
+{
+    int readBytes = 0;
+    int i = 0;
+    char byte = 0;
+    char strData[INIT_SIZE] = "";
+    int inTag = 0;
+    
+    while(strcmp(strData, "vorbis+BCV") != 0  && readBytes < size)
+    {
+        bytes = fread(&byte, sizeof(char), 1, f);
+        readBytes++;
+        
+        /* Not an Alpha character, we'll assume
+        * that it ends whatever we're trying to read */
+        if(byte < 0x20 || byte > 0x7d)
+        {
+            if(inTag) {
+                inTag = 0;
+                strData[i] = '\0';
+                i = 0;
+                ogg_storeData(strData, tags);
+            }
+        }
+        /* We're reading alpha characters, store these */
+        else
+        {
+            inTag = 1;
+            strData[i] = byte;
+            i++;
+        }
+    }
 }
 
 int ogg_readSize(FILE* f)
