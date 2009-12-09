@@ -33,8 +33,6 @@ int ogg_read(FILE *musicFile, tags_t tags)
     {
         bytes = fread(&byte, sizeof(char), 1, musicFile);
         readBytes++;
-        //byte = htole32(byte);
-        printf("%c\n", byte);
         
         /* Not an Alpha character, we'll assume
          * that it ends whatever we're trying to read */

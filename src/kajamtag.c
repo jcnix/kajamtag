@@ -138,7 +138,7 @@ int k_isID3(char* id)
 int k_isOgg(char* id)
 {
     int ogg = 0;
-    if(strncmp(id, "Ogg", 3) == 0 || strncmp(id, "fLaC", 4) == 0)
+    if(strncmp(id, "OggS", 4) == 0 || strncmp(id, "fLaC", 4) == 0)
         ogg = 1;
 
     return ogg;
