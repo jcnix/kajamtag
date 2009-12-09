@@ -18,7 +18,7 @@
  * along with KaJamTag.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "kajamtag/ktagid3.h"
+#include "kajamtag/ktag_id3.h"
 
 /* Returns the ID3 tag version */
 int id3_header(FILE *musicFile)

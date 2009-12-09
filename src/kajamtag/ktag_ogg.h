@@ -1,5 +1,5 @@
 /*
- * File:   kajamtagid3.h
+ * File:   kajamtagogg.h
  * Author: Casey Jones
  *
  * This file is part of KaJamTag.
@@ -19,41 +19,33 @@
  */
 
 /*
- * Kajamtag ID3 tag reader
+ * Kajamtag Ogg tag reader
  */
-
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-
-#ifndef _ID3_H
-#define _ID3_H
+#ifndef _OGG_H
+#define _OGG_H
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <endian.h>
+#include <ctype.h>
+
 #include "kajamtag.h"
 #include "ktag_constants.h"
-#include "ktagutil.h"
+#include "ktag_util.h"
 
-#define TAG_TO_INT(tag) ((tag)&0x7f) | (((tag)&0x7f00)>>1) | (((tag)&0x7f0000)>>2) | (((tag)&0x7f000000)>>3)
+#define INIT_SIZE 100*sizeof(char)
 
-int id3_header(FILE*);
-int id3_frame(FILE*, int, tags_t);
-int id3_write(FILE*, Ktag, char*);
-int id3_storeData(char*, char*, tags_t);
-int id3_getFlag(int, int);
+int ogg_read(FILE*, tags_t);
+int ogg_storeData(char*, tags_t);
 
-int id3_readFullFrame(FILE*, int, char**, int*, int*, char**);
-char* id3_readID(FILE*);
-int id3_readSize(FILE*, int);
-int id3_readFlags(FILE*);
-char* id3_readData(FILE*, int);
-void id3_readByte(FILE*, int);
-int id3_writeSize(FILE*, int, int);
-int id3_writeData(FILE*, char*);
+int ogg_readSize(FILE*);
+int ogg_skipBytes(FILE*, int);
+
+char* strup(char*);
 
 #endif
 

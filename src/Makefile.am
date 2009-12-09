@@ -1,1 +1,1 @@
-nobase_include_HEADERS = kajamtag/kajamtag.h kajamtag/ktagid3.h kajamtag/ktagogg.h kajamtag/ktagutil.h kajamtag/ktag_constants.h
+nobase_include_HEADERS = kajamtag/kajamtag.h kajamtag/ktag_id3.h kajamtag/ktag_ogg.h kajamtag/ktag_util.h kajamtag/ktag_constants.h

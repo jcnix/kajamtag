@@ -29,8 +29,8 @@ extern "C" {
 #include <stdlib.h>
 #include <string.h>
 
-#include "ktagid3.h"
-#include "ktagogg.h"
+#include "ktag_id3.h"
+#include "ktag_ogg.h"
 #include "ktag_constants.h"
 
 struct kajamtag 
