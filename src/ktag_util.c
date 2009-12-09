@@ -18,7 +18,7 @@
  * along with KaJamTag.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "kajamtag/ktagutil.h"
+#include "kajamtag/ktag_util.h"
 
 /* Used after freads and fwrites
  * If the real number of bytes read doesn't match how many
