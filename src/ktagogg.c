@@ -60,7 +60,7 @@ int ogg_read(FILE *musicFile, tags_t tags)
          
          /* Not an Alpha character, we'll assume
           * that it ends whatever we're trying to read */
-         if(byte < 0x20 || byte > 0x7a)
+         if(byte < 0x20 || byte > 0x7d)
          {
              if(inTag) {
                  inTag = 0;
