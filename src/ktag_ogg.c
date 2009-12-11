@@ -106,9 +106,7 @@ int ogg_readSize(FILE* f)
 
 int ogg_skipBytes(FILE* f, int size)
 {
-    char* skip = malloc(size);
-    fread(skip, 1, size, f);
-    free(skip);
+    fseek(f, size, SEEK_CUR);
 }
 
 //Convert string to upper case
