@@ -21,8 +21,9 @@
 #include "kajamtag/ktag_ogg.h"
 
 int ogg_read(FILE *musicFile, tags_t tags)
-{
-
+{    
+    ogg_readComments(musicFile, tags, 0);    
+    
     return 0;
 }
 
@@ -61,6 +62,11 @@ int ogg_readComments(FILE *f, tags_t tags, int size)
     char strData[INIT_SIZE] = "";
     int inTag = 0;
     size_t bytes;
+    
+    //We don't know how big it really is
+    //Assuming 1Kb
+    if(size <= 0)
+        size = 1024;
     
     while(strcmp(strData, "vorbis+BCV") != 0  && readBytes < size)
     {
