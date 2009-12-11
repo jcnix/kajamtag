@@ -20,7 +20,7 @@
 
 #include "kajamtag/kajamtag.h"
 
-static char* k_readIdentifier(char*);
+static char* k_readIdentifier(FILE*);
 static int k_isID3(char*);
 static int k_isOgg(char*);
 static int k_isFlac(char*);
@@ -33,8 +33,8 @@ int kajamtag_read(char* musicString)
     FILE *musicFile;
     tags_t tags;
     
-    char* identifier = k_readIdentifier(musicString);
     musicFile = fopen(musicString, "rb");
+    char* identifier = k_readIdentifier(musicFile);
     
     badTag = 0;
     if(k_isID3(identifier))
@@ -123,15 +123,13 @@ int kajamtag_close()
 
 /* Reads the first three bytes
  * retuns identifier string */
-char* k_readIdentifier(char* strFile)
-{
-    FILE* file = fopen(strFile, "rb");
-    
+char* k_readIdentifier(FILE* file)
+{   
     //Use 4 now.  If the file is a .flac, it will be four chars.
     //For ID3 continue using strncmp with 3 chars.
     char* identifier = malloc(4);
     fread(identifier, sizeof(char), 4, file);
-    fclose(file);
+    fseek(file, -4, SEEK_CUR);
     
     return identifier;
 }
