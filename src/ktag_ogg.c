@@ -48,7 +48,7 @@ int ogg_read(FILE *musicFile, tags_t tags)
     }
     
     //Read through the Xiph comment area and store the data.
-    ogg_readComments(musicFile);
+    ogg_readComments(musicFile, tags, size);
 
     return 0;
 }
@@ -80,13 +80,14 @@ int ogg_storeData(char* bytes, tags_t tags)
     return 1;
 }
 
-int ogg_readComments(FILE *f)
+int ogg_readComments(FILE *f, tags_t tags, int size)
 {
     int readBytes = 0;
     int i = 0;
     char byte = 0;
     char strData[INIT_SIZE] = "";
     int inTag = 0;
+    size_t bytes;
     
     while(strcmp(strData, "vorbis+BCV") != 0  && readBytes < size)
     {

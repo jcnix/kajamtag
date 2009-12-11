@@ -43,7 +43,7 @@ int ogg_read(FILE*, tags_t);
 int ogg_storeData(char*, tags_t);
 
 /* Reads through the Xiph comment and stores all the data */
-int ogg_readComments(FILE*);
+int ogg_readComments(FILE*, tags_t, int);
 int ogg_readSize(FILE*);
 int ogg_skipBytes(FILE*, int);
 
