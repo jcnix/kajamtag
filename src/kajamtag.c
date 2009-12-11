@@ -103,7 +103,6 @@ int kajamtag_write(char* file, Ktag tag, char* data)
         ogg = 1;
     }
     
-    char* ctag;
     if(id3)
         id3_write(musicFile, tag, data);
     
