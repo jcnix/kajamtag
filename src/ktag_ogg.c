@@ -22,33 +22,6 @@
 
 int ogg_read(FILE *musicFile, tags_t tags)
 {
-    size_t bytes;
-    int size;
-    int header = 0;
-    
-    char* id = malloc(4*sizeof(char));
-    bytes = fread(id, 1, 4, musicFile);
-    free(id);
-    
-    int version;
-    bytes = fread(&version, 1, 1, musicFile);
-    
-    size = ogg_readSize(musicFile);
-    ogg_skipBytes(musicFile, size);
-    
-    while(1)
-    {
-        bytes = fread(&header, 1, 1, musicFile);        
-        size = ogg_readSize(musicFile);
-        
-        if(header != 4)
-            ogg_skipBytes(musicFile, size);
-        else
-            break;
-    }
-    
-    //Read through the Xiph comment area and store the data.
-    ogg_readComments(musicFile, tags, size);
 
     return 0;
 }

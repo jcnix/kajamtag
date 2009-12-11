@@ -23,6 +23,7 @@
 static char* k_readIdentifier(char*);
 static int k_isID3(char*);
 static int k_isOgg(char*);
+static int k_isFlac(char*);
 
 int kajamtag_read(char* musicString)
 {
@@ -58,6 +59,15 @@ int kajamtag_read(char* musicString)
         int bytes = 0;
         bytes = ogg_read(musicFile, tags);
     }
+    else if(k_isFlac(identifier))
+    {
+        free(identifier);
+        tags.ids = (char**) tags_ogg;
+        
+        int bytes = 0;
+        bytes = flac_read(musicFile, tags);
+    }
+    
     //"BAD_TAG" means the tag is not recognized.
     //It is neither ID3 nor Ogg.
     else {
@@ -138,10 +148,19 @@ int k_isID3(char* id)
 int k_isOgg(char* id)
 {
     int ogg = 0;
-    if(strncmp(id, "OggS", 4) == 0 || strncmp(id, "fLaC", 4) == 0)
+    if(strncmp(id, "OggS", 4) == 0)
         ogg = 1;
 
     return ogg;
+}
+
+int k_isFlac(char* id)
+{
+    int flac = 0;
+    if(strncmp(id, "fLaC", 4) == 0)
+        flac = 1;
+
+    return flac;
 }
 
 char* k_getData(Ktag tag)
