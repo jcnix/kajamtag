@@ -1,5 +1,6 @@
 Kajamtag 0.2.6
 -ID3 v2.2 support
+-FLAC support
 -Improved memory usage
 	-kajamtag_close()
 -Composer support
