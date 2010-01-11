@@ -25,16 +25,19 @@ int id3_header(FILE *musicFile)
 {
     size_t bytes;
     char identifier[3];
-    bytes = fread(identifier, sizeof(char), 3, musicFile);
+    //bytes = fread(identifier, sizeof(char), 3, musicFile);
+    fseek(musicFile, 3, SEEK_SET);
     
     int majorVer = 0;
     bytes = fread(&majorVer, 1, 1, musicFile);
     
     int minorVer = 0;
-    bytes = fread(&minorVer, sizeof(char), 1, musicFile);
-
+    //bytes = fread(&minorVer, sizeof(char), 1, musicFile);
+    fseek(musicFile, 1, SEEK_CUR);
+    
     char flags = 0;
-    bytes = fread(&flags, sizeof(char), 1, musicFile);
+    //bytes = fread(&flags, sizeof(char), 1, musicFile);
+    fseek(musicFile, 1, SEEK_CUR);
     
     int size = 0;
     bytes = fread(&size, sizeof(int), 1, musicFile);
