@@ -27,7 +27,7 @@ int id3_header(FILE *musicFile)
     char identifier[3];
     bytes = fread(identifier, sizeof(char), 3, musicFile);
     
-    int majorVer;
+    int majorVer = 0;
     bytes = fread(&majorVer, 1, 1, musicFile);
     
     int minorVer = 0;
