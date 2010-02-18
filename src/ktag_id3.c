@@ -100,6 +100,7 @@ int id3_write(FILE* f, Ktag tag, char* data)
             fseek(f, -4, SEEK_CUR);
             fullFrameRead = id3_readFullFrame(f, version, &nid, &nsize, &flags,
                                               &ndata);
+            
             free(ndata);
             free(nid);
         }
@@ -119,9 +120,12 @@ int id3_write(FILE* f, Ktag tag, char* data)
     while(fullFrameRead != 0) {
         fullFrameRead = id3_readFullFrame(f, version, &nid, &nsize, &flags, 
                                           &ndata);
-                                          
-        free(ndata);
-        free(nid);
+
+        if(fullFrameRead != 0)
+        {
+            free(ndata);
+            free(nid);
+        }
         if(nsize < 500000) // ~500kb
         {
             sumSize += nsize + 11;
