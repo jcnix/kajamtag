@@ -77,7 +77,7 @@ int id3_write(FILE* f, Ktag tag, char* data)
         tags.ids = (char**) tags_id3;
     
     char* identifier = tags.ids[tag];
-        
+    
     int size = strlen(data);
     int oldSize = 0;
     
