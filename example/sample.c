@@ -23,9 +23,9 @@
 
 int main()
 {
-    //kajamtag_write("test.ogg", KTITLE, "test");
+    kajamtag_write("test.mp3", KTITLE, "REALLY LONG TITLE JUST TO FILL UP LOTS OF SPACE         J         J  OOOOOOO  W");
     
-    kajamtag_read("test.ogg");
+    kajamtag_read("test.mp3");
     char* title = k_getData(KTITLE);
     char* album = k_getData(KALBUM);
     char* artist = k_getData(KARTIST);

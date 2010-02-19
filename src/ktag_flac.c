@@ -20,35 +20,42 @@
 
 #include "kajamtag/ktag_flac.h"
 
-int flac_read(FILE *musicFile, tags_t tags)
+int flac_read_to_comments(FILE* f)
 {
     size_t bytes;
     int size;
     int header = 0;
     
     char* id = malloc(4*sizeof(char));
-    bytes = fread(id, 1, 4, musicFile);
+    bytes = fread(id, 1, 4, f);
     free(id);
     
     int version;
-    bytes = fread(&version, 1, 1, musicFile);
+    bytes = fread(&version, 1, 1, f);
     
-    size = ogg_readSize(musicFile);
-    ogg_skipBytes(musicFile, size);
+    size = ogg_readSize(f);
+    ogg_skipBytes(f, size);
     
     while(1)
     {
-        bytes = fread(&header, 1, 1, musicFile);        
-        size = ogg_readSize(musicFile);
+        bytes = fread(&header, 1, 1, f);
+        size = ogg_readSize(f);
         
         if(header != 4)
-            ogg_skipBytes(musicFile, size);
+            ogg_skipBytes(f, size);
         else
             break;
     }
+
+    return size;
+}
+
+int flac_read(FILE *f, tags_t tags)
+{
+    int size = flac_read_to_comments(f);
     
     //Read through the Xiph comment area and store the data.
-    ogg_readComments(musicFile, tags, size);
+    ogg_readComments(f, tags, size);
 
     return 0;
 }
