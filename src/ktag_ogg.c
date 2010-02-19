@@ -27,34 +27,7 @@ int ogg_read(FILE *musicFile, tags_t tags)
     return 0;
 }
 
-int ogg_storeData(char* bytes, tags_t tags)
-{
-    if(strchr(bytes, '=') == NULL)
-    {
-        return 0;
-    }
-    
-    char* tokens = strtok(bytes, "=");
-    if(tokens == NULL)
-        return 0;
-    
-    char* id = strdup(tokens);
-    id = strup(id);
-    
-    tokens = strtok(NULL, "=");    
-    if(tokens == NULL)
-        return 0;
-    
-    char* data = strdup(tokens);
-    
-    //Store some data!
-    util_storeData(id, data, tags);
-    free(id);
-    
-    return 1;
-}
-
-int ogg_readComments(FILE *f, tags_t tags, int size)
+int ogg_read_comments_to(FILE* f, tags_t tags, Ktag ktag, int size)
 {
     int readBytes = 0;
     int i = 0;
@@ -81,7 +54,12 @@ int ogg_readComments(FILE *f, tags_t tags, int size)
                 inTag = 0;
                 strData[i] = '\0';
                 i = 0;
-                ogg_storeData(strData, tags);
+                char* id = ogg_storeData(strData, tags);
+
+                if(ktag != KNULL && strcmp(id, tags.ids[ktag]) == 0)
+                {
+                    break;
+                }
             }
         }
         /* We're reading alpha characters, store these */
@@ -92,6 +70,39 @@ int ogg_readComments(FILE *f, tags_t tags, int size)
             i++;
         }
     }
+    
+    return ftell(f);
+}
+
+char* ogg_storeData(char* bytes, tags_t tags)
+{
+    if(strchr(bytes, '=') == NULL)
+    {
+        return 0;
+    }
+    
+    char* tokens = strtok(bytes, "=");
+    if(tokens == NULL)
+        return 0;
+    
+    char* id = strdup(tokens);
+    id = strup(id);
+    
+    tokens = strtok(NULL, "=");    
+    if(tokens == NULL)
+        return 0;
+    
+    char* data = strdup(tokens);
+    
+    //Store some data!
+    util_storeData(id, data, tags);
+    
+    return id;
+}
+
+int ogg_readComments(FILE *f, tags_t tags, int size)
+{
+    ogg_read_comments_to(f, tags, KNULL, size);
 }
 
 int ogg_readSize(FILE* f)

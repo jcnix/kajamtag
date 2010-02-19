@@ -31,7 +31,8 @@ typedef enum {
     KARTIST,
     KGENRE,
     KTRACK,
-    KCOMPOSER
+    KCOMPOSER,
+    KNULL //the null tag.  Used in special cases
 } Ktag;
 
 struct Tags
