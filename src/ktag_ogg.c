@@ -54,10 +54,13 @@ int ogg_read_comments_to(FILE* f, tags_t tags, Ktag ktag, int size)
                 inTag = 0;
                 strData[i] = '\0';
                 i = 0;
+                int s = sizeof(strData);
                 char* id = ogg_storeData(strData, tags);
 
                 if(ktag != KNULL && strcmp(id, tags.ids[ktag]) == 0)
                 {
+                    int s = -s;
+                    fseek(f, s, SEEK_CUR);
                     break;
                 }
             }
