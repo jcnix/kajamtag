@@ -86,15 +86,18 @@ int id3_write(FILE* f, Ktag tag, char* data)
     int nsize, flags;
     
     //Find the frame we want to rewrite
-    while(fullFrameRead != 0) {
+    while(fullFrameRead != 0)
+    {
         char *id = id3_readID(f);
         
-        if(strcmp(id, identifier) == 0) {
+        if(strcmp(id, identifier) == 0)
+        {
             oldSize = id3_readSize(f, version) - 1; //subtract null
             fseek(f, -4, SEEK_CUR);
             break;
         }
-        else {
+        else
+        {
             //rewind 4 bytes since readID reads 4 bytes
             //and finish reading the frame
             fseek(f, -4, SEEK_CUR);
@@ -117,7 +120,8 @@ int id3_write(FILE* f, Ktag tag, char* data)
      * This is because we'd have to read backwards if the new data is
      * larger than the old data, otherwise we'd overwrite data we haven't read yet.*/
     int sumSize = 0;
-    while(fullFrameRead != 0) {
+    while(fullFrameRead != 0)
+    {
         fullFrameRead = id3_readFullFrame(f, version, &nid, &nsize, &flags, 
                                           &ndata);
 
