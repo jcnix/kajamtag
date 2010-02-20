@@ -68,7 +68,6 @@ int ogg_read_comments_to(FILE* f, tags_t tags, Ktag ktag, int size)
         }
         free(id);
     }
-    printf("read one file\n");
 
     return ftell(f);
 }
