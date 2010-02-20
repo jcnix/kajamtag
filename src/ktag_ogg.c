@@ -35,45 +35,41 @@ int ogg_read_comments_to(FILE* f, tags_t tags, Ktag ktag, int size)
     char strData[INIT_SIZE] = "";
     int inTag = 0;
     size_t bytes;
-    
-    //We don't know how big it really is
-    //Assuming 1Kb
-    if(size <= 0)
-        size = 1024;
-    
-    while(strcmp(strData, "vorbis+BCV") != 0  && readBytes < size)
-    {
-        bytes = fread(&byte, sizeof(char), 1, f);
-        readBytes++;
-        
-        /* Not an Alpha character, we'll assume
-        * that it ends whatever we're trying to read */
-        if(byte < 0x20 || byte > 0x7d)
-        {
-            if(inTag) {
-                inTag = 0;
-                strData[i] = '\0';
-                i = 0;
-                int s = sizeof(strData);
-                char* id = ogg_storeData(strData, tags);
 
-                if(ktag != KNULL && strcmp(id, tags.ids[ktag]) == 0)
-                {
-                    int s = -s;
-                    fseek(f, s, SEEK_CUR);
-                    break;
-                }
-            }
-        }
-        /* We're reading alpha characters, store these */
-        else
-        {
-            inTag = 1;
-            strData[i] = byte;
-            i++;
-        }
-    }
+    int comment_size = 0;
+    comment_size = ogg_readCommentSize(f);
+    readBytes += 1;
+
+    /* +6 because there are 6 bytes between where
+     * it's left off, and where the size of the first
+     * tag */
+    ogg_skipBytes(f, comment_size + 7);
+    readBytes += comment_size + 7;
     
+    while(readBytes < size)
+    {
+        comment_size = 0;
+        comment_size = ogg_readCommentSize(f);
+        readBytes += 1;
+        //Three null bytes
+        ogg_skipBytes(f, 3);
+
+        char* data = ogg_readData(f, comment_size);
+        data[comment_size + 1] = '\0';
+        readBytes += comment_size + 3;
+
+        char* id = ogg_storeData(data, tags);
+
+        if(ktag != KNULL && strcmp(id, tags.ids[ktag]) == 0)
+        {
+            int s = -s;
+            fseek(f, s, SEEK_CUR);
+            break;
+        }
+        free(id);
+    }
+    printf("read one file\n");
+
     return ftell(f);
 }
 
@@ -122,6 +118,23 @@ int ogg_readSize(FILE* f)
     size >>= 8;
     
     return size;
+}
+
+int ogg_readCommentSize(FILE* f)
+{
+    int size = 0;
+    fread(&size, 1, 1, f);
+
+    return size;
+}
+
+char* ogg_readData(FILE* f, int size)
+{
+    //+1 to make room for \0
+    char* data = malloc(size + 1);
+    fread(data, 1, size, f);
+
+    return data;
 }
 
 int ogg_skipBytes(FILE* f, int size)

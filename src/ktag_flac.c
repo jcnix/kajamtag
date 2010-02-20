@@ -53,7 +53,7 @@ int flac_read_to_comments(FILE* f)
 int flac_read(FILE *f, tags_t tags)
 {
     int size = flac_read_to_comments(f);
-    
+
     //Read through the Xiph comment area and store the data.
     ogg_readComments(f, tags, size);
 

@@ -45,7 +45,10 @@ char* ogg_storeData(char*, tags_t);
 /* Reads through the Xiph comment and stores all the data */
 int ogg_read_comments_to(FILE*, tags_t, Ktag, int);
 int ogg_readComments(FILE*, tags_t, int);
+
 int ogg_readSize(FILE*);
+int ogg_readCommentSize(FILE*);
+char* ogg_readData(FILE*, int);
 int ogg_skipBytes(FILE*, int);
 
 char* strup(char*);
