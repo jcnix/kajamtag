@@ -55,7 +55,7 @@ int ogg_read_comments_to(FILE* f, tags_t tags, Ktag ktag, int size)
         ogg_skipBytes(f, 3);
 
         char* data = ogg_readData(f, comment_size);
-        data[comment_size + 1] = '\0';
+        data[comment_size] = '\0';
         readBytes += comment_size + 3;
 
         char* id = ogg_storeData(data, tags);
