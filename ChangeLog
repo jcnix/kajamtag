@@ -1,3 +1,6 @@
+Kajamtag 0.3.0
+-Better, less hacky Ogg/Flac reading
+
 Kajamtag 0.2.6.1
 -Fixed tags not being read at all on some machines
 	-Forgot to initialize a variable before using it, oops.
