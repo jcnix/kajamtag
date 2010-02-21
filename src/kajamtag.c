@@ -27,13 +27,16 @@ static int k_isFlac(char*);
 
 int kajamtag_read(char* musicString)
 {
-    if(strcmp(musicString, "") == 0)
-        return 0;
-    
     FILE *musicFile;
     tags_t tags;
     
     musicFile = fopen(musicString, "rb");
+    if(musicFile == NULL)
+    {
+        printf("File %s not found.\n", musicString);
+        return 0;
+    }
+    
     char* identifier = k_readIdentifier(musicFile);
     
     badTag = 0;
