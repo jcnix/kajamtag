@@ -21,9 +21,14 @@
 //Utility functions that kajamtag will use internally
 //Not needed in the public API.
 
+#ifndef _UTIL_H
+#define _UTIL_H
+
 #include <stdio.h>
 #include "kajamtag.h"
 #include "ktag_constants.h"
 
 int error(size_t, int);
 int util_storeData(char*, char*, tags_t);
+
+#endif
