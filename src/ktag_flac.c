@@ -56,7 +56,7 @@ int flac_read(FILE *f, tags_t tags)
     int readBytes = 0;
     
     int comment_size = 0;
-    comment_size = ogg_readCommentSize(f);
+    comment_size = ogg_readSize(f);
     readBytes += 4;
 
     /* +4 because there are 4 bytes between where

@@ -71,7 +71,7 @@ int ogg_read_comments_to(FILE* f, tags_t tags, Ktag ktag, int num)
 int ogg_readComment(FILE* f, char** data)
 {
     int readBytes = 0;
-    int comment_size = ogg_readCommentSize(f);
+    int comment_size = ogg_readSize(f);
     readBytes += 1;
 
     *data = ogg_readData(f, comment_size);
@@ -113,22 +113,6 @@ int ogg_readComments(FILE *f, tags_t tags, int size)
 }
 
 int ogg_readSize(FILE* f)
-{
-    int size;
-    fread(&size, 3, 1, f);
-    
-    //Convert to big endian
-    size = htobe32(size);
-    
-    /* Shift one byte; 8 bits.
-     * Since the size is stored as 3 bytes,
-     * the 4th byte is just 0x00 */
-    size >>= 8;
-    
-    return size;
-}
-
-int ogg_readCommentSize(FILE* f)
 {
     int size = 0;
     fread(&size, 4, 1, f);
