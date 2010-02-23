@@ -57,13 +57,13 @@ int flac_read(FILE *f, tags_t tags)
     
     int comment_size = 0;
     comment_size = ogg_readCommentSize(f);
-    readBytes += 1;
+    readBytes += 4;
 
-    /* +6 because there are 6 bytes between where
+    /* +4 because there are 4 bytes between where
      * it's left off, and where the size of the first
      * tag */
-    ogg_skipBytes(f, comment_size + 7);
-    readBytes += comment_size + 7;
+    ogg_skipBytes(f, comment_size + 4);
+    readBytes += comment_size + 4;
     
     while(readBytes < size)
     {

@@ -73,8 +73,6 @@ int ogg_readComment(FILE* f, char** data)
     int readBytes = 0;
     int comment_size = ogg_readCommentSize(f);
     readBytes += 1;
-    //Three null bytes
-    ogg_skipBytes(f, 3);
 
     *data = ogg_readData(f, comment_size);
     //data[comment_size] = '\0';
@@ -133,7 +131,7 @@ int ogg_readSize(FILE* f)
 int ogg_readCommentSize(FILE* f)
 {
     int size = 0;
-    fread(&size, 1, 1, f);
+    fread(&size, 4, 1, f);
 
     return size;
 }

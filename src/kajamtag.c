@@ -59,9 +59,7 @@ int kajamtag_read(char* musicString)
         free(identifier);
         tags.ids = (char**) tags_ogg;
 
-        printf("about to read\n");
         ogg_read(musicFile, tags);
-        printf("done reading\n");
     }
     else if(k_isFlac(identifier))
     {
