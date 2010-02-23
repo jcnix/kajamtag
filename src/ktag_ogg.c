@@ -20,56 +20,67 @@
  
 #include "kajamtag/ktag_ogg.h"
 
-int ogg_read(FILE *musicFile, tags_t tags)
-{    
-    ogg_readComments(musicFile, tags, 0);    
+int ogg_read(FILE *f, tags_t tags)
+{
+    fseek(f, 27, SEEK_CUR);
+    int size = 0;
+    fread(&size, 1, 1, f);
+    fseek(f, size, SEEK_CUR);
     
-    return 0;
+    fseek(f, 26, SEEK_CUR);
+    fread(&size, 1, 1, f);
+    fseek(f, size, SEEK_CUR);
+    
+    fseek(f, 1 + strlen("vorbis"), SEEK_CUR);
+    fread(&size, 1, 1, f);
+    fseek(f, size + 3, SEEK_CUR);
+    fread(&size, 1, 1, f);
+    
+    ogg_readComments(f, tags, size);
+    
+    return 1;
 }
 
-int ogg_read_comments_to(FILE* f, tags_t tags, Ktag ktag, int size)
+int ogg_read_comments_to(FILE* f, tags_t tags, Ktag ktag, int num)
 {
-    int readBytes = 0;
-    int i = 0;
-    char byte = 0;
-    char strData[INIT_SIZE] = "";
-    int inTag = 0;
     size_t bytes;
 
     int comment_size = 0;
-    comment_size = ogg_readCommentSize(f);
-    readBytes += 1;
-
-    /* +6 because there are 6 bytes between where
-     * it's left off, and where the size of the first
-     * tag */
-    ogg_skipBytes(f, comment_size + 7);
-    readBytes += comment_size + 7;
+    ogg_skipBytes(f, 3);
     
-    while(readBytes < size)
+    int i = 0;
+    while(i < num)
     {
-        comment_size = 0;
-        comment_size = ogg_readCommentSize(f);
-        readBytes += 1;
-        //Three null bytes
-        ogg_skipBytes(f, 3);
-
-        char* data = ogg_readData(f, comment_size);
-        data[comment_size] = '\0';
-        readBytes += comment_size + 3;
-
+        char* data;
+        ogg_readComment(f, &data);
         char* id = ogg_storeData(data, tags);
+        i++;
 
-        if(ktag != KNULL && strcmp(id, tags.ids[ktag]) == 0)
-        {
-            int s = -s;
-            fseek(f, s, SEEK_CUR);
-            break;
-        }
+//         if(ktag != KNULL && strcmp(id, tags.ids[ktag]) == 0)
+//         {
+//             int s = -s;
+//             fseek(f, s, SEEK_CUR);
+//             break;
+//         }
         free(id);
     }
 
     return ftell(f);
+}
+
+int ogg_readComment(FILE* f, char** data)
+{
+    int readBytes = 0;
+    int comment_size = ogg_readCommentSize(f);
+    readBytes += 1;
+    //Three null bytes
+    ogg_skipBytes(f, 3);
+
+    *data = ogg_readData(f, comment_size);
+    //data[comment_size] = '\0';
+    readBytes += comment_size + 3;
+    
+    return readBytes;
 }
 
 char* ogg_storeData(char* bytes, tags_t tags)
@@ -100,7 +111,7 @@ char* ogg_storeData(char* bytes, tags_t tags)
 
 int ogg_readComments(FILE *f, tags_t tags, int size)
 {
-    ogg_read_comments_to(f, tags, KNULL, size);
+    return ogg_read_comments_to(f, tags, KNULL, size);
 }
 
 int ogg_readSize(FILE* f)
@@ -132,6 +143,7 @@ char* ogg_readData(FILE* f, int size)
     //+1 to make room for \0
     char* data = malloc(size + 1);
     fread(data, 1, size, f);
+    //printf("data: %s\n", data);
 
     return data;
 }

@@ -25,7 +25,7 @@ int main()
 {
     //kajamtag_write("test.flac", KTITLE, "REALLY LONG TITLE JUST TO FILL UP LOTS OF SPACE         J         J  OOOOOOO  W");
     
-    kajamtag_read("test2.flac");
+    kajamtag_read("test.flac");
     char* title = k_getData(KTITLE);
     char* album = k_getData(KALBUM);
     char* artist = k_getData(KARTIST);

@@ -46,6 +46,7 @@ char* ogg_storeData(char*, tags_t);
 int ogg_read_comments_to(FILE*, tags_t, Ktag, int);
 int ogg_readComments(FILE*, tags_t, int);
 
+int ogg_readComment(FILE*, char**);
 int ogg_readSize(FILE*);
 int ogg_readCommentSize(FILE*);
 char* ogg_readData(FILE*, int);

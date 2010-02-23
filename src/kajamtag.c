@@ -59,16 +59,16 @@ int kajamtag_read(char* musicString)
         free(identifier);
         tags.ids = (char**) tags_ogg;
 
-        int bytes = 0;
-        bytes = ogg_read(musicFile, tags);
+        printf("about to read\n");
+        ogg_read(musicFile, tags);
+        printf("done reading\n");
     }
     else if(k_isFlac(identifier))
     {
         free(identifier);
         tags.ids = (char**) tags_ogg;
         
-        int bytes = 0;
-        bytes = flac_read(musicFile, tags);
+        flac_read(musicFile, tags);
     }
     
     //"BAD_TAG" means the tag is not recognized.

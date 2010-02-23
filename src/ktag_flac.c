@@ -53,9 +53,25 @@ int flac_read_to_comments(FILE* f)
 int flac_read(FILE *f, tags_t tags)
 {
     int size = flac_read_to_comments(f);
+    int readBytes = 0;
+    
+    int comment_size = 0;
+    comment_size = ogg_readCommentSize(f);
+    readBytes += 1;
 
-    //Read through the Xiph comment area and store the data.
-    ogg_readComments(f, tags, size);
-
-    return 0;
+    /* +6 because there are 6 bytes between where
+     * it's left off, and where the size of the first
+     * tag */
+    ogg_skipBytes(f, comment_size + 7);
+    readBytes += comment_size + 7;
+    
+    while(readBytes < size)
+    {
+        char* data;
+        readBytes += ogg_readComment(f, &data);
+        char* id = ogg_storeData(data, tags);
+        free(id);
+    }
+    
+    return ftell(f);
 }

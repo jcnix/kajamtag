@@ -37,8 +37,9 @@ extern "C" {
 #include "kajamtag.h"
 #include "ktag_ogg.h"
 
-int flac_read_to_comments(FILE*);
 int flac_read(FILE*, tags_t);
+int flac_read_to_comments(FILE*);
+int flac_read_comments(FILE*, tags_t, int);
 
 #endif
 
