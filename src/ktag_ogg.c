@@ -74,8 +74,10 @@ int ogg_readComment(FILE* f, char** data)
     int comment_size = ogg_readCommentSize(f);
     readBytes += 1;
 
-    *data = ogg_readData(f, comment_size);
-    //data[comment_size] = '\0';
+    char* d = ogg_readData(f, comment_size);
+    d[comment_size] = '\0';
+    *data = d;
+    
     readBytes += comment_size + 3;
     
     return readBytes;
