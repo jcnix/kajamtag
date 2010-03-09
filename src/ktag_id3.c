@@ -224,16 +224,51 @@ int id3_readFlags(FILE* f)
 
 char* id3_readData(FILE* f, int size)
 {
-    //Using a malloc here because in some cases, we try
-    //allocating a huge amount of memory.  Using an array 
-    //we couldn't check that.
     char* data = malloc(size*sizeof(char));
     if(data == NULL)
         return NULL;
     
-    size_t bytes = fread(data, sizeof(char), size - 1, f);
-    *(data + size-1) = '\0';
+    if(id3_isUTF16(f))
+    {
+        //readData_UTF16 will reallocate it.
+        free(data);
+        data = id3_readData_UTF16(f, size);
+    }
+    else
+    {
+        size_t bytes = fread(data, 1, size - 1, f);
+        *(data + size -1 ) = '\0';
+    }
     
+    return data;
+}
+
+char* id3_readData_UTF16(FILE *f, int size)
+{   
+    //We don't want to reread the two byte UTF16 identifier
+    fseek(f, 2, SEEK_CUR);
+    size -= 2;
+    
+    char* data = malloc(size/2);
+    if(data == NULL)
+        return NULL;
+    
+    int i;
+    int j = 0;
+    for(i = 0; i < size -1; i++)
+    {
+        char c = ' ';
+        fread(&c, 1, 1, f);
+        if(c == '\0')
+        {
+            continue;
+        }
+        
+        data[j] = c;
+        j++;
+    }
+    
+    *(data + strlen(data)) = '\0';
     return data;
 }
 
@@ -248,6 +283,24 @@ void id3_readByte(FILE* f, int size)
 int id3_getFlag(int byte, int bit)  
 {  
     return (byte & 1 << bit)? 1: 0;  
+}
+
+int id3_isUTF16(FILE* f)
+{
+    int utf;
+    size_t bytes = fread(&utf, 2, 1, f);
+    
+    if(utf == 0xfeff)
+    {
+        //return to original position
+        fseek(f, -2, SEEK_CUR);
+        return 1;
+    }
+    else
+    {
+        fseek(f, -2, SEEK_CUR);
+        return 0;
+    }
 }
 
 int id3_writeSize(FILE* f, int size, int version)

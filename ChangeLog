@@ -1,5 +1,6 @@
 Kajamtag 0.3.0
 -Better, less hacky Ogg/Flac reading
+-UTF-16 support in ID3
 
 Kajamtag 0.2.6.1
 -Fixed tags not being read at all on some machines

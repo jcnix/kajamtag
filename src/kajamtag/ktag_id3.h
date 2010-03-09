@@ -52,7 +52,9 @@ char* id3_readID(FILE*);
 int id3_readSize(FILE*, int);
 int id3_readFlags(FILE*);
 char* id3_readData(FILE*, int);
+char* id3_readData_UTF16(FILE*, int);
 void id3_readByte(FILE*, int);
+int id3_isUTF16(FILE*);
 int id3_writeSize(FILE*, int, int);
 int id3_writeData(FILE*, char*);
 
