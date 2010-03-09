@@ -149,7 +149,7 @@ int id3_write(FILE* f, Ktag tag, char* data)
     id3_writeSize(f, size + 1, version);
     
     id3_readFlags(f); //advancing the file pointer
-    id3_readByte(f, 1);
+    fseek(f, 1, SEEK_CUR);
     
     //Write the new data
     id3_writeData(f, data);
@@ -185,7 +185,7 @@ int id3_readFullFrame(FILE* f, int version, char **id, int *size, int *flags, ch
         return 0;
     
     *flags = id3_readFlags(f);
-    id3_readByte(f, 1); //skip a byte
+    fseek(f, 1, SEEK_CUR); //skip an unused byte
     
     *data = id3_readData(f, *size);
     if(data == NULL)
@@ -270,13 +270,6 @@ char* id3_readData_UTF16(FILE *f, int size)
     
     *(data + strlen(data)) = '\0';
     return data;
-}
-
-void id3_readByte(FILE* f, int size)
-{
-    char* data = malloc(size);
-    size_t bytes = fread(data, sizeof(char), size, f);
-    free(data);
 }
 
 /* returns 0 or 1, depending on if a flag is set or not */
