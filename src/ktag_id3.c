@@ -237,7 +237,7 @@ char* id3_readData(FILE* f, int size)
     else
     {
         size_t bytes = fread(data, 1, size - 1, f);
-        *(data + size -1 ) = '\0';
+        *(data + size - 1) = '\0';
     }
     
     return data;
@@ -268,7 +268,7 @@ char* id3_readData_UTF16(FILE *f, int size)
         j++;
     }
     
-    *(data + strlen(data)) = '\0';
+    *(data + (size/2)) = '\0';
     return data;
 }
 
