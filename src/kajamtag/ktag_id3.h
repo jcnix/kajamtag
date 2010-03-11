@@ -41,6 +41,12 @@ extern "C" {
 
 #define TAG_TO_INT(tag) ((tag)&0x7f) | (((tag)&0x7f00)>>1) | (((tag)&0x7f0000)>>2) | (((tag)&0x7f000000)>>3)
 
+//Error codes
+#define KTAG_OKAY 1
+#define ILLEGAL_SIZE 2
+#define IS_UTF16 3
+#define IS_UTF8 4
+
 int id3_header(FILE*);
 int id3_frame(FILE*, int, tags_t);
 int id3_write(FILE*, Ktag, char*);

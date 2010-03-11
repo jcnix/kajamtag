@@ -56,14 +56,16 @@ int id3_frame(FILE *f, int version, tags_t tags)
     
     int read = id3_readFullFrame(f, version, &id, &size, &flags, &data);
     
-    if(!read)
+    if(read == ILLEGAL_SIZE)
+    {
         return 0;
+    }
     
     id3_storeData(id, data, tags);
     free(id);
     free(data);
 
-    return 1;
+    return KTAG_OKAY;
 }
 
 int id3_write(FILE* f, Ktag tag, char* data)
@@ -163,7 +165,7 @@ int id3_write(FILE* f, Ktag tag, char* data)
     isize = htobe32(TAG_TO_INT(isize - diffSize));
     fwrite(&isize, sizeof(int), 1, f);
 
-    return 1;
+    return KTAG_OKAY;
 }
 
 int id3_storeData(char* identifier, char* data, tags_t tags)
@@ -182,7 +184,7 @@ int id3_readFullFrame(FILE* f, int version, char **id, int *size, int *flags, ch
     *size = id3_readSize(f, version);
     //Blank header, probably done reading
     if(*size <= 0 || *size >= 32000) // ~32kb
-        return 0;
+        return ILLEGAL_SIZE;
     
     *flags = id3_readFlags(f);
     fseek(f, 1, SEEK_CUR); //skip an unused byte
@@ -191,7 +193,7 @@ int id3_readFullFrame(FILE* f, int version, char **id, int *size, int *flags, ch
     if(data == NULL)
         return 0;
     
-    return 1;
+    return KTAG_OKAY;
 }
 
 char* id3_readID(FILE* f)
@@ -304,11 +306,11 @@ int id3_writeSize(FILE* f, int size, int version)
         size = be32toh(size);
     
     size_t bytes = fwrite(&size, sizeof(int), 1, f);
-    return 1;
+    return KTAG_OKAY;
 }
 
 int id3_writeData(FILE* f, char* data)
 {
     size_t bytes = fwrite(data, sizeof(char), strlen(data), f);
-    return 1;
+    return KTAG_OKAY;
 }
