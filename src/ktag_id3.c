@@ -181,7 +181,7 @@ int id3_readFullFrame(FILE* f, int version, char **id, int *size, int *flags, ch
     
     *size = id3_readSize(f, version);
     //Blank header, probably done reading
-    if(*size == 0 || *size > 32000) // ~32kb
+    if(*size <= 0 || *size >= 32000) // ~32kb
         return 0;
     
     *flags = id3_readFlags(f);
