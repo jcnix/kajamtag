@@ -70,17 +70,29 @@ int id3_frame(FILE *f, int version, tags_t tags)
     int flags;
     char *data;
     
-    int read = id3_readFullFrame(f, version, &id, &size, &flags, &data);
+    int err = id3_readFullFrame(f, version, &id, &size, &flags, &data);
     
-    if(read == ILLEGAL_SIZE)
+    if(err == IS_UTF16)
+    {
+        
+        wchar_t *wdata;
+        err = id3_readFullFrame16(f, version, &id, &size, &flags, &wdata);
+        id3_storeData16(id, wdata, tags);
+        free(wdata);
+    }
+    else if(err != ILLEGAL_SIZE)
+    {
+        id3_storeData(id, data, tags);
+        free(data);
+    }
+    
+    if(err == ILLEGAL_SIZE)
     {
         return 0;
     }
     
-    id3_storeData(id, data, tags);
     free(id);
-    free(data);
-
+    
     return KTAG_OKAY;
 }
 
@@ -104,6 +116,7 @@ int id3_write(FILE* f, Ktag tag, char* data)
     int nsize, flags;
     
     //Find the frame we want to rewrite
+    //TODO: Use Error Code checking here
     while(fullFrameRead != 0)
     {
         char *id = id3_readID(f);
@@ -138,11 +151,13 @@ int id3_write(FILE* f, Ktag tag, char* data)
      * This is because we'd have to read backwards if the new data is
      * larger than the old data, otherwise we'd overwrite data we haven't read yet.*/
     int sumSize = 0;
+    //TODO: use Error Code checking here
     while(fullFrameRead != 0)
     {
         fullFrameRead = id3_readFullFrame(f, version, &nid, &nsize, &flags, 
                                           &ndata);
 
+        //TODO: use Error Code checking here
         if(fullFrameRead != 0)
         {
             free(ndata);
@@ -184,16 +199,25 @@ int id3_write(FILE* f, Ktag tag, char* data)
     return KTAG_OKAY;
 }
 
-int id3_storeData(char* identifier, char* data, tags_t tags)
+int id3_storeData(char* id, char* data, tags_t tags)
 {
     char* d = strdup(data);
-    util_storeData(identifier, d, tags);
+    util_storeData(id, d, tags);
+    
+    return 1;
+}
+
+int id3_storeData16(char* id, wchar_t* data, tags_t tags)
+{
+    wchar_t* d = strdup(data);
+    util_storeData16(id, d, tags);
     
     return 1;
 }
 
 //This function reads a frame and returns all data
-int id3_readFullFrame(FILE* f, int version, char **id, int *size, int *flags, char **data)
+int id3_readFullFrame(FILE* f, int version, char **id, int *size,
+                      int *flags, char **data)
 {
     *id = id3_readID(f);
     
@@ -205,7 +229,41 @@ int id3_readFullFrame(FILE* f, int version, char **id, int *size, int *flags, ch
     *flags = id3_readFlags(f);
     fseek(f, 1, SEEK_CUR); //skip an unused byte
     
+    if(id3_isUTF16(f))
+    {
+        fseek(f, -11, SEEK_CUR);
+        return IS_UTF16;
+    }
+    
     *data = id3_readData(f, *size);
+    if(data == NULL)
+        return 0;
+    
+    return KTAG_OKAY;
+}
+
+//This function reads a full frame with a UTF-16 data string
+int id3_readFullFrame16(FILE* f, int version, char **id, int *size,
+                      int *flags, wchar_t **data)
+{
+    *id = id3_readID(f);
+    
+    *size = id3_readSize(f, version);
+
+    //Blank header, probably done reading
+    if(*size <= 0 || *size >= 32000) // ~32kb
+        return ILLEGAL_SIZE;
+    
+    *flags = id3_readFlags(f);
+    fseek(f, 1, SEEK_CUR); //skip an unused byte
+    
+    if(!id3_isUTF16(f))
+    {
+        fseek(f, -11, SEEK_CUR);
+        return IS_UTF8;
+    }
+    
+    *data = id3_readData16(f, *size);
     if(data == NULL)
         return 0;
     
@@ -246,44 +304,32 @@ char* id3_readData(FILE* f, int size)
     if(data == NULL)
         return NULL;
     
-    if(id3_isUTF16(f))
-    {
-        //readData_UTF16 will reallocate it.
-        free(data);
-        data = id3_readData_UTF16(f, size);
-    }
-    else
-    {
-        size_t bytes = fread(data, 1, size - 1, f);
-        *(data + size - 1) = '\0';
-    }
+    size_t bytes = fread(data, 1, size - 1, f);
+    *(data + size - 1) = '\0';
     
     return data;
 }
 
-char* id3_readData_UTF16(FILE *f, int size)
-{   
+wchar_t* id3_readData16(FILE *f, int size)
+{
     //We don't want to reread the two byte UTF16 identifier
     fseek(f, 2, SEEK_CUR);
     size -= 2;
-    
-    char* data = malloc(size/2);
+
+    // (On GNU) 4 bytes * size/2 characters
+    // size is the number of bytes the data in the frame
+    // 2 is the number of bytes per char in the frame
+    wchar_t* data = malloc(sizeof(wint_t) * size/2);
     if(data == NULL)
         return NULL;
     
     int i;
-    int j = 0;
-    for(i = 0; i < size -1; i++)
+    for(i = 0; i < size/2; i++)
     {
-        char c = ' ';
-        fread(&c, 1, 1, f);
-        if(c == '\0')
-        {
-            continue;
-        }
+        wint_t c = ' ';
+        fread(&c, 2, 1, f);
         
-        data[j] = c;
-        j++;
+        data[i] = c;
     }
     
     *(data + (size/2)) = '\0';

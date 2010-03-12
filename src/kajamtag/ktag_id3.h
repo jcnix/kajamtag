@@ -26,14 +26,15 @@
 extern "C" {
 #endif
 
-
 #ifndef _ID3_H
 #define _ID3_H
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stddef.h>
 #include <string.h>
 #include <endian.h>
+#include <wchar.h>
 
 #include "kajamtag.h"
 #include "ktag_constants.h"
@@ -52,14 +53,17 @@ int id3_header(FILE*);
 int id3_frame(FILE*, int, tags_t);
 int id3_write(FILE*, Ktag, char*);
 int id3_storeData(char*, char*, tags_t);
+int id3_storeData16(char*, wchar_t*, tags_t);
 int id3_getFlag(int, int);
 
 int id3_readFullFrame(FILE*, int, char**, int*, int*, char**);
+int id3_readFullFrame16(FILE*, int, char**, int*, int*, wchar_t**);
+
 char* id3_readID(FILE*);
 int id3_readSize(FILE*, int);
 int id3_readFlags(FILE*);
 char* id3_readData(FILE*, int);
-char* id3_readData_UTF16(FILE*, int);
+wchar_t* id3_readData16(FILE*, int);
 int id3_isUTF16(FILE*);
 int id3_writeSize(FILE*, int, int);
 int id3_writeData(FILE*, char*);

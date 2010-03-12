@@ -105,6 +105,11 @@ int kajamtag_write(char* file, Ktag tag, char* data)
     return 1;
 }
 
+int kajamtag_isUtf16()
+{
+    return isUtf16;
+}
+
 int kajamtag_close()
 {
     sfree(k_tags.title);

@@ -26,13 +26,20 @@ int main()
     //kajamtag_write("test.flac", KTITLE, "REALLY LONG TITLE JUST TO FILL UP LOTS OF SPACE         J         J  OOOOOOO  W");
     
     kajamtag_read("test.mp3");
-    char* title = k_getData(KTITLE);
-    char* album = k_getData(KALBUM);
-    char* artist = k_getData(KARTIST);
+    if(!kajamtag_isUtf16())
+    {
+        char* title = k_getData(KTITLE);
+        char* album = k_getData(KALBUM);
+        char* artist = k_getData(KARTIST);
     
-    printf("Title: %s\n", title);
-    printf("Album: %s\n", album);
-    printf("Artist: %s\n", artist);
+        printf("Title: %s\n", title);
+        printf("Album: %s\n", album);
+        printf("Artist: %s\n", artist);
+    }
+    else
+    {
+        printf("UTF16!\n");
+    }
     
 	kajamtag_close();
 

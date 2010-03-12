@@ -27,6 +27,7 @@ extern "C" {
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stddef.h>
 #include <string.h>
 
 #include "ktag_id3.h"
@@ -43,15 +44,23 @@ struct kajamtag
     char* genre;
     int track;
     char* composer;
+    
+    wchar_t* wtitle;
+    wchar_t* walbum;
+    wchar_t* wartist;
+    wchar_t* wgenre;
+    wchar_t* wcomposer;
 };
 
 typedef struct kajamtag kajamtag_t;
 kajamtag_t k_tags;
 
+int isUtf16;
 int badTag;
 
 int kajamtag_read(char*);
 int kajamtag_write(char*, Ktag, char*);
+int kajamtag_isUtf16();
 
 /* Frees all the memory storing the data.
  * Should be run when done retrieving all
