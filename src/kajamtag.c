@@ -116,11 +116,11 @@ int kajamtag_write(char* file, Ktag tag, char* data)
 
 int kajamtag_close()
 {
-    free(k_tags.title);
-    free(k_tags.album);
-    free(k_tags.artist);
-    free(k_tags.genre);
-    free(k_tags.composer);
+    sfree(k_tags.title);
+    sfree(k_tags.album);
+    sfree(k_tags.artist);
+    sfree(k_tags.genre);
+    sfree(k_tags.composer);
 }
 
 /* Reads the first three bytes

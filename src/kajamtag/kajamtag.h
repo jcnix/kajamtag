@@ -32,6 +32,7 @@ extern "C" {
 #include "ktag_id3.h"
 #include "ktag_ogg.h"
 #include "ktag_flac.h"
+#include "ktag_util.h"
 #include "ktag_constants.h"
 
 struct kajamtag 
