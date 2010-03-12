@@ -245,7 +245,12 @@ int k_getTrack()
 char* k_getComposer()
 {
     if(badTag)
-        return 0;
+        return "BAD_TAG";
     
-    return k_tags.composer;
+    char* data = k_tags.composer;
+    
+    if(data == NULL)
+        data = "NO_DATA";
+    
+    return data;
 }
