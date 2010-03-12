@@ -50,3 +50,11 @@ int util_storeData(char* id, char* data, tags_t tags)
     else
         free(data);
 }
+
+void sfree(char* buffer)
+{
+    if(buffer != NULL)
+    {
+        free(buffer);
+    }
+}

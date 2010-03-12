@@ -31,4 +31,7 @@
 int error(size_t, int);
 int util_storeData(char*, char*, tags_t);
 
+//Safely free() char*s
+void sfree(char*);
+
 #endif
