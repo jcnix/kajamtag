@@ -20,6 +20,22 @@
 
 #include "kajamtag/ktag_id3.h"
 
+int id3_read(FILE* f, tags_t tags)
+{
+    int version = id3_header(f);
+        
+    if(version == 2)
+        tags.ids = (char**) tags_id3_v2_2;
+    else
+        tags.ids = (char**) tags_id3;
+    
+    int read = 1;
+    while(read == 1) 
+    {
+        read = id3_frame(f, version, tags);
+    }
+}
+
 /* Returns the ID3 tag version */
 int id3_header(FILE *musicFile)
 {

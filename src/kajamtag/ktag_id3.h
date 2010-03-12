@@ -47,6 +47,7 @@ extern "C" {
 #define IS_UTF16 3
 #define IS_UTF8 4
 
+int id3_read(FILE*, tags_t tags);
 int id3_header(FILE*);
 int id3_frame(FILE*, int, tags_t);
 int id3_write(FILE*, Ktag, char*);
