@@ -187,44 +187,6 @@ char* k_getData(Ktag tag)
     return data;
 }
 
-char* k_getTitle()
-{
-    if(badTag)
-        return "BAD_TAG";
-    
-    char* data = k_tags.title;
-    
-    if(data == NULL)
-        data = "NO_DATA";
-    
-    return data;
-}
-
-char* k_getArtist()
-{
-    if(badTag)
-        return "BAD_TAG";
-    
-    char* data = k_tags.artist;
-    
-    if(data == NULL)
-        data = "NO_DATA";
-    
-    return data;
-}
-char* k_getAlbum()
-{
-    if(badTag)
-        return "BAD_TAG";
-    
-    char* data = k_tags.album;
-    
-    if(data == NULL)
-        data = "NO_DATA";
-    
-    return data;
-}
-
 int k_getTrack()
 {
     if(badTag)
@@ -233,15 +195,21 @@ int k_getTrack()
     return k_tags.track;
 }
 
+char* k_getTitle()
+{
+    return k_getData(KTITLE);
+}
+
+char* k_getArtist()
+{   
+    return k_getData(KARTIST);
+}
+char* k_getAlbum()
+{
+    return k_getData(KALBUM);
+}
+
 char* k_getComposer()
 {
-    if(badTag)
-        return "BAD_TAG";
-    
-    char* data = k_tags.composer;
-    
-    if(data == NULL)
-        data = "NO_DATA";
-    
-    return data;
+    return k_getData(KCOMPOSER);
 }

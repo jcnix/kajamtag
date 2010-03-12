@@ -60,10 +60,10 @@ int kajamtag_close();
 
 char* k_getData(Ktag);
 
+int k_getTrack();
 char* k_getTitle();
 char* k_getArtist();
 char* k_getAlbum();
-int k_getTrack();
 char* k_getComposer();
 
 #endif
