@@ -1,5 +1,5 @@
 /*
- * File:   kajamtagogg.h
+ * File:   ktag_gogg.h
  * Author: Casey Jones
  *
  * This file is part of KaJamTag.

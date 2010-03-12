@@ -1,5 +1,5 @@
 /*
- * File:   kajamtagutility.c
+ * File:   ktag_util.c
  * Author: Casey Jones
  *
  * This file is part of KaJamTag.

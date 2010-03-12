@@ -1,5 +1,5 @@
 /*
- * File:   kajamtag.h
+ * File:   ktag_constants.h
  * Author: Casey Jones
  *
  * This file is part of KaJamTag.

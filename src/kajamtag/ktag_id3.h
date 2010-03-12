@@ -1,5 +1,5 @@
 /*
- * File:   kajamtagid3.h
+ * File:   ktag_id3.h
  * Author: Casey Jones
  *
  * This file is part of KaJamTag.
