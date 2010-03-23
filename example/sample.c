@@ -38,7 +38,15 @@ int main()
     }
     else
     {
-        printf("UTF16!\n");
+        //We can use either k_getData16()
+        //or the k_get*() functions
+        wchar_t* title = k_getTitle16();
+        wchar_t* album = k_getAlbum16();
+        wchar_t* artist = k_getArtist16();
+
+        wprintf("Title16: %s\n", title);
+        wprintf("Album16: %s\n", album);
+        wprintf("Artist16: %s\n", artist);
     }
     
 	kajamtag_close();

@@ -68,12 +68,18 @@ int kajamtag_isUtf16();
 int kajamtag_close();
 
 char* k_getData(Ktag);
+wchar_t* k_getData16(Ktag);
 
 int k_getTrack();
 char* k_getTitle();
 char* k_getArtist();
 char* k_getAlbum();
 char* k_getComposer();
+
+wchar_t* k_getTitle16();
+wchar_t* k_getArtist16();
+wchar_t* k_getAlbum16();
+wchar_t* k_getComposer16();
 
 #endif
 
