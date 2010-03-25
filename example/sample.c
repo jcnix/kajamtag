@@ -44,9 +44,9 @@ int main()
         wchar_t* album = k_getAlbum16();
         wchar_t* artist = k_getArtist16();
 
-        wprintf("Title16: %s\n", title);
-        wprintf("Album16: %s\n", album);
-        wprintf("Artist16: %s\n", artist);
+        printf("Title16: %ls\n", title);
+        printf("Album16: %ls\n", album);
+        printf("Artist16: %ls\n", artist);
     }
     
 	kajamtag_close();

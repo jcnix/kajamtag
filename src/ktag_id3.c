@@ -77,8 +77,7 @@ int id3_frame(FILE *f, int version, tags_t tags)
         
         wchar_t *wdata;
         err = id3_readFullFrame16(f, version, &id, &size, &flags, &wdata);
-        id3_storeData16(id, wdata, tags);
-        free(wdata);
+        util_storeData16(id, wdata, tags);
     }
     else if(err != ILLEGAL_SIZE)
     {
@@ -207,14 +206,6 @@ int id3_storeData(char* id, char* data, tags_t tags)
     return 1;
 }
 
-int id3_storeData16(char* id, wchar_t* data, tags_t tags)
-{
-    wchar_t* d = strdup(data);
-    util_storeData16(id, d, tags);
-    
-    return 1;
-}
-
 //This function reads a frame and returns all data
 int id3_readFullFrame(FILE* f, int version, char **id, int *size,
                       int *flags, char **data)
@@ -266,7 +257,7 @@ int id3_readFullFrame16(FILE* f, int version, char **id, int *size,
     *data = id3_readData16(f, *size);
     if(data == NULL)
         return 0;
-    
+        
     return KTAG_OKAY;
 }
 
@@ -326,7 +317,7 @@ wchar_t* id3_readData16(FILE *f, int size)
     int i;
     for(i = 0; i < size/2; i++)
     {
-        wint_t c = ' ';
+        wint_t c = 0x0;
         fread(&c, 2, 1, f);
         
         data[i] = c;
