@@ -114,8 +114,7 @@ int id3_write(FILE* f, Ktag tag, char* data)
     int nsize, flags;
     
     //Find the frame we want to rewrite
-    //TODO: Use Error Code checking here
-    while(fullFrameRead != 0)
+    while(fullFrameRead != ILLEGAL_SIZE)
     {
         char *id = id3_readID(f);
         
@@ -149,14 +148,12 @@ int id3_write(FILE* f, Ktag tag, char* data)
      * This is because we'd have to read backwards if the new data is
      * larger than the old data, otherwise we'd overwrite data we haven't read yet.*/
     int sumSize = 0;
-    //TODO: use Error Code checking here
-    while(fullFrameRead != 0)
+    while(fullFrameRead != ILLEGAL_SIZE)
     {
         fullFrameRead = id3_readFullFrame(f, version, &nid, &nsize, &flags, 
                                           &ndata);
 
-        //TODO: use Error Code checking here
-        if(fullFrameRead != 0)
+        if(fullFrameRead != ILLEGAL_SIZE)
         {
             free(ndata);
             free(nid);
@@ -313,12 +310,14 @@ wchar_t* id3_readData16(FILE *f, int size)
     if(data == NULL)
         return NULL;
     
+    //TODO: Figure out why this doesn't work.
+    //fread(data, 2, size/2, f);
+    
     int i;
     for(i = 0; i < size/2; i++)
     {
         wint_t c = 0x0;
         fread(&c, 2, 1, f);
-        
         data[i] = c;
     }
     
