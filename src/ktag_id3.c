@@ -56,7 +56,7 @@ int id3_header(FILE *musicFile)
     fseek(musicFile, 1, SEEK_CUR);
     
     int size = 0;
-    bytes = fread(&size, sizeof(int), 1, musicFile);
+    bytes = fread(&size, 4, 1, musicFile);
     size = TAG_TO_INT(htobe32(size));
     
     return majorVer;
@@ -74,7 +74,6 @@ int id3_frame(FILE *f, int version, tags_t tags)
     
     if(err == IS_UTF16)
     {
-        
         wchar_t *wdata;
         err = id3_readFullFrame16(f, version, &id, &size, &flags, &wdata);
         util_storeData16(id, wdata, tags);
@@ -169,10 +168,10 @@ int id3_write(FILE* f, Ktag tag, char* data)
     }
     fseek(f, bookmarkPos + oldSize + 7, SEEK_SET);
     char* bigBuffer = malloc(sumSize);
-    fread(bigBuffer, sizeof(char), sumSize, f);
+    fread(bigBuffer, 1, sumSize, f);
     //return to original spot, and adjust to where the new spot should be
     fseek(f, -sumSize - diffSize, SEEK_CUR);
-    fwrite(bigBuffer, sizeof(char), sumSize, f); //write the big hunk
+    fwrite(bigBuffer, 1, sumSize, f); //write the big hunk
     free(bigBuffer);
     
     fseek(f, bookmarkPos, SEEK_SET); //return to where the data should go
@@ -189,11 +188,11 @@ int id3_write(FILE* f, Ktag tag, char* data)
     //Rewrite the ID3 tag size in the header
     fseek(f, 6, SEEK_SET);
     int isize = 0;
-    fread(&isize, sizeof(int), 1, f);
+    fread(&isize, 1, 1, f);
     fseek(f, 6, SEEK_SET); //return to where we were
     isize = TAG_TO_INT(htobe32(isize));
     isize = htobe32(TAG_TO_INT(isize - diffSize));
-    fwrite(&isize, sizeof(int), 1, f);
+    fwrite(&isize, 1, 1, f);
 
     return KTAG_OKAY;
 }
@@ -263,15 +262,15 @@ int id3_readFullFrame16(FILE* f, int version, char **id, int *size,
 
 char* id3_readID(FILE* f)
 {
-    char *id = malloc(4*sizeof(char));
-    size_t bytes = fread(id, sizeof(char), 4, f);
+    char *id = malloc(4);
+    size_t bytes = fread(id, 1, 4, f);
     return id;
 }
 
 int id3_readSize(FILE* f, int version)
 {
     int size = 0;
-    size_t bytes = fread(&size, sizeof(int), 1, f);
+    size_t bytes = fread(&size, 4, 1, f);
     
     //ID3 2.4 uses synchronized ints, 2.3 does not
     if(version == 4)
@@ -291,7 +290,7 @@ int id3_readFlags(FILE* f)
 
 char* id3_readData(FILE* f, int size)
 {
-    char* data = malloc(size*sizeof(char));
+    char* data = malloc(size);
     if(data == NULL)
         return NULL;
     
@@ -358,12 +357,12 @@ int id3_writeSize(FILE* f, int size, int version)
     else if(version == 3)
         size = be32toh(size);
     
-    size_t bytes = fwrite(&size, sizeof(int), 1, f);
+    size_t bytes = fwrite(&size, 4, 1, f);
     return KTAG_OKAY;
 }
 
 int id3_writeData(FILE* f, char* data)
 {
-    size_t bytes = fwrite(data, sizeof(char), strlen(data), f);
+    size_t bytes = fwrite(data, 1, strlen(data), f);
     return KTAG_OKAY;
 }

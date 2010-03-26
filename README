@@ -1,6 +1,6 @@
 There is a sample C program and Makefile in example/, which I will try keeping up to date.
 Also, the header files are a good source of information on what parameters a function needs.
-All the necessary functions are in kajamtag.h.
+All the necessary functions to use in your application are in kajamtag.h.
 
 To install:
 ./autogen.sh
