@@ -52,8 +52,6 @@ int ogg_readCommentSize(FILE*);
 char* ogg_readData(FILE*, int);
 int ogg_skipBytes(FILE*, int);
 
-char* strup(char*);
-
 #endif
 
 #ifdef __cplusplus

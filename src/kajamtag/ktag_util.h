@@ -34,5 +34,6 @@ int util_storeData16(char*, wchar_t*, tags_t);
 
 //Safely free() char*s
 void sfree(char*);
+char* strup(char*);
 
 #endif

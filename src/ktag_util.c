@@ -79,3 +79,19 @@ void sfree(char* buffer)
     }
 }
 
+//Convert string to upper case
+char* strup(char* in)
+{
+    char c;
+    int i;
+    
+    for(i = 0; i < strlen(in); i++)
+    {
+        c = in[i];
+        if(islower(c))
+            c = toupper(c);
+        in[i] = c;
+    }
+    
+    return in;
+}
