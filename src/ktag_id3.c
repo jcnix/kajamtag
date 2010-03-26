@@ -80,8 +80,7 @@ int id3_frame(FILE *f, int version, tags_t tags)
     }
     else if(err != ILLEGAL_SIZE)
     {
-        id3_storeData(id, data, tags);
-        free(data);
+        util_storeData(id, data, tags);
     }
     
     if(err == ILLEGAL_SIZE)
@@ -192,14 +191,6 @@ int id3_write(FILE* f, Ktag tag, char* data)
     fwrite(&isize, 1, 1, f);
 
     return KTAG_OKAY;
-}
-
-int id3_storeData(char* id, char* data, tags_t tags)
-{
-    char* d = strdup(data);
-    util_storeData(id, d, tags);
-    
-    return 1;
 }
 
 //This function reads a frame and returns all data
