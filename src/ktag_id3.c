@@ -184,11 +184,11 @@ int id3_write(FILE* f, Ktag tag, char* data)
     //Rewrite the ID3 tag size in the header
     fseek(f, 6, SEEK_SET);
     int isize = 0;
-    fread(&isize, 1, 1, f);
+    fread(&isize, 4, 1, f);
     fseek(f, 6, SEEK_SET); //return to where we were
     isize = TAG_TO_INT(htobe32(isize));
     isize = htobe32(TAG_TO_INT(isize - diffSize));
-    fwrite(&isize, 1, 1, f);
+    fwrite(&isize, 4, 1, f);
 
     return KTAG_OKAY;
 }
