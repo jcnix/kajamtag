@@ -103,6 +103,7 @@ int id3_write(FILE* f, Ktag tag, char* data)
     else
         tags.ids = (char**) tags_id3;
     
+    //Identifier we're looking for
     char* identifier = tags.ids[tag];
     
     int size = strlen(data);
@@ -131,7 +132,7 @@ int id3_write(FILE* f, Ktag tag, char* data)
             fullFrameRead = id3_readFullFrame(f, version, &nid, &nsize, &flags,
                                               &ndata);
             
-            free(ndata);
+            //free(ndata);
             free(nid);
         }
         free(id);
@@ -143,30 +144,17 @@ int id3_write(FILE* f, Ktag tag, char* data)
     
     /* Rewrite the rest of the data
      * We're going to cheat a little here and find how much data there is left
-     * and then read the rest as a big hunk and then write it again.
-     * This is because we'd have to read backwards if the new data is
-     * larger than the old data, otherwise we'd overwrite data we haven't read yet.*/
-    int sumSize = 0;
-    while(fullFrameRead != ILLEGAL_SIZE)
-    {
-        fullFrameRead = id3_readFullFrame(f, version, &nid, &nsize, &flags, 
-                                          &ndata);
-
-        if(fullFrameRead != ILLEGAL_SIZE)
-        {
-            free(ndata);
-            free(nid);
-        }
-        if(nsize < 500000) // ~500kb
-        {
-            sumSize += nsize + 11;
-        }
-    }
+     * in the file and then read the rest as a big hunk and then write it again.
+     */
+    fseek(f, 0, SEEK_END);
+    int lastByte = ftell(f);
+    int sumSize = lastByte - (bookmarkPos + oldSize + 7);
     fseek(f, bookmarkPos + oldSize + 7, SEEK_SET);
     char* bigBuffer = malloc(sumSize);
     fread(bigBuffer, 1, sumSize, f);
+
     //return to original spot, and adjust to where the new spot should be
-    fseek(f, -sumSize - diffSize, SEEK_CUR);
+    fseek(f, -sumSize - diffSize, SEEK_END);
     fwrite(bigBuffer, 1, sumSize, f); //write the big hunk
     free(bigBuffer);
     

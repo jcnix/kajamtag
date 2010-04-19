@@ -23,8 +23,8 @@
 
 int main()
 {
-    //kajamtag_write("test.flac", KTITLE, "REALLY LONG TITLE JUST TO FILL UP LOTS OF SPACE         J         J  OOOOOOO  W");
-    
+    kajamtag_write("test.mp3", KTITLE, "REALLY LONG TITLE JUST TO FILL UP LOTS OF SPACE");
+
     kajamtag_read("test.mp3");
     if(!kajamtag_isUtf16())
     {
