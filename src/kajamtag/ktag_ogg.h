@@ -39,12 +39,18 @@ extern "C" {
 
 #define INIT_SIZE 100*sizeof(char)
 
-int ogg_read(FILE*, tags_t);
-char* ogg_storeData(char*, tags_t);
+int ogg_read(FILE* f, tags_t tags);
+char* ogg_storeData(char* data, tags_t tags);
+int ogg_write(FILE* f, Ktag tag, char* data);
 
+/* Skips the useless data, and gets right to the Comments
+ * returns number of comments */
+int ogg_read_header(FILE* f);
+/* Reads until a tag, and stops
+ * returns position */
+int ogg_read_comments_to(FILE*, tags_t, Ktag, int num);
 /* Reads through the Xiph comment and stores all the data */
-int ogg_read_comments_to(FILE*, tags_t, Ktag, int);
-int ogg_readComments(FILE*, tags_t, int);
+int ogg_readComments(FILE* f, tags_t tags, int size);
 
 int ogg_readComment(FILE*, char**);
 int ogg_readSize(FILE*);

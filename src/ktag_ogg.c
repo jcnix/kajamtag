@@ -22,6 +22,15 @@
 
 int ogg_read(FILE *f, tags_t tags)
 {
+    int size = ogg_read_header(f);    
+    ogg_readComments(f, tags, size);
+    
+    return 1;
+}
+
+int ogg_read_header(FILE* f)
+{
+    //We're just ignoring the first bunch of stuff
     fseek(f, 27, SEEK_CUR);
     int size = 0;
     fread(&size, 1, 1, f);
@@ -31,20 +40,31 @@ int ogg_read(FILE *f, tags_t tags)
     fread(&size, 1, 1, f);
     fseek(f, size, SEEK_CUR);
     
+    //This is where we want to be in the file
     fseek(f, 1 + strlen("vorbis"), SEEK_CUR);
     fread(&size, 1, 1, f);
     fseek(f, size + 3, SEEK_CUR);
     fread(&size, 1, 1, f);
     
-    ogg_readComments(f, tags, size);
-    
-    return 1;
+    return size;
 }
 
+int ogg_write(FILE* f, Ktag ktag, char* data)
+{
+    int num_comments = ogg_read_header(f);
+    tags_t tags;
+    tags.ids = (char**) tags_ogg;
+    
+    int p = ogg_read_comments_to(f, tags, ktag, num_comments);
+    int size = ogg_readCommentSize(f);
+    
+    return 0;
+}
+
+/* Returns the position in f
+ * Assumes we're starting from where the comments start */
 int ogg_read_comments_to(FILE* f, tags_t tags, Ktag ktag, int num)
 {
-    size_t bytes;
-
     int comment_size = 0;
     ogg_skipBytes(f, 3);
     
@@ -52,16 +72,16 @@ int ogg_read_comments_to(FILE* f, tags_t tags, Ktag ktag, int num)
     while(i < num)
     {
         char* data;
-        ogg_readComment(f, &data);
+        int bytes = ogg_readComment(f, &data);
         char* id = ogg_storeData(data, tags);
         i++;
 
-//         if(ktag != KNULL && strcmp(id, tags.ids[ktag]) == 0)
-//         {
-//             int s = -s;
-//             fseek(f, s, SEEK_CUR);
-//             break;
-//         }
+        if(ktag != KNULL && strcmp(id, tags.ids[ktag]) == 0)
+        {
+            int s = -bytes;
+            fseek(f, s, SEEK_CUR);
+            break;
+        }
         free(id);
     }
 
@@ -93,7 +113,7 @@ char* ogg_storeData(char* bytes, tags_t tags)
     char* tokens = strtok(bytes, "=");
     if(tokens == NULL)
         return "BAD_TAG";
-    
+
     char* id = strdup(tokens);
     id = strup(id);
     
@@ -109,11 +129,15 @@ char* ogg_storeData(char* bytes, tags_t tags)
     return id;
 }
 
+/* Uses ogg_read_comments_to, but passes KNULL which means don't
+ * stop reading at a particular tag */
 int ogg_readComments(FILE *f, tags_t tags, int size)
 {
     return ogg_read_comments_to(f, tags, KNULL, size);
 }
 
+/* Used by Flac
+ * This could probably be moved to ktag_flac.c */
 int ogg_readSize(FILE* f)
 {
     int size;

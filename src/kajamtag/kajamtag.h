@@ -18,12 +18,12 @@
  * along with KaJamTag.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef _KAJAMTAG_H
+#define _KAJAMTAG_H
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#ifndef _KAJAMTAG_H
-#define _KAJAMTAG_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -81,8 +81,8 @@ wchar_t* k_getArtist16();
 wchar_t* k_getAlbum16();
 wchar_t* k_getComposer16();
 
-#endif
-
 #ifdef __cplusplus
 }
+#endif
+
 #endif
