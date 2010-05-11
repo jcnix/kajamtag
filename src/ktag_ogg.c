@@ -92,14 +92,14 @@ char* ogg_storeData(char* bytes, tags_t tags)
     
     char* tokens = strtok(bytes, "=");
     if(tokens == NULL)
-        return 0;
+        return "BAD_TAG";
     
     char* id = strdup(tokens);
     id = strup(id);
     
-    tokens = strtok(NULL, "=");    
+    tokens = strtok(NULL, "=");
     if(tokens == NULL)
-        return 0;
+        return id;
     
     char* data = strdup(tokens);
     
