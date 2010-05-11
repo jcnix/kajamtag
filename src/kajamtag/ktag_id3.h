@@ -55,16 +55,21 @@ int id3_write(FILE*, Ktag, char*);
 int id3_getFlag(int, int);
 
 int id3_readFullFrame(FILE*, int, char**, int*, int*, char**);
-int id3_readFullFrame16(FILE*, int, char**, int*, int*, wchar_t**);
 
 char* id3_readID(FILE*);
 int id3_readSize(FILE*, int);
 int id3_readFlags(FILE*);
 char* id3_readData(FILE*, int);
-wchar_t* id3_readData16(FILE*, int);
-int id3_isUTF16(FILE*);
+
 int id3_writeSize(FILE*, int, int);
 int id3_writeData(FILE*, char*);
+
+//UTF-16
+int id3_isUTF16(FILE*);
+int id3_write16(FILE* f, Ktag tag, wchar_t* data);
+int id3_readFullFrame16(FILE*, int, char**, int*, int*, wchar_t**);
+wchar_t* id3_readData16(FILE*, int);
+int id3_writeData16(FILE* f, wchar_t* data);
 
 #endif
 
