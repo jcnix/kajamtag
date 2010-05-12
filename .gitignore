@@ -34,4 +34,5 @@ bin/Makefile.in
 Makefile.in
 *.tar.gz
 *.bak
+libkajamtag.pc
 
