@@ -104,11 +104,25 @@ int kajamtag_isUtf16()
 
 int kajamtag_close()
 {
-    sfree(k_tags.title);
-    sfree(k_tags.album);
-    sfree(k_tags.artist);
-    sfree(k_tags.genre);
-    sfree(k_tags.composer);
+    if(!isUtf16)
+    {
+        sfree(k_tags.title);
+        sfree(k_tags.album);
+        sfree(k_tags.artist);
+        sfree(k_tags.genre);
+        sfree(k_tags.composer);
+    }
+    
+    if(isUtf16)
+    {
+        sfree(k_tags.wtitle);
+        sfree(k_tags.walbum);
+        sfree(k_tags.wartist);
+        sfree(k_tags.wgenre);
+        sfree(k_tags.wcomposer);
+    }
+    
+    isUtf16 = 0;
 }
 
 /* Reads the first three bytes
