@@ -102,6 +102,11 @@ int kajamtag_isUtf16()
     return isUtf16;
 }
 
+void kajamtag_setUtf16(int i)
+{
+    isUtf16 = i;
+}
+
 int kajamtag_close()
 {
     if(!isUtf16)

@@ -33,11 +33,13 @@ int id3_isUTF16(FILE* f)
     {
         //return to original position
         fseek(f, -2, SEEK_CUR);
+        kajamtag_setUtf16(1);
         return 1;
     }
     else
     {
         fseek(f, -2, SEEK_CUR);
+        kajamtag_setUtf16(0);
         return 0;
     }
 }

@@ -61,6 +61,7 @@ int badTag;
 int kajamtag_read(char*);
 int kajamtag_write(char*, Ktag, char*);
 int kajamtag_isUtf16();
+void kajamtag_setUtf16(int i);
 
 /* Frees all the memory storing the data.
  * Should be run when done retrieving all
