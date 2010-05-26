@@ -171,9 +171,3 @@ char* ogg_readData(FILE* f, int size)
 
     return data;
 }
-
-int ogg_skipBytes(FILE* f, int size)
-{
-    fseek(f, size, SEEK_CUR);
-}
-
