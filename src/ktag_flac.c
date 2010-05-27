@@ -34,7 +34,7 @@ int flac_read_to_comments(FILE* f)
     bytes = fread(&version, 1, 1, f);
     
     size = ogg_readSize(f);
-    ogg_skipBytes(f, size);
+    fseek(f, size, SEEK_CUR);
     
     while(1)
     {
@@ -42,7 +42,7 @@ int flac_read_to_comments(FILE* f)
         size = ogg_readSize(f);
         
         if(header != 4)
-            ogg_skipBytes(f, size);
+            fseek(f, size, SEEK_CUR);
         else
             break;
     }
@@ -62,7 +62,7 @@ int flac_read(FILE *f, tags_t tags)
     /* +4 because there are 4 bytes between where
      * it's left off, and where the size of the first
      * tag */
-    ogg_skipBytes(f, comment_size + 4);
+    fseek(f, comment_size + 4, SEEK_CUR);
     readBytes += comment_size + 4;
     
     while(readBytes < size)

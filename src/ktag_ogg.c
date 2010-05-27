@@ -51,12 +51,19 @@ int ogg_read_header(FILE* f)
 
 int ogg_write(FILE* f, Ktag ktag, char* data)
 {
+    int new_size = strlen(data);
     int num_comments = ogg_read_header(f);
     tags_t tags;
     tags.ids = (char**) tags_ogg;
     
     int p = ogg_read_comments_to(f, tags, ktag, num_comments);
-    int size = ogg_readCommentSize(f);
+    //int size = ogg_readCommentSize(f);
+    ogg_writeCommentSize(f, new_size);
+    
+    //Skip the identifier and = (album=something)
+    int id_len = strlen(tags.ids[ktag]) + 1;
+    fseek(f, id_len, SEEK_CUR);
+    ogg_writeData(f, data);
     
     return 0;
 }
@@ -66,7 +73,7 @@ int ogg_write(FILE* f, Ktag ktag, char* data)
 int ogg_read_comments_to(FILE* f, tags_t tags, Ktag ktag, int num)
 {
     int comment_size = 0;
-    ogg_skipBytes(f, 3);
+    fseek(f, 3, SEEK_CUR);
     
     int i = 0;
     while(i < num)
@@ -170,4 +177,15 @@ char* ogg_readData(FILE* f, int size)
     //printf("data: %s\n", data);
 
     return data;
+}
+
+int ogg_writeCommentSize(FILE* f, int size)
+{
+    fwrite(&size, 4, 1, f);
+    return 1;
+}
+
+int ogg_writeData(FILE* f, char* data)
+{
+    fwrite(data, 1, strlen(data), f);
 }
