@@ -51,28 +51,41 @@ int ogg_read_header(FILE* f)
 
 int ogg_write(FILE* f, Ktag ktag, char* data)
 {
-    int new_size = strlen(data);
-    int num_comments = ogg_read_header(f);
     tags_t tags;
     tags.ids = (char**) tags_ogg;
     
+    int id_len = strlen(tags.ids[ktag]) + 1;
+    int new_size = id_len + strlen(data);
+    int num_comments = ogg_read_header(f);
+    
     int p = ogg_read_comments_to(f, tags, ktag, num_comments);
     //int size = ogg_readCommentSize(f);
+    
+    int bookmark = ftell(f);
+    
+    int old_size = ogg_readCommentSize(f);
+    fseek(f, 0, SEEK_END);
+    int remaining_size = ftell(f) - (bookmark + 4 + old_size);
+    fseek(f, bookmark + 4 + old_size, SEEK_SET);
+    char* restOfFile = malloc(remaining_size);
+    fread(restOfFile, 1, remaining_size, f);
+    
+    fseek(f, bookmark, SEEK_SET);
     ogg_writeCommentSize(f, new_size);
     
     //Skip the identifier and = (album=something)
-    int id_len = strlen(tags.ids[ktag]) + 1;
     fseek(f, id_len, SEEK_CUR);
     ogg_writeData(f, data);
     
-    return 0;
+    fwrite(restOfFile, 1, remaining_size, f);
+    
+    return 1;
 }
 
 /* Returns the position in f
  * Assumes we're starting from where the comments start */
 int ogg_read_comments_to(FILE* f, tags_t tags, Ktag ktag, int num)
 {
-    int comment_size = 0;
     fseek(f, 3, SEEK_CUR);
     
     int i = 0;

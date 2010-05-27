@@ -23,7 +23,7 @@
 
 int main()
 {
-    kajamtag_write("test.ogg", KTITLE, "REALLY LONG TITLE JUST TO FILL UP LOTS OF SPACE");
+    kajamtag_write("test.ogg", KTITLE, "test");
 
     kajamtag_read("test.ogg");
     if(!kajamtag_isUtf16())
