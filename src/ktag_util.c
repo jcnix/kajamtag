@@ -31,46 +31,6 @@ int fread_error(size_t real, int desired)
         return 0;
 }
 
-/* Generic storeData function
- * Can be used by both ID3 and Ogg or anything else */
-int util_storeData(char* id, char* data, tags_t tags)
-{
-    //Use strlen(tags.ids[]) instead of a literal because
-    //ID3 2.4 and 2.3 use 4 chars, but 2.2 uses 3.
-    if(strncmp(id, tags.ids[KTITLE], strlen(tags.ids[KTITLE])) == 0)
-        k_tags.title = data;
-    else if(strncmp(id, tags.ids[KALBUM], strlen(tags.ids[KALBUM])) == 0)
-        k_tags.album = data;
-    else if(strncmp(id, tags.ids[KARTIST], strlen(tags.ids[KARTIST])) == 0)
-        k_tags.artist = data;
-    else if(strncmp(id, tags.ids[KGENRE], strlen(tags.ids[KGENRE])) == 0)
-        k_tags.genre = data;
-    else if(strncmp(id, tags.ids[KTRACK], strlen(tags.ids[KTRACK])) == 0)
-        k_tags.track = atoi(data);
-    else if(strncmp(id, tags.ids[KCOMPOSER], strlen(tags.ids[KCOMPOSER])) == 0)
-        k_tags.composer = data;
-    else
-        free(data);
-}
-
-int util_storeData16(char* id, wchar_t* data, tags_t tags)
-{
-    isUtf16 = 1;
-    
-    if(strncmp(id, tags.ids[KTITLE], strlen(tags.ids[KTITLE])) == 0)
-        k_tags.wtitle = data;
-    else if(strncmp(id, tags.ids[KALBUM], strlen(tags.ids[KALBUM])) == 0)
-        k_tags.walbum = data;
-    else if(strncmp(id, tags.ids[KARTIST], strlen(tags.ids[KARTIST])) == 0)
-        k_tags.wartist = data;
-    else if(strncmp(id, tags.ids[KGENRE], strlen(tags.ids[KGENRE])) == 0)
-        k_tags.wgenre = data;
-    else if(strncmp(id, tags.ids[KCOMPOSER], strlen(tags.ids[KCOMPOSER])) == 0)
-        k_tags.wcomposer = data;
-    else
-        free(data);
-}
-
 void sfree(char* buffer)
 {
     if(buffer != NULL)

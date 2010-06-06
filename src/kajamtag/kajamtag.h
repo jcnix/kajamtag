@@ -53,13 +53,9 @@ struct kajamtag
 };
 
 typedef struct kajamtag kajamtag_t;
-kajamtag_t k_tags;
 
-int isUtf16;
-int badTag;
-
-int kajamtag_read(char*);
-int kajamtag_write(char*, Ktag, char*);
+int kajamtag_read(char* file);
+int kajamtag_write(char* file, Ktag tag, char* data);
 int kajamtag_isUtf16();
 void kajamtag_setUtf16(int i);
 
@@ -81,6 +77,9 @@ wchar_t* k_getTitle16();
 wchar_t* k_getArtist16();
 wchar_t* k_getAlbum16();
 wchar_t* k_getComposer16();
+
+int util_storeData(char*, char*, tags_t);
+int util_storeData16(char*, wchar_t*, tags_t);
 
 #ifdef __cplusplus
 }

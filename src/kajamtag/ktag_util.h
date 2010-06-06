@@ -29,8 +29,6 @@
 #include "ktag_constants.h"
 
 int error(size_t, int);
-int util_storeData(char*, char*, tags_t);
-int util_storeData16(char*, wchar_t*, tags_t);
 
 //Safely free() char*s
 void sfree(char*);
