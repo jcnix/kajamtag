@@ -25,6 +25,8 @@
 extern "C" {
 #endif
 
+#define KAJAMTAG_VERSION "0.3.0-dev"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stddef.h>
