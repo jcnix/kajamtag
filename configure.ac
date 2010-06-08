@@ -9,12 +9,10 @@ LT_INIT
 
 # Checks for programs.
 AC_PROG_CC
-
-# Checks for libraries.
-
-# Checks for header files.
+AC_PROG_CXX
 AC_HEADER_STDC
 
+# Checks for libraries.
 # Checks for typedefs, structures, and compiler characteristics.
 
 # Checks for library functions.
@@ -23,3 +21,4 @@ AC_CHECK_FUNCS([strchr strdup])
 
 AC_CONFIG_FILES([Makefile bin/Makefile src/Makefile libkajamtag.pc])
 AC_OUTPUT()
+
