@@ -102,7 +102,7 @@ wchar_t* id3_readData16(FILE *f, int size)
         data[i] = c;
     }
     
-    *(data + (size/2)) = '\0';
+    *(data + ((size/2) - 1)) = 0x0;
     return data;
 }
 
