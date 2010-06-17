@@ -82,6 +82,13 @@ int ogg_write(FILE* f, Ktag ktag, char* data)
     return 1;
 }
 
+/* Uses ogg_read_comments_to, but passes KNULL which means don't
+ * stop reading at a particular tag */
+int ogg_readComments(FILE *f, tags_t tags, int size)
+{
+    return ogg_read_comments_to(f, tags, KNULL, size);
+}
+
 /* Returns the position in f
  * Assumes we're starting from where the comments start */
 int ogg_read_comments_to(FILE* f, tags_t tags, Ktag ktag, int num)
@@ -100,8 +107,10 @@ int ogg_read_comments_to(FILE* f, tags_t tags, Ktag ktag, int num)
         {
             int s = -bytes;
             fseek(f, s, SEEK_CUR);
+            free(id);
             break;
         }
+        
         free(id);
     }
 
@@ -114,10 +123,7 @@ int ogg_readComment(FILE* f, char** data)
     int comment_size = ogg_readCommentSize(f);
     readBytes += 4;
 
-    char* d = ogg_readData(f, comment_size);
-    d[comment_size] = '\0';
-    *data = d;
-    
+    *data = ogg_readData(f, comment_size);
     readBytes += comment_size + 3;
     
     return readBytes;
@@ -147,13 +153,6 @@ char* ogg_storeData(char* bytes, tags_t tags)
     util_storeData(id, data, tags);
     
     return id;
-}
-
-/* Uses ogg_read_comments_to, but passes KNULL which means don't
- * stop reading at a particular tag */
-int ogg_readComments(FILE *f, tags_t tags, int size)
-{
-    return ogg_read_comments_to(f, tags, KNULL, size);
 }
 
 /* Used by Flac
@@ -187,6 +186,7 @@ char* ogg_readData(FILE* f, int size)
     //+1 to make room for \0
     char* data = malloc(size + 1);
     fread(data, 1, size, f);
+    *(data + size) = 0x0;
 
     return data;
 }
