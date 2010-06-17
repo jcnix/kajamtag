@@ -26,7 +26,7 @@
 
 int id3_isUTF16(FILE* f)
 {
-    int utf;
+    int utf = 0;
     size_t bytes = fread(&utf, 2, 1, f);
     
     if(utf == 0xfeff)
