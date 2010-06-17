@@ -1,4 +1,5 @@
 lib_LTLIBRARIES = libkajamtag.la
+libkajamtag_CFLAGS = -Wall -g
 libkajamtag_la_SOURCES = ../src/kajamtag.c \
 						 ../src/ktag_id3.c \
 						 ../src/ktag_id316.c \
