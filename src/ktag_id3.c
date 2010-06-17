@@ -74,6 +74,7 @@ int id3_frame(FILE *f, int version, tags_t tags)
     
     if(err == IS_UTF16)
     {
+        free(id);
         wchar_t *wdata;
         err = id3_readFullFrame16(f, version, &id, &size, &flags, &wdata);
         util_storeData16(id, wdata, tags);
@@ -82,13 +83,13 @@ int id3_frame(FILE *f, int version, tags_t tags)
     {
         util_storeData(id, data, tags);
     }
-    
+
+    free(id);
+
     if(err == ILLEGAL_SIZE)
     {
         return 0;
     }
-    
-    free(id);
     
     return KTAG_OKAY;
 }
@@ -210,8 +211,9 @@ int id3_readFullFrame(FILE* f, int version, char **id, int *size,
 
 char* id3_readID(FILE* f)
 {
-    char *id = malloc(4);
+    char *id = malloc(5);
     size_t bytes = fread(id, 1, 4, f);
+    *(id + 5) = 0x0;
     return id;
 }
 
