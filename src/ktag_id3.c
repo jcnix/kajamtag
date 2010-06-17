@@ -213,7 +213,7 @@ char* id3_readID(FILE* f)
 {
     char *id = malloc(5);
     size_t bytes = fread(id, 1, 4, f);
-    *(id + 5) = 0x0;
+    *(id + 4) = 0x0;
     return id;
 }
 
