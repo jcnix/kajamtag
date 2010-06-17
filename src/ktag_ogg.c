@@ -112,7 +112,7 @@ int ogg_readComment(FILE* f, char** data)
 {
     int readBytes = 0;
     int comment_size = ogg_readCommentSize(f);
-    readBytes += 1;
+    readBytes += 4;
 
     char* d = ogg_readData(f, comment_size);
     d[comment_size] = '\0';
@@ -187,7 +187,6 @@ char* ogg_readData(FILE* f, int size)
     //+1 to make room for \0
     char* data = malloc(size + 1);
     fread(data, 1, size, f);
-    //printf("data: %s\n", data);
 
     return data;
 }
