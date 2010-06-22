@@ -25,10 +25,15 @@
 #define _UTIL_H
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <wchar.h>
 #include "kajamtag.h"
 #include "ktag_constants.h"
 
 int error(size_t, int);
+char* convert_to_utf8(wchar_t *str);
+wchar_t* convert_to_utf16(char *str);
 
 //Safely free() char*s
 void sfree(char*);

@@ -31,6 +31,43 @@ int fread_error(size_t real, int desired)
         return 0;
 }
 
+/*
+ * Converts a wchar_t* to a char*
+ * This is only done if the data cannot be found,
+ * so it will check the stored utf16 data
+ */
+char* convert_to_utf8(wchar_t *str)
+{
+    int size = wcslen(str);
+    char* new_str = malloc(size + 1);
+    int i;
+    
+    for(i = 0; i < size; i++)
+    {
+        char c = (char) *(str + i);
+        *(new_str + i) = c;
+    }
+    
+    *(new_str + size) = 0x0;
+    return new_str;
+}
+
+wchar_t* convert_to_utf16(char *str)
+{
+    int size = strlen(str);
+    wchar_t* new_str = malloc(sizeof(wint_t) * size/2 + 1);
+    int i;
+    
+    for(i = 0; i < size; i++)
+    {
+        wint_t c = (wint_t) *(str + i);
+        *(new_str + i) = c;
+    }
+    
+    *(new_str + size) = 0x0;
+    return new_str;
+}
+
 void sfree(char* buffer)
 {
     if(buffer != NULL)

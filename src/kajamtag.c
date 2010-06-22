@@ -24,6 +24,12 @@ static int isUtf16;
 static int badTag;
 static kajamtag_t k_tags;
 
+static int isID3 = 0;
+static int isXiph = 0;
+
+static int tried_utf8 = 0;
+static int tried_utf16 = 0;
+
 static char* k_readIdentifier(FILE*);
 static int k_isID3(char*);
 static int k_isOgg(char*);
@@ -146,7 +152,10 @@ int k_isID3(char* id)
 {
     int ID3 = 0;
     if(strncmp(id, "ID3", 3) == 0)
+    {
         ID3 = 1;
+        isID3 = 1;
+    }
     
     return ID3;
 }
@@ -155,7 +164,10 @@ int k_isOgg(char* id)
 {
     int ogg = 0;
     if(strncmp(id, "OggS", 4) == 0)
+    {
         ogg = 1;
+        isXiph = 1;
+    }
 
     return ogg;
 }
@@ -164,7 +176,10 @@ int k_isFlac(char* id)
 {
     int flac = 0;
     if(strncmp(id, "fLaC", 4) == 0)
+    {
         flac = 1;
+        isXiph = 1;
+    }
 
     return flac;
 }
@@ -173,8 +188,6 @@ int k_isFlac(char* id)
  * Can be used by both ID3 and Ogg or anything else */
 int util_storeData(char* id, char* data, tags_t tags)
 {
-    //Use strlen(tags.ids[]) instead of a literal because
-    //ID3 2.4 and 2.3 use 4 chars, but 2.2 uses 3.
     if(strncmp(id, tags.ids[KTITLE], strlen(tags.ids[KTITLE])) == 0)
         k_tags.title = data;
     else if(strncmp(id, tags.ids[KALBUM], strlen(tags.ids[KALBUM])) == 0)
@@ -210,7 +223,7 @@ int util_storeData16(char* id, wchar_t* data, tags_t tags)
 }
 
 char* k_getData(Ktag tag)
-{
+{    
     if(badTag)
         return "BAD_TAG";
     
@@ -236,14 +249,39 @@ char* k_getData(Ktag tag)
             break;
     }
     
-    if(data == NULL)
-        data = "NO_DATA";
+    // tried_utf8 is an infinite loop preventer
+    if(data == NULL && !tried_utf8) {
+        tried_utf8 = 1;
+        
+        //Try to get utf16 data and convert it to utf8.
+        wchar_t *wdata = k_getData16(tag);
+        
+        //Give up if data is still null
+        if(wdata == NULL)
+        {
+            data = "NO_DATA";
+        }
+        else //store it
+        {
+            data = convert_to_utf8(wdata);
+            tags_t tags;
+            if(isID3)
+                tags.ids = (char**) tags_id3;
+            else if(isXiph)
+                tags.ids = (char**) tags_ogg;
+            
+            //Store the data so it can be disposed of
+            //by kajamtag_close();
+            util_storeData(tags.ids[tag], data, tags);
+        }
+    }
     
+    tried_utf8 = 0;
     return data;
 }
 
 wchar_t* k_getData16(Ktag tag)
-{
+{    
     if(badTag)
         return "BAD_TAG";
     
@@ -269,9 +307,33 @@ wchar_t* k_getData16(Ktag tag)
             break;
     }
     
-    if(data == NULL)
-        data = "NO_DATA";
+    if(data == NULL && !tried_utf16) {
+        tried_utf16 = 1;
+        
+        //Try to get utf16 data and convert it to utf8.
+        char *data = k_getData(tag);
+        
+        //Give up if data is still null
+        if(data == NULL)
+        {
+            data = "NO_DATA";
+        }
+        else //store it
+        {
+            data = convert_to_utf16(data);
+            tags_t tags;
+            if(isID3)
+                tags.ids = (char**) tags_id3;
+            else if(isXiph)
+                tags.ids = (char**) tags_ogg;
+            
+            //Store the data so it can be disposed of
+            //by kajamtag_close();
+            util_storeData16(tags.ids[tag], data, tags);
+        }
+    }
     
+    tried_utf16 = 0;
     return data;
 }
 

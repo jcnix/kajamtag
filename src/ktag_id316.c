@@ -87,7 +87,7 @@ wchar_t* id3_readData16(FILE *f, int size)
     // (On GNU) 4 bytes * size/2 characters
     // size is the number of bytes the data in the frame
     // 2 is the number of bytes per char in the frame
-    wchar_t* data = malloc(sizeof(wint_t) * size/2 + 1);
+    wchar_t* data = malloc(sizeof(wint_t) * size/2 + 2);
     if(data == NULL)
         return NULL;
     
