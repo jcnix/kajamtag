@@ -250,7 +250,8 @@ char* k_getData(Ktag tag)
     }
     
     // tried_utf8 is an infinite loop preventer
-    if(data == NULL && !tried_utf8) {
+    if(data == NULL && !tried_utf8)
+    {
         tried_utf8 = 1;
         
         //Try to get utf16 data and convert it to utf8.
@@ -269,10 +270,10 @@ char* k_getData(Ktag tag)
                 tags.ids = (char**) tags_id3;
             else if(isXiph)
                 tags.ids = (char**) tags_ogg;
-            
-            //Store the data so it can be disposed of
-            //by kajamtag_close();
-            util_storeData(tags.ids[tag], data, tags);
+             
+//             //Store the data so it can be disposed of
+//             //by kajamtag_close();
+//             util_storeData(tags.ids[tag], data, tags);
         }
     }
     
@@ -307,7 +308,8 @@ wchar_t* k_getData16(Ktag tag)
             break;
     }
     
-    if(data == NULL && !tried_utf16) {
+    if(data == NULL && !tried_utf16)
+    {
         tried_utf16 = 1;
         
         //Try to get utf16 data and convert it to utf8.
@@ -327,9 +329,9 @@ wchar_t* k_getData16(Ktag tag)
             else if(isXiph)
                 tags.ids = (char**) tags_ogg;
             
-            //Store the data so it can be disposed of
-            //by kajamtag_close();
-            util_storeData16(tags.ids[tag], data, tags);
+//             //Store the data so it can be disposed of
+//             //by kajamtag_close();
+//             util_storeData16(tags.ids[tag], data, tags);
         }
     }
     
