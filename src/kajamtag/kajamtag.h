@@ -26,6 +26,10 @@ extern "C" {
 #endif
 
 #define KAJAMTAG_VERSION "0.3.0-dev"
+#define KAJAMTAG_MAJOR_VERSION 0
+#define KAJAMTAG_MINOR_VERSION 3
+#define KAJAMTAG_REVISION 0
+
 
 #include <stdio.h>
 #include <stdlib.h>
